@@ -14,7 +14,7 @@ $options = array(
     'DEBUG' => true
 );
 
-$api = new API($API_KEY, $options);
+$api = new \sendwithus\API($API_KEY, $options);
 
 $r = $api->send('test', 'test@sendwithus.com', array('name' => 'Jimmy the snake'));
 
