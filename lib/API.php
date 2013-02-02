@@ -27,14 +27,18 @@ class API
     
     }
 
-    public function send($email_name, $email_to, $context = [])
+    public function send($email_name, $email_to, $data = [])
     {
         $endpoint = "send";
 
-        $context["email_name"] = $email_name;
-        $context["email_to"] = $email_to;
+        $payload = array(
+            "email_name" => $email_name,
+            "email_to" => $email_to,
+            "email_data" => $data
+        );
 
-        return $this->api_request($endpoint, $context)
+
+        return $this->api_request($endpoint, $data)
     }
 
     private function build_path($endpoint)
@@ -49,13 +53,25 @@ class API
         return $path
     }
 
-    private function api_request($endpoint, $context)
+    private function api_request($endpoint, $payload)
     {
         $path = $this->build_path($endpoint);
 
-        // stub
-        // @TODO: finish
-    
+        $options = array(
+            'http' => array(
+                'method'  => 'POST',
+                'content' => json_encode($payload),
+                'header'=>  "Content-Type: application/json\r\n" .
+                "Accept: application/json\r\n" .
+                "X-SWU-API-KEY: " . $this->API_KEY . "\r\n"
+            )
+        );
+
+        $context  = stream_context_create( $options );
+        $result = file_get_contents( $path, false, $context );
+
+        $response = json_decode( $result );
+        return $response;
     }
 }
 
