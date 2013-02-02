@@ -6,28 +6,28 @@
 
 class API 
 {
-    private $API_KEY;
-    private $API_HOST;
-    private $API_PORT;
-    private $API_PROTO;
-    private $API_VERSION;
-    private $API_HEADER_KEY;
+    private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
+    private $API_HOST = 'beta.sendwithus.com';
+    private $API_PORT = '80';
+    private $API_PROTO = 'http';
+    private $API_VERSION = '0';
+    private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_CLIENT_VERSION = "0.1.0";
 
-    private DEBUG = false;
+    private $DEBUG = false;
 
-    public function __construct($api_key, $options = [])
+    public function __construct($api_key, $options = array())
     {
-        $this->$API_KEY = $api_key;
+        $this->API_KEY = $api_key;
 
         foreach ($options as $key => $value)
         {
-            $this->$$key = $value;
+            $this->$key = $value;
         }
     
     }
 
-    public function send($email_name, $email_to, $data = [])
+    public function send($email_name, $email_to, $data = array())
     {
         $endpoint = "send";
 
@@ -37,8 +37,13 @@ class API
             "email_data" => $data
         );
 
+        if ($this->DEBUG) {
+            printf("sending email `%s` to `%s` with \n", $email_name, $email_to);
+            print_r ( $payload );
+        }
 
-        return $this->api_request($endpoint, $data)
+
+        return $this->api_request($endpoint, $payload);
     }
 
     private function build_path($endpoint)
@@ -48,29 +53,45 @@ class API
             $this->API_HOST, 
             $this->API_PORT, 
             $this->API_VERSION, 
-            endpoint);
+            $endpoint);
 
-        return $path
+        return $path;
     }
 
     private function api_request($endpoint, $payload)
     {
         $path = $this->build_path($endpoint);
+        $response = array();
+        $payload_string = json_encode($payload);
 
-        $options = array(
-            'http' => array(
-                'method'  => 'POST',
-                'content' => json_encode($payload),
-                'header'=>  "Content-Type: application/json\r\n" .
-                "Accept: application/json\r\n" .
-                "X-SWU-API-KEY: " . $this->API_KEY . "\r\n"
-            )
+        $ch = curl_init($path);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload_string),
+            $this->API_HEADER_KEY . ": " . $this->API_KEY)
         );
 
-        $context  = stream_context_create( $options );
-        $result = file_get_contents( $path, false, $context );
+        if ($this->DEBUG) {
+            print_r($payload_string);
+            print_r($path);
+            print "\n";
+        }
 
-        $response = json_decode( $result );
+        try {
+            //$result = file_get_contents( $path, false, $context );
+            //$result = fopen($path, 'r', false, $context);
+            $result = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
+            $response = json_decode( $result );
+        } catch (Exception $e) {
+            if ($this->DEBUG) {
+                printf("Caught exception: %s" % $e);
+            }
+            
+        }
         return $response;
     }
 }
