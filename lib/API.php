@@ -8,8 +8,8 @@ class API
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $API_HOST = 'beta.sendwithus.com';
-    private $API_PORT = '80';
-    private $API_PROTO = 'http';
+    private $API_PORT = '443';
+    private $API_PROTO = 'https';
     private $API_VERSION = '0';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_CLIENT_VERSION = "0.1.0";
