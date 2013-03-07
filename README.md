@@ -16,20 +16,26 @@ ALPHA - this client is functional
 
     $api = new \sendwithus\API($API_KEY, $options);
 
-    $response = $api->send('`email_id`', 'test@sendwithus.com', array('name' => 'Jimmy the snake'));
+    $response = $api->send('*email_id*', '*test@sendwithus.com*', array('name' => 'Jimmy the snake'));
 
 ## expected response
 
 ### Success
+    print $response['success'];
+    -> true
+    
     print $response['status'];
-    -> OK
+    -> "OK"
 
     print $response['receipt_id'];
     -> ### numeric receipt_id you can use to query email status later
 
 ### Error cases
+    print $response['success'];
+    -> false
+
     print $response['status'];
-    -> error
+    -> "error"
 
     print $response['exception'];
     -> Exception Object
