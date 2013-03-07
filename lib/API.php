@@ -101,7 +101,7 @@ class API
 
             $response['code'] = $code;
             $response['status'] = "error";
-            $response['message'] = $e;
+            $response['exception'] = $e;
         }
 
         curl_close($ch);
