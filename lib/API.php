@@ -27,12 +27,12 @@ class API
     
     }
 
-    public function send($email_name, $email_to, $data = array())
+    public function send($email_id, $email_to, $data = array())
     {
         $endpoint = "send";
 
         $payload = array(
-            "email_name" => $email_name,
+            "email_id" => $email_id,
             "email_to" => $email_to,
             "email_data" => $data
         );
