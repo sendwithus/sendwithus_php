@@ -86,12 +86,26 @@ class API
             $result = curl_exec($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
             $response = json_decode( $result );
-        } catch (Exception $e) {
+
+            print_r($result);
+            print_r($code);
+            print_r($response);
+
+            if ($code != 200) {
+                throw new \Exception("Request was not successful " . $code);
+            }
+        } catch (\Exception $e) {
             if ($this->DEBUG) {
                 printf("Caught exception: %s" % $e);
             }
-            
+
+            $response['code'] = $code;
+            $response['status'] = "error";
+            $response['message'] = $e;
         }
+
+        curl_close($ch);
+
         return $response;
     }
 }

@@ -15,6 +15,7 @@ $api = new \sendwithus\API($API_KEY, $options);
 
 $r = $api->send('test', 'test@sendwithus.com', array('name' => 'Jimmy the snake'));
 
+print $r;
 print_r ( $r );
 
 ?>
