@@ -16,7 +16,7 @@ ALPHA - this client is functional
 
     $api = new \sendwithus\API($API_KEY, $options);
 
-    $response = $api->send('*email_id*', '*test@sendwithus.com*', array('name' => 'Jimmy the snake'));
+    $response = $api->send('email_id', 'test@sendwithus.com', array('name' => 'Jimmy the snake'));
 
 ## expected response
 
