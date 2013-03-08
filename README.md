@@ -7,6 +7,12 @@ sendwithus PHP Client
 ALPHA - this client is functional
 
 ## usage
+    // Yii Users
+    Yii::$classMap = array(
+        'sendwithus\\API' => dirname($_SERVER['DOCUMENT_ROOT']) . '/path/to/sendwithus/lib/API.php'
+    );
+
+    // Otherwise
     require 'lib/API.php';
 
     $API_KEY = 'THIS_IS_A_TEST_API_KEY';
