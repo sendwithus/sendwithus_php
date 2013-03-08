@@ -93,7 +93,7 @@ class API
         } catch (\Exception $e) {
             if ($this->DEBUG) {
                 printf("Caught exception: %s" % $e);
-                print_r $e;
+                print_r ($e);
             }
 
             $response['code'] = $code;
