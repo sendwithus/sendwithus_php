@@ -38,7 +38,7 @@ class API
         );
 
         if ($this->DEBUG) {
-            printf("sending email `%s` to `%s` with \n", $email_name, $email_to);
+            printf("sending email `%s` to `%s` with \n", $email_id, $email_to);
             print_r ( $payload );
         }
 
@@ -109,3 +109,4 @@ class API
 }
 
 ?>
+
