@@ -27,26 +27,26 @@ ALPHA - this client is functional
 ## expected response
 
 ### Success
-    print $response['success'];
+    print $response->success;
     -> true
     
-    print $response['status'];
+    print $response->status;
     -> "OK"
 
-    print $response['receipt_id'];
+    print $response->receipt_id;
     -> ### numeric receipt_id you can use to query email status later
 
 ### Error cases
-    print $response['success'];
+    print $response->success;
     -> false
 
-    print $response['status'];
+    print $response->status;
     -> "error"
 
-    print $response['exception'];
+    print $response->exception;
     -> Exception Object
 
-    print $response['code'];
+    print $response->code;
     -> 400 (malformed request)
     -> 403 (bad api key)
     -> 404 (email_id not found)
