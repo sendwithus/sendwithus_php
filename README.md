@@ -4,7 +4,10 @@ sendwithus_php
 sendwithus PHP Client
 
 ## status
-ALPHA - this client is functional
+BETA - this client is functional and tested
+
+## requirements
+    curl library must be installed and enabled in php.ini
 
 ## usage
     // Yii Users
@@ -22,7 +25,11 @@ ALPHA - this client is functional
 
     $api = new \sendwithus\API($API_KEY, $options);
 
-    $response = $api->send('email_id', 'test@sendwithus.com', array('name' => 'Jimmy the snake'));
+    $response = $api->send('email_id', 
+        array('name' => 'Matt', 'address' => 'us@sendwithus.com'), // recipient name is optional
+        array('name' => 'Jimmy the snake'), 
+        array('name' => 'Company', 'address' => 'company@company.com', 'reply_to' => 'info@company.com') // sender is optional
+        ); 
 
 ## expected response
 
