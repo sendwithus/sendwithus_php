@@ -25,11 +25,23 @@ BETA - this client is functional and tested
 
     $api = new \sendwithus\API($API_KEY, $options);
 
+    // Request with REQUIRED parameters only
     $response = $api->send('email_id', 
-        array('name' => 'Matt', 'address' => 'us@sendwithus.com'), // recipient name is optional
+        array('address' => 'us@sendwithus.com'), 
+        array('name' => 'Jimmy the snake')
+    ); 
+
+    // Request with REQUIRED and OPTIONAL parameters
+    $response = $api->send('email_id', 
+        array(
+            'name' => 'Matt', // recipient `name` is optional
+            'address' => 'us@sendwithus.com'), 
         array('name' => 'Jimmy the snake'), 
-        array('name' => 'Company', 'address' => 'company@company.com', 'reply_to' => 'info@company.com') // sender is optional
-        ); 
+        array( // `sender` array is optional, overrides sendwithus.com configuration
+            'name' => 'Company', 
+            'address' => 'company@company.com', 
+            'reply_to' => 'info@company.com') 
+    ); 
 
 ## expected response
 
