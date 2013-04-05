@@ -4,7 +4,7 @@
  * @author matt@sendwithus.com
  */
 
-require 'lib/Error.php';
+require(dirname(__FILE__) . '/Error.php');
 
 class API 
 {
@@ -26,7 +26,6 @@ class API
         {
             $this->$key = $value;
         }
-    
     }
 
     public function send($email_id, $recipient, $data=array(), $sender=null)

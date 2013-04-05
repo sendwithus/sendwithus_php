@@ -4,7 +4,7 @@
  * @author matt@sendwithus.com
  */
 
-require 'lib/API.php';
+require_once(dirname(__FILE__) . '/../lib/API.php');
 
 $simpletest = @include_once(dirname(__FILE__).'/simpletest/autorun.php');
 if (!$simpletest) {
@@ -74,7 +74,6 @@ class APITestCase extends UnitTestCase
 
 		$r = $this->api->emails();
 		$this->assertNotNull($r);
-		// print_r($r);
 	}
 
 	public function testSimpleSend() {
