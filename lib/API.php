@@ -51,15 +51,15 @@ class API
         }
 
         if ($this->DEBUG) {
-            printf("sending email `%s` to \n", $email_id);
-            print_r($recipient);
+            error_log(sprintf("sending email `%s` to \n", $email_id));
+            error_log(print_r($recipient, true));
             if ($sender)
             {
-                printf("\nfrom\n");
-                print_r($sender);
+                error_log(sprintf("\nfrom\n"));
+                error_log(print_r($sender, true));
             }
-            printf("\nwith\n");
-            print_r( $payload );
+            error_log(sprintf("\nwith\n"));
+            error_log(print_r($payload, true));
         }
 
 
@@ -125,8 +125,8 @@ class API
             // enable curl verbose output to STDERR
             curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-            printf("payload: %s\r\n", $payload_string);
-            printf("path: %s\r\n", $path);
+            error_log(sprintf("payload: %s\r\n", $payload_string));
+            error_log(sprintf("path: %s\r\n", $path));
         }
 
         try {
@@ -139,8 +139,8 @@ class API
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                printf("Caught exception: %s\r\n", $e->getMessage());
-                print_r ($e);
+                error_log(sprintf("Caught exception: %s\r\n", $e->getMessage()));
+                error_log(print_r($e, true));
             }
 
             $response = (object) array(
