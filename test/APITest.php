@@ -5,16 +5,9 @@
  */
 
 require_once(dirname(__FILE__) . '/../lib/API.php');
+require_once 'PHPUnit/Framework.php';
 
-$simpletest = @include_once(dirname(__FILE__).'/simpletest/autorun.php');
-if (!$simpletest) {
-  echo "Missing Dependancy: The API test cases depend on SimpleTest. ".
-       "Download and install it in your PHP include_path or put it in the test/ directory.\n";
-  exit(1);
-}
-
-
-class APITestCase extends UnitTestCase
+class APITestCase extends PHPUnit_Framework_TestCase
 {
 	private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
 	private $EMAIL_ID = 'test_fixture_1';
@@ -72,14 +65,12 @@ class APITestCase extends UnitTestCase
 	}
 
 	private function assertSuccess($r) {
-
 		$this->assertNotNull($r->receipt_id);
 		$this->assertEqual($r->status, "OK");
 		$this->assertTrue($r->success);
 	}
 
 	private function assertFail($r) {
-
 		$this->assertNotEqual($r->code, 200);
 		$this->assertEqual($r->status, "error");
 		$this->assertFalse($r->success);
