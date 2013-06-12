@@ -49,6 +49,20 @@ class APITestCase extends UnitTestCase
 
 		$this->data = array(
 			'name' => 'Jimmy the snake');
+
+        $this->cc = array(
+            array(
+                'name' => 'test cc',
+                'address' => 'testcc@company.com'
+            )
+        );
+
+        $this->bcc = array(
+            array(
+                'name' => 'test bcc',
+                'address' => 'testbcc@company.com'
+            )
+        );
 	}
 
 	function tearDown() {
@@ -93,6 +107,31 @@ class APITestCase extends UnitTestCase
 			$this->recipient,
 			$this->data, 
 			$this->sender);
+
+		$this->assertSuccess($r);
+	}
+
+	public function testSendWithCC() {
+		
+		$r = $this->api->send(
+			$this->EMAIL_ID,
+			$this->recipient,
+			$this->data, 
+            null,
+            $this->cc);
+
+		$this->assertSuccess($r);
+	}
+
+	public function testSendWithBCC() {
+		
+		$r = $this->api->send(
+			$this->EMAIL_ID,
+			$this->recipient,
+			$this->data, 
+            null,
+            null,
+            $this->bcc);
 
 		$this->assertSuccess($r);
 	}

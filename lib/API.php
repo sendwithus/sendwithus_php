@@ -14,13 +14,17 @@ class API
     private $API_PROTO = 'https';
     private $API_VERSION = '1_0';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
-    private $API_CLIENT_VERSION = "1.0.0";
+    private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
+    private $API_CLIENT_VERSION = "1.0.2";
+    private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
 
     public function __construct($api_key, $options = array())
     {
         $this->API_KEY = $api_key;
+        $this->API_CLIENT_STUB = sprintf($this->API_CLIENT_STUB, 
+            $this->API_CLIENT_VERSION);
 
         foreach ($options as $key => $value)
         {
@@ -28,26 +32,43 @@ class API
         }
     }
 
-    public function send($email_id, $recipient, $data=array(), $sender=null)
+    public function send($email_id, $recipient, $data=array(), $sender=null,
+        $cc=null, $bcc=null)
     {
         $endpoint = "send";
 
-        if (!$sender)
+        $payload = array(
+            "email_id" => $email_id,
+            "recipient" => $recipient,
+            "email_data" => $data
+        );
+
+        // set optional sender
+        if ($sender)
         {
-            $payload = array(
-                "email_id" => $email_id,
-                "recipient" => $recipient,
-                "email_data" => $data
-            );
+            $payload["sender"] = $sender;
         }
-        else
+
+        // set optional cc
+        if ($cc)
         {
-            $payload = array(
-                "email_id" => $email_id,
-                "recipient" => $recipient,
-                "sender" => $sender,
-                "email_data" => $data
-            );
+            if (!is_array($cc))
+            {
+                $e = sprintf("cc parameter must be array, received: %s", gettype($cc));
+                throw new API_Error($e);
+            }
+            $payload["cc"] = $cc;
+        }
+
+        // set optional bcc
+        if ($bcc)
+        {
+            if (!is_array($bcc))
+            {
+                $e = sprintf("bcc parameter must be array, received: %s", gettype($bcc));
+                throw new API_Error($e);
+            }
+            $payload["bcc"] = $bcc;
         }
 
         if ($this->DEBUG) {
@@ -107,14 +128,16 @@ class API
             $httpheaders = array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($payload_string),
-                $this->API_HEADER_KEY . ": " . $this->API_KEY
+                $this->API_HEADER_KEY . ": " . $this->API_KEY,
+                $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
                 );
         }
         else
         {
             $httpheaders = array(
                 'Content-Type: application/json',
-                $this->API_HEADER_KEY . ": " . $this->API_KEY
+                $this->API_HEADER_KEY . ": " . $this->API_KEY,
+                $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
                 );
         }
 
