@@ -26,6 +26,8 @@ class APITestCase extends UnitTestCase
 	private $incompleteRecepient = null;
 	private $sender = null;
 	private $data = null;
+    private $cc = null;
+    private $bcc = null;
 
 	function setUp() {
 
