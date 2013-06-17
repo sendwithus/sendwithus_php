@@ -29,9 +29,24 @@ $api = new \sendwithus\API($API_KEY, $options);
 // Request with REQUIRED parameters only
 $response = $api->send('email_id', 
     array('address' => 'us@sendwithus.com')
-); 
+);
 
 // Request with REQUIRED and OPTIONAL parameters
+$response = $api->send('email_id', 
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'), 
+    array('name' => 'Jimmy the snake'), 
+    array(
+        'name' => 'Company', 
+        'address' => 'company@company.com', 
+        'reply_to' => 'info@company.com')
+); 
+
+// WARNING !!!
+// -----------
+// The following example is NONFUNCTIONAL
+// against our production API. CC/BCC is COMING SOON
 $response = $api->send('email_id', 
     array(
         'name' => 'Matt',
