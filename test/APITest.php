@@ -71,7 +71,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	private function assertFail($r) {
-		$this->assertNotEqual($r->code, 200);
+		$this->assertNotEquals($r->code, 200);
 		$this->assertEquals($r->status, "error");
 		$this->assertFalse($r->success);
 		$this->assertNotNull($r->exception);
