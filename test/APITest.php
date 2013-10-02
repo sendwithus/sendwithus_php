@@ -81,6 +81,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 		$r = $this->api->emails();
 		$this->assertNotNull($r);
+
+        print 'Got emails';
 	}
 
 	public function testSimpleSend() {
@@ -91,6 +93,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 			$this->data);
 
 		$this->assertSuccess($r);
+
+        print 'Simple test send';
 	}
 
 	public function testSendWithSender() {
@@ -102,6 +106,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 			$this->sender);
 
 		$this->assertSuccess($r);
+
+        print 'Simple send with Sender';
 	}
 
 	public function testSendWithCC() {
@@ -114,6 +120,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
             $this->cc);
 
 		$this->assertSuccess($r);
+
+        print 'Simple send with CC';
 	}
 
 	public function testSendWithBCC() {
@@ -127,6 +135,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
             $this->bcc);
 
 		$this->assertSuccess($r);
+
+        print 'Simple send with bcc';
 	}
 
 	public function testSendIncomplete() {
@@ -139,6 +149,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 		$this->assertFail($r);
 		$this->assertEqual($r->code, 400); // incomplete
+
+        print 'Simple bad send';
 	}
 
 	public function testInvalidAPIKey() {
@@ -152,6 +164,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 		
 		$this->assertFail($r);
 		$this->assertEqual($r->code, 403); // bad api key
+
+        print 'Test bad api key';
 	}
 
 
@@ -164,6 +178,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 		$this->assertFail($r);
 		$this->assertEqual($r->code, 404); // email_id not found
+
+        print 'Test invalid email id';
 	}
 }
 
