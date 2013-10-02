@@ -177,7 +177,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 			$this->data);
 
 		$this->assertFail($r);
-		$this->assertEquals($r->code, 404); // email_id not found
+		$this->assertEquals($r->code, 400); // email_id not found
 
         print 'Test invalid email id';
 	}
