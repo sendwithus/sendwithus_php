@@ -26,12 +26,24 @@ $options = array(
 
 $api = new \sendwithus\API($API_KEY, $options);
 
-// Request with REQUIRED parameters only
+// Get emails
+$response = $api->emails();
+
+// Create emails
+$response = $api->create_email('Email Name',
+    'Email Subject',
+    '<html><head></head><body>Valid HTML<body></html>',
+    'Optional text content')
+
+// We validate all html content
+
+
+// Send request with REQUIRED parameters only
 $response = $api->send('email_id', 
     array('address' => 'us@sendwithus.com')
 );
 
-// Request with REQUIRED and OPTIONAL parameters
+// Send request with REQUIRED and OPTIONAL parameters
 $response = $api->send('email_id', 
     array(
         'name' => 'Matt',
@@ -92,6 +104,5 @@ print $response->exception; // Exception Object
 print $response->code;
 // 400 (malformed request)
 // 403 (bad api key)
-// 404 (email_id not found)
 ```
 
