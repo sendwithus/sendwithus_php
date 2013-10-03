@@ -92,7 +92,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             'test subject',
             $this->good_html);
 
-        $this->assertSuccess($r);
+        $this->assertNotNull($r);
         print 'Created an email';
     }
 
