@@ -94,6 +94,29 @@ class API
         return $this->api_request($endpoint, $payload, "GET");
     }
 
+    public function create_email($name, $subject, $html, $text=null)
+    {
+        $endpoint = "emails";
+
+        $payload = array(
+            "name" => $name,
+            "subject" => $subject,
+            "html" => $html
+        );
+
+        // set optional text
+        if ($text)
+        {
+            $payload["text"] = $text;
+        }
+
+        if ($this->DEBUG) {
+            error_log(sprintf("creating email with name %s and subject %s\n", $name, $subject));
+        }
+
+        return $this->api_request($endpoint, $payload);
+    }
+
     private function build_path($endpoint)
     {
         $path = sprintf("%s://%s:%s/api/v%s/%s", 
