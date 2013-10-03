@@ -30,6 +30,10 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 		$this->api = new \sendwithus\API($this->API_KEY, $this->options);
 
+        $this->good_html = '<html><head></head><body></body></html>';
+
+        $this->bad_html = '<html><hed><body></body</html>';
+
 		$this->recipient = array(
 			'name' => 'Matt',
 			'address' => 'us@sendwithus.com');
@@ -65,7 +69,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	private function assertSuccess($r) {
-		$this->assertNotNull($r->receipt_id);
 		$this->assertEquals($r->status, "OK");
 		$this->assertTrue($r->success);
 	}
@@ -78,12 +81,30 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testGetEmails() {
-
 		$r = $this->api->emails();
 		$this->assertNotNull($r);
-
         print 'Got emails';
 	}
+
+    public function testCreateEmailSuccess() {
+        $r = $this->api->create_email(
+            'test name',
+            'test subject',
+            $this->good_html);
+
+        $this->assertNotNull($r);
+        print 'Created an email';
+    }
+
+    public function testCreateEmailFail() {
+        $r = $this->api->create_email(
+            'test name',
+            'test subject',
+            $this->bad_html);
+
+        $this->assertFail($r);
+        print 'Failed to create a bad email';
+    }
 
 	public function testSimpleSend() {
 
@@ -92,9 +113,9 @@ class APITestCase extends PHPUnit_Framework_TestCase
 			$this->recipient,
 			$this->data);
 
-		$this->assertSuccess($r);
-
-        print 'Simple test send';
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Simple send';
 	}
 
 	public function testSendWithSender() {
@@ -106,7 +127,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 			$this->sender);
 
 		$this->assertSuccess($r);
-
+        $this->assertNotNull($r->receipt_id);
         print 'Simple send with Sender';
 	}
 
@@ -120,7 +141,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             $this->cc);
 
 		$this->assertSuccess($r);
-
+        $this->assertNotNull($r->receipt_id);
         print 'Simple send with CC';
 	}
 
@@ -135,7 +156,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             $this->bcc);
 
 		$this->assertSuccess($r);
-
+        $this->assertNotNull($r->receipt_id);
         print 'Simple send with bcc';
 	}
 
