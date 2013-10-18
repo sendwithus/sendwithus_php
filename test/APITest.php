@@ -62,6 +62,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
                 'address' => 'testbcc@company.com'
             )
         );
+
+        $this->inline = 'test/test_img.png';
 	}
 
 	function tearDown() {
@@ -145,20 +147,36 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Simple send with CC';
 	}
 
-	public function testSendWithBCC() {
-		
-		$r = $this->api->send(
-			$this->EMAIL_ID,
-			$this->recipient,
-			$this->data, 
+    public function testSendWithBCC() {
+        
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            $this->data, 
             null,
             null,
             $this->bcc);
 
-		$this->assertSuccess($r);
+        $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with bcc';
-	}
+    }
+
+    public function testSendWithInline() {
+        
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            $this->data, 
+            null,
+            null,
+            null,
+            $this->inline);
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Simple send with inline';
+    }
 
 	public function testSendIncomplete() {
 
