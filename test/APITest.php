@@ -86,6 +86,19 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Got emails';
 	}
 
+    public function testGetLogs() {
+        $r = $this->api->logs();
+        $this->assertNotNull($r);
+        $this->assertNotNull($r->object);
+        $this->assertNotNull($r->count);
+        $this->assertNotNull($r->data);
+
+        $log_count = count($r->data);
+        $this->assertEquals($log_count, $r->count);
+
+        print 'Got logs';
+    }
+
     public function testCreateEmailSuccess() {
         $r = $this->api->create_email(
             'test name',
@@ -119,11 +132,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testSendWithSender() {
-		
+
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data, 
+			$this->data,
 			$this->sender);
 
 		$this->assertSuccess($r);
@@ -132,11 +145,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testSendWithCC() {
-		
+
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data, 
+			$this->data,
             null,
             $this->cc);
 
@@ -146,11 +159,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testSendWithBCC() {
-		
+
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data, 
+			$this->data,
             null,
             null,
             $this->bcc);
@@ -175,14 +188,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testInvalidAPIKey() {
-		
+
 		$api = new \sendwithus\API('INVALID_API_KEY', $this->options);
-		
+
 		$r = $api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
 			$this->data);
-		
+
 		$this->assertFail($r);
 		$this->assertEquals($r->code, 403); // bad api key
 

@@ -6,7 +6,7 @@
 
 require(dirname(__FILE__) . '/Error.php');
 
-class API 
+class API
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $API_HOST = 'api.sendwithus.com';
@@ -23,7 +23,7 @@ class API
     public function __construct($api_key, $options = array())
     {
         $this->API_KEY = $api_key;
-        $this->API_CLIENT_STUB = sprintf($this->API_CLIENT_STUB, 
+        $this->API_CLIENT_STUB = sprintf($this->API_CLIENT_STUB,
             $this->API_CLIENT_VERSION);
 
         foreach ($options as $key => $value)
@@ -117,13 +117,25 @@ class API
         return $this->api_request($endpoint, $payload);
     }
 
+    public function logs($count=100, $offset=0)
+    {
+        $endpoint = "logs";
+
+        $payload = array(
+            "count" => $count,
+            "offset" => $offset
+        );
+
+        return $this->api_request($endpoint, $payload, "GET");
+    }
+
     private function build_path($endpoint)
     {
-        $path = sprintf("%s://%s:%s/api/v%s/%s", 
-            $this->API_PROTO, 
-            $this->API_HOST, 
-            $this->API_PORT, 
-            $this->API_VERSION, 
+        $path = sprintf("%s://%s:%s/api/v%s/%s",
+            $this->API_PROTO,
+            $this->API_HOST,
+            $this->API_PORT,
+            $this->API_VERSION,
             $endpoint);
 
         return $path;
@@ -137,7 +149,7 @@ class API
         $ch = curl_init($path);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
-        
+
         // set payload
         $payload_string = null;
         if ($payload) {
