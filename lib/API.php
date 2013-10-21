@@ -15,7 +15,7 @@ class API
     private $API_VERSION = '1_0';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "1.0.3";
+    private $API_CLIENT_VERSION = "1.0.4";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
