@@ -75,7 +75,7 @@ class API
         if ($inline) {
             if (!is_string($inline))
             {
-                $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($bcc));
+                $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline));
                 throw new API_Error($e);
             }
             $image = file_get_contents($inline);
