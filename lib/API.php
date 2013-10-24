@@ -33,7 +33,7 @@ class API
     }
 
     public function send($email_id, $recipient, $data=array(), $sender=null,
-        $cc=null, $bcc=null)
+        $cc=null, $bcc=null, $inline=null)
     {
         $endpoint = "send";
 
@@ -69,6 +69,21 @@ class API
                 throw new API_Error($e);
             }
             $payload["bcc"] = $bcc;
+        }
+
+        // Optional inline attachment
+        if ($inline) {
+            if (!is_string($inline))
+            {
+                $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline));
+                throw new API_Error($e);
+            }
+            $image = file_get_contents($inline);
+            $encoded_image = base64_encode($image);
+            $payload["inline"] = array(
+                "id" => $inline,
+                "data" => $encoded_image
+            );
         }
 
         if ($this->DEBUG) {
