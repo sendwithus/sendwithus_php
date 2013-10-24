@@ -81,7 +81,7 @@ class API
             $image = file_get_contents($inline);
             $encoded_image = base64_encode($image);
             $payload["inline"] = array(
-                "id" => $inline,
+                "id" => basename($inline),
                 "data" => $encoded_image
             );
         }
