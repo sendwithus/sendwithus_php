@@ -120,6 +120,30 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Simple send';
 	}
 
+    public function testSendWithEmptyData() {
+
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array());
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Send with empty data';
+    }
+
+    public function testSendWithNullData() {
+
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            null);
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Send with null data';
+    }
+
 	public function testSendWithSender() {
 		
 		$r = $this->api->send(

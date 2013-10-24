@@ -37,6 +37,12 @@ class API
     {
         $endpoint = "send";
 
+        if (is_null($data)) {
+            $data = array();
+        };
+
+        $data = (object)$data;
+
         $payload = array(
             "email_id" => $email_id,
             "recipient" => $recipient,
