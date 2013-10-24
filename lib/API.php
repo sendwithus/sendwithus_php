@@ -4,8 +4,6 @@
  * @author matt@sendwithus.com
  */
 
-require(dirname(__FILE__) . '/Error.php');
-
 class API 
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
