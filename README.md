@@ -4,7 +4,7 @@ sendwithus_php
 sendwithus PHP Client
 
 ## status
-BETA - this client is functional and tested
+[![Build Status](https://travis-ci.org/sendwithus/sendwithus_php.png)](https://travis-ci.org/sendwithus/sendwithus_php)
 
 ## requirements
     curl library must be installed and enabled in php.ini
