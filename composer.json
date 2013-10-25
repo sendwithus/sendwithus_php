@@ -1,11 +1,7 @@
 {
     "name": "sendwithus/api",
-    "version": "1.0.4",
-    "require": {},
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/sendwithus/sendwithus_php"
-        }
-    ]
+    "description": "sendwithus.com PHP Client",
+    "autoload": {
+        "classmap": ["lib"]
+    }
 }

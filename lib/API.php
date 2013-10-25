@@ -1,10 +1,11 @@
-<?php namespace sendwithus;
+<?php
+
+namespace sendwithus;
+
 /**
  * Send With Us PHP Client
  * @author matt@sendwithus.com
  */
-
-require(dirname(__FILE__) . '/Error.php');
 
 class API 
 {
