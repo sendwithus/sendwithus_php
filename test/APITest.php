@@ -5,6 +5,7 @@
  */
 
 require_once(dirname(__FILE__) . '/../lib/API.php');
+require_once(dirname(__FILE__) . '/../lib/Error.php');
 require_once 'PHPUnit/Autoload.php';
 
 class APITestCase extends PHPUnit_Framework_TestCase
@@ -62,6 +63,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
                 'address' => 'testbcc@company.com'
             )
         );
+
+        $this->inline = 'test/test_img.png';
 	}
 
 	function tearDown() {
@@ -131,6 +134,30 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Simple send';
 	}
 
+    public function testSendWithEmptyData() {
+
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array());
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Send with empty data';
+    }
+
+    public function testSendWithNullData() {
+
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            null);
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Send with null data';
+    }
+
 	public function testSendWithSender() {
 
 		$r = $this->api->send(
@@ -168,10 +195,26 @@ class APITestCase extends PHPUnit_Framework_TestCase
             null,
             $this->bcc);
 
-		$this->assertSuccess($r);
+        $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with bcc';
-	}
+    }
+
+    public function testSendWithInline() {
+        
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            $this->data, 
+            null,
+            null,
+            null,
+            $this->inline);
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Simple send with inline';
+    }
 
 	public function testSendIncomplete() {
 

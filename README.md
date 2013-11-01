@@ -4,27 +4,51 @@ sendwithus_php
 sendwithus PHP Client
 
 ## status
-BETA - this client is functional and tested
+[![Build Status](https://travis-ci.org/sendwithus/sendwithus_php.png)](https://travis-ci.org/sendwithus/sendwithus_php)
 
 ## requirements
     curl library must be installed and enabled in php.ini
 
-## usage
+Install it via Composer
+-----------------------
+
+Add it to your composer.json
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sendwithus/sendwithus_php"
+        }
+    ],
+    "require": {
+        "sendwithus/api": "dev-master"
+    }
+}
+```
+Then install it with 
+
+    composer install
+
+
 ```php
 // Yii Users
 Yii::$classMap = array(
     'sendwithus\\API' => dirname($_SERVER['DOCUMENT_ROOT']) . '/path/to/sendwithus/lib/API.php'
 );
 
-// Otherwise
-require 'lib/API.php';
+// composer users
+use sendwithus\API;
+
+require_once 'vendor/autoload.php';
+
 
 $API_KEY = 'THIS_IS_A_TEST_API_KEY';
 $options = array(
     'DEBUG' => true
 );
 
-$api = new \sendwithus\API($API_KEY, $options);
+$api = new API($API_KEY, $options);
 
 // Get emails
 $response = $api->emails();
