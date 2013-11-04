@@ -92,13 +92,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
     public function testGetLogs() {
         $r = $this->api->logs();
         $this->assertNotNull($r);
-        $this->assertNotNull($r->object);
-        $this->assertNotNull($r->count);
-        $this->assertNotNull($r->data);
-
-        $log_count = count($r->data);
-        $this->assertEquals($log_count, $r->count);
-
         print 'Got logs';
     }
 

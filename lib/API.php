@@ -113,7 +113,7 @@ class API
     {
         $endpoint = "emails";
         $payload = NULL;
-        return $this->api_request($endpoint, $payload, "GET");
+        return $this->api_request($endpoint, $payload, null, "GET");
     }
 
     public function create_email($name, $subject, $html, $text=null)
@@ -143,12 +143,12 @@ class API
     {
         $endpoint = "logs";
 
-        $payload = array(
+        $params = array(
             "count" => $count,
             "offset" => $offset
         );
 
-        return $this->api_request($endpoint, $payload, "GET");
+        return $this->api_request($endpoint, null, $params, "GET");
     }
 
     private function build_path($endpoint)
@@ -163,10 +163,15 @@ class API
         return $path;
     }
 
-    private function api_request($endpoint, $payload, $request="POST")
+    private function api_request($endpoint, $payload, $params=null, $request="POST")
     {
         $path = $this->build_path($endpoint);
         $response = array();
+
+        if ($params)
+        {
+            $path = $path . '?' . http_build_query($params);
+        }
 
         $ch = curl_init($path);
 
