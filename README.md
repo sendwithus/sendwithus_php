@@ -61,6 +61,17 @@ $response = $api->create_email('Email Name',
 
 // We validate all html content
 
+// Send function header
+send(
+    $email_id,      // string, id of email to send
+    $recipient,     // array, ("address", "name") to send to
+    $data=array(),  // array, data to merge into template
+    $sender=null,   // (optional) array, ("address", "name", "reply_to") of sender
+    $cc=null,       // (optional) array, array of ("address", "name") for cc
+    $bcc=null,      // (optional) array, array of ("address", "name") for bcc
+    $inline=null,   // (optional) string, path to file to include inline
+    $tags=null      // (optional) array, strings to tag email send with
+)
 
 // Send request with REQUIRED parameters only
 $response = $api->send('email_id', 
@@ -79,10 +90,7 @@ $response = $api->send('email_id',
         'reply_to' => 'info@company.com')
 ); 
 
-// WARNING !!!
-// -----------
-// The following example is NONFUNCTIONAL
-// against our production API. CC/BCC is COMING SOON
+// Send an email with multiple CC/BCC recipients
 $response = $api->send('email_id', 
     array(
         'name' => 'Matt',
@@ -104,6 +112,19 @@ $response = $api->send('email_id',
             'name' => 'BCC Name',
             'address' => 'BCC@company.com'))
 ); 
+
+// Send an email with a dynamic tag
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'), 
+    null,
+    null,
+    null,
+    null,
+    null,
+    array("Production", "Client1")
+);
 ```
 
 ## expected response

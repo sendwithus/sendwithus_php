@@ -36,7 +36,7 @@ class API
     }
 
     public function send($email_id, $recipient, $data=array(), $sender=null,
-        $cc=null, $bcc=null, $inline=null)
+        $cc=null, $bcc=null, $inline=null, $tags=null)
     {
         $endpoint = "send";
 
@@ -93,6 +93,22 @@ class API
                 "id" => basename($inline),
                 "data" => $encoded_image
             );
+        }
+
+        // Optional send time tags
+        if ($tags) {
+            if (is_string($tags))
+            {
+                $tags = array($tags);
+            }
+
+            if (!is_array($tags))
+            {
+                $e = sprintf("tags parameter must be an array, received: %s", gettype($tags));
+                throw new API_Error($e);
+            }
+
+            $payload["tags"] = $tags;
         }
 
         if ($this->DEBUG) {
