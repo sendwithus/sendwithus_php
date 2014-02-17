@@ -65,6 +65,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
         );
 
         $this->inline = 'test/test_img.png';
+
+        $this->tags = array('tag_one', 'tag_two');
 	}
 
 	function tearDown() {
@@ -201,6 +203,23 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with inline';
+    }
+
+    public function testSendWithTags() {
+        
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            $this->data, 
+            null,
+            null,
+            null,
+            null,
+            $this->tags);
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Simple send with tags';
     }
 
 	public function testSendIncomplete() {
