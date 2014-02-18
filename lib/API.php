@@ -35,9 +35,28 @@ class API
         }
     }
 
-    public function send($email_id, $recipient, $data=array(), $sender=null,
-        $cc=null, $bcc=null, $inline=null, $tags=null)
-    {
+    /**
+     * Send an email
+     *
+     * The additional optional parameters are as follows:
+     *     'data' - Default is null. Array of variables to merge into the template.
+     *     'sender' - Default is null. Array ("address", "name", "reply_to") of sender.
+     *     'cc' - Default is null. Array of ("address", "name") for carbon copy.
+     *     'bcc' - Default is null. Array of ("address", "name") for blind carbon copy.
+     *     'inline' - Default is null. String, path to file to include inline.
+     *     'tags' - Default is null. Array of strings to tag email send with.
+     *
+     * @since 2.0.0
+     *
+     * @param string $email_id. ID of email to send.
+     * @param array $recipient. Array of ("address", "name") to send to.
+     * @param array $args Optional. Additional optional parameters.
+     * @return array List of posts.
+     */
+    public function send($email_id, $recipient, $args = null) {
+        // pull out additional arguments
+        extract($args);
+
         $endpoint = "send";
 
         if (is_null($data)) {
