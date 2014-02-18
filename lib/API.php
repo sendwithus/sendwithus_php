@@ -95,7 +95,6 @@ class API
             error_log(print_r($payload, true));
         }
 
-
         return $this->api_request($endpoint, $payload);
     }
 
