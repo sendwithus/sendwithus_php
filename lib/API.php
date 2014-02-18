@@ -54,53 +54,22 @@ class API
      * @return array List of posts.
      */
     public function send($email_id, $recipient, $args = null) {
-        // pull out additional arguments
-        extract($args);
-
         $endpoint = "send";
-
-        if (is_null($data)) {
-            $data = array();
-        };
-
-        $data = (object)$data;
 
         $payload = array(
             "email_id" => $email_id,
-            "recipient" => $recipient,
-            "email_data" => $data
+            "recipient" => $recipient
         );
 
-        // set optional sender
-        if ($sender)
-        {
-            $payload["sender"] = $sender;
-        }
-
-        // set optional cc
-        if ($cc)
-        {
-            if (!is_array($cc))
-            {
-                $e = sprintf("cc parameter must be array, received: %s", gettype($cc));
-                throw new API_Error($e);
-            }
-            $payload["cc"] = $cc;
-        }
-
-        // set optional bcc
-        if ($bcc)
-        {
-            if (!is_array($bcc))
-            {
-                $e = sprintf("bcc parameter must be array, received: %s", gettype($bcc));
-                throw new API_Error($e);
-            }
-            $payload["bcc"] = $bcc;
+        if ($args) {
+            $payload = array_merge($args, $payload);
         }
 
         // Optional inline attachment
+        $inline = $args['inline'];
+
         if ($inline) {
+
             if (!is_string($inline))
             {
                 $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline));
@@ -112,22 +81,6 @@ class API
                 "id" => basename($inline),
                 "data" => $encoded_image
             );
-        }
-
-        // Optional send time tags
-        if ($tags) {
-            if (is_string($tags))
-            {
-                $tags = array($tags);
-            }
-
-            if (!is_array($tags))
-            {
-                $e = sprintf("tags parameter must be an array, received: %s", gettype($tags));
-                throw new API_Error($e);
-            }
-
-            $payload["tags"] = $tags;
         }
 
         if ($this->DEBUG) {
