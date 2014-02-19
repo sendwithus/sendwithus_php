@@ -26,10 +26,12 @@ Add it to your composer.json
     }
 }
 ```
-Then install it with 
+Then install it with
 
     composer install
 
+
+## Getting started
 
 ```php
 // Yii Users
@@ -49,90 +51,125 @@ $options = array(
 );
 
 $api = new API($API_KEY, $options);
+```
 
-// Get emails
+# Emails
+
+## Get emails
+
+```php
 $response = $api->emails();
+```
 
-// Create emails
+## Create emails
+
+_We validate all HTML content_
+```php
 $response = $api->create_email('Email Name',
     'Email Subject',
     '<html><head></head><body>Valid HTML<body></html>',
     'Optional text content')
+```
 
-// We validate all html content
-
+## Send emails
+```php
 // Send function header
 send(
     $email_id,      // string, id of email to send
     $recipient,     // array, ("address", "name") to send to
-    $data=array(),  // array, data to merge into template
-    $sender=null,   // (optional) array, ("address", "name", "reply_to") of sender
-    $cc=null,       // (optional) array, array of ("address", "name") for cc
-    $bcc=null,      // (optional) array, array of ("address", "name") for bcc
-    $inline=null,   // (optional) string, path to file to include inline
-    $tags=null      // (optional) array, strings to tag email send with
+    $options        // (optional) array, (array) additional parameters - (see below)
 )
 
-// Send request with REQUIRED parameters only
-$response = $api->send('email_id', 
-    array('address' => 'us@sendwithus.com')
-);
+// Send function options
+'data'      // array of variables to merge into the template.
+'sender'    // array ("address", "name", "reply_to") of sender.
+'cc'        // array of ("address", "name") for carbon copy.
+'bcc'       // array of ("address", "name") for blind carbon copy.
+'inline'    // string, path to file to include inline.
+'tags'      // array of strings to tag email send with.
+```
 
-// Send request with REQUIRED and OPTIONAL parameters
-$response = $api->send('email_id', 
-    array(
-        'name' => 'Matt',
-        'address' => 'us@sendwithus.com'), 
-    array('name' => 'Jimmy the snake'), 
-    array(
-        'name' => 'Company', 
-        'address' => 'company@company.com', 
-        'reply_to' => 'info@company.com')
-); 
+## Send Examples
 
-// Send an email with multiple CC/BCC recipients
-$response = $api->send('email_id', 
-    array(
-        'name' => 'Matt',
-        'address' => 'us@sendwithus.com'), 
-    array('name' => 'Jimmy the snake'), 
-    array(
-        'name' => 'Company', 
-        'address' => 'company@company.com', 
-        'reply_to' => 'info@company.com'),
-    array(
-        array(
-            'name' => 'CC Name',
-            'address' => 'CC@company.com'),
-        array(
-            'name' => 'CC 2 Name',
-            'address' => 'CC2@company.com')),
-    array(
-        array(
-            'name' => 'BCC Name',
-            'address' => 'BCC@company.com'))
-); 
+### Send request with REQUIRED parameters only
 
-// Send an email with a dynamic tag
+```php
 $response = $api->send('email_id',
-    array(
-        'name' => 'Matt',
-        'address' => 'us@sendwithus.com'), 
-    null,
-    null,
-    null,
-    null,
-    null,
-    array("Production", "Client1")
+    array('address' => 'us@sendwithus.com')
 );
 ```
 
-## expected response
+### Send request with REQUIRED and OPTIONAL parameters
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'data' => array('name' => 'Jimmy the snake'),
+        'sender' => array(
+            'name' => 'Company',
+            'address' => 'company@company.com',
+            'reply_to' => 'info@company.com'
+        )
+    )
+);
+```
+
+### Send an email with multiple CC/BCC recipients
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'data' => array('name' => 'Jimmy the snake'),
+        'sender' => array(
+            'name' => 'Company',
+            'address' => 'company@company.com',
+            'reply_to' => 'info@company.com'
+        ),
+        'cc' => array(
+            array(
+                'name' => 'CC Name',
+                'address' => 'CC@company.com'
+            ),
+            array(
+                'name' => 'CC 2 Name',
+                'address' => 'CC2@company.com'
+            )
+        ),
+        'bcc' => array(
+            array(
+                'name' => 'BCC Name',
+                'address' => 'BCC@company.com'
+            )
+        )
+    )
+);
+```
+
+### Send an email with a dynamic tag
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'tags' => array('Production', 'Client1')
+    )
+);
+```
+
+## Expected response
 
 ### Success
 ```php
 print $response->success; // true
-    
+
 print $response->status; // "OK"
 
 print $response->receipt_id; // ### numeric receipt_id you can use to query email status later
