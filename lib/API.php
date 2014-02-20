@@ -66,7 +66,7 @@ class API
         }
 
         // Optional inline attachment
-        if($payload['inline']) {
+        if(isset($payload['inline'])) {
             $inline_attachment_path = $payload['inline'];
         }
 
