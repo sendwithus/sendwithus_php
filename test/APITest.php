@@ -101,7 +101,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $r = $this->api->create_email(
             'test name',
             'test subject',
-            $this->good_html);
+            $this->good_html
+        );
 
         $this->assertNotNull($r);
         print 'Created an email';
@@ -111,18 +112,19 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $r = $this->api->create_email(
             'test name',
             'test subject',
-            $this->bad_html);
+            $this->bad_html
+        );
 
         $this->assertFail($r);
         print 'Failed to create a bad email';
     }
 
 	public function testSimpleSend() {
-
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data);
+			array("data" => $this->data)
+        );
 
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -130,11 +132,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
     public function testSendWithEmptyData() {
-
         $r = $this->api->send(
             $this->EMAIL_ID,
             $this->recipient,
-            array());
+            array("data" => array())
+        );
 
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -142,11 +144,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testSendWithNullData() {
-
         $r = $this->api->send(
             $this->EMAIL_ID,
             $this->recipient,
-            null);
+            array("data" => null)
+        );
 
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -154,12 +156,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
 	public function testSendWithSender() {
-
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data,
-			$this->sender);
+			array(
+                "data" => $this->data,
+                "sender" => $this->sender
+            )
+        );
 
 		$this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -167,13 +171,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testSendWithCC() {
-
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data,
-            null,
-            $this->cc);
+			array(
+                "data" => $this->data,
+                "cc" => $this->cc
+            )
+        );
 
 		$this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -181,14 +186,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testSendWithBCC() {
-
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data,
-            null,
-            null,
-            $this->bcc);
+			array(
+                "data" => $this->data,
+                "bcc" => $this->bcc
+            )
+        );
 
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -196,15 +201,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testSendWithInline() {
-        
         $r = $this->api->send(
             $this->EMAIL_ID,
             $this->recipient,
-            $this->data, 
-            null,
-            null,
-            null,
-            $this->inline);
+            array(
+                "data" => $this->data,
+                "inline" => $this->inline
+            )
+        );
 
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -212,16 +216,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testSendWithTags() {
-        
         $r = $this->api->send(
             $this->EMAIL_ID,
             $this->recipient,
-            $this->data, 
-            null,
-            null,
-            null,
-            null,
-            $this->tags);
+            array(
+                "data" => $this->data,
+                "tags" => $this->tags
+            )
+        );
 
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
@@ -229,12 +231,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
 	public function testSendIncomplete() {
-
 		$r = $this->api->send(
 			$this->EMAIL_ID,
 			$this->incompleteRecipient,
-			$this->data,
-			$this->sender);
+			array(
+                "data" => $this->data,
+                "sender" => $this->sender
+            )
+        );
 
 		$this->assertFail($r);
 		$this->assertEquals($r->code, 400); // incomplete
@@ -243,13 +247,13 @@ class APITestCase extends PHPUnit_Framework_TestCase
 	}
 
 	public function testInvalidAPIKey() {
-
 		$api = new \sendwithus\API('INVALID_API_KEY', $this->options);
 
 		$r = $api->send(
 			$this->EMAIL_ID,
 			$this->recipient,
-			$this->data);
+			array("data" => $this->data)
+        );
 
 		$this->assertFail($r);
 		$this->assertEquals($r->code, 403); // bad api key
@@ -259,11 +263,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 
 	public function testInvalidEmailId() {
-
 		$r = $this->api->send(
 			'INVALID_EMAIL_ID',
 			$this->recipient,
-			$this->data);
+			array("data" => $this->data)
+        );
 
 		$this->assertFail($r);
 		$this->assertEquals($r->code, 400); // email_id not found
