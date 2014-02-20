@@ -61,24 +61,23 @@ class API
             "recipient" => $recipient
         );
 
-        if ($args) {
+        if (is_array($args)) {
             $payload = array_merge($args, $payload);
         }
 
         // Optional inline attachment
-        $inline = $args['inline'];
+        $inline_attachment_path = $payload['inline'];
 
-        if ($inline) {
+        if ($inline_attachment_path) {
 
-            if (!is_string($inline))
-            {
-                $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline));
+            if (!is_string($inline_attachment_path)) {
+                $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline_attachment_path));
                 throw new API_Error($e);
             }
-            $image = file_get_contents($inline);
+            $image = file_get_contents($inline_attachment_path);
             $encoded_image = base64_encode($image);
             $payload["inline"] = array(
-                "id" => basename($inline),
+                "id" => basename($inline_attachment_path),
                 "data" => $encoded_image
             );
         }
@@ -86,8 +85,7 @@ class API
         if ($this->DEBUG) {
             error_log(sprintf("sending email `%s` to \n", $email_id));
             error_log(print_r($recipient, true));
-            if ($sender)
-            {
+            if ($sender) {
                 error_log(sprintf("\nfrom\n"));
                 error_log(print_r($sender, true));
             }
