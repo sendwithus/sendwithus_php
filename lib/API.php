@@ -66,10 +66,11 @@ class API
         }
 
         // Optional inline attachment
-        $inline_attachment_path = $payload['inline'];
+        if($payload['inline']) {
+            $inline_attachment_path = $payload['inline'];
+        }
 
         if ($inline_attachment_path) {
-
             if (!is_string($inline_attachment_path)) {
                 $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline_attachment_path));
                 throw new API_Error($e);
