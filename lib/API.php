@@ -9,8 +9,7 @@ require 'Error.php';
  * @author matt@sendwithus.com
  */
 
-class API
-{
+class API {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $API_HOST = 'api.sendwithus.com';
     private $API_PORT = '443';
@@ -23,14 +22,12 @@ class API
 
     private $DEBUG = false;
 
-    public function __construct($api_key, $options = array())
-    {
+    public function __construct($api_key, $options = array()) {
         $this->API_KEY = $api_key;
         $this->API_CLIENT_STUB = sprintf($this->API_CLIENT_STUB,
             $this->API_CLIENT_VERSION);
 
-        foreach ($options as $key => $value)
-        {
+        foreach ($options as $key => $value) {
             $this->$key = $value;
         }
     }
@@ -46,12 +43,10 @@ class API
      *     'inline' - Default is null. String, path to file to include inline.
      *     'tags' - Default is null. Array of strings to tag email send with.
      *
-     * @since 2.0.0
-     *
-     * @param string $email_id. ID of email to send.
-     * @param array $recipient. Array of ("address", "name") to send to.
-     * @param array $args Optional. Additional optional parameters.
-     * @return array List of posts.
+     * @param string $email_id ID of email to send
+     * @param array $recipient array of ("address", "name") to send to
+     * @param array $args (optional) additional optional parameters
+     * @return array API response object
      */
     public function send($email_id, $recipient, $args = null) {
         $endpoint = "send";
@@ -97,15 +92,27 @@ class API
         return $this->api_request($endpoint, $payload);
     }
 
-    public function emails()
-    {
+    /**
+     * Get Emails
+     *
+     * @return array API response object.
+     */
+    public function emails() {
         $endpoint = "emails";
         $payload = NULL;
         return $this->api_request($endpoint, $payload, null, "GET");
     }
 
-    public function create_email($name, $subject, $html, $text=null)
-    {
+    /**
+     * Create an Email
+     *
+     * @param string $name name of the email template
+     * @param string $subject subject line for the email template
+     * @param string $html HTML code for the email template
+     * @param string $text Optional text version of the email template
+     * @return array API response object
+     */
+    public function create_email($name, $subject, $html, $text=null) {
         $endpoint = "emails";
 
         $payload = array(
@@ -115,8 +122,7 @@ class API
         );
 
         // set optional text
-        if ($text)
-        {
+        if ($text) {
             $payload["text"] = $text;
         }
 
@@ -127,8 +133,14 @@ class API
         return $this->api_request($endpoint, $payload);
     }
 
-    public function logs($count=100, $offset=0)
-    {
+    /**
+     * Get Email Send Logs
+     *
+     * @param string $count (optional) the number of logs to return. Max: 100
+     * @param array $offset (optional) offset the number of logs to return
+     * @return array API response object
+     */
+    public function logs($count = 100, $offset = 0) {
         $endpoint = "logs";
 
         $params = array(
@@ -139,8 +151,7 @@ class API
         return $this->api_request($endpoint, null, $params, "GET");
     }
 
-    private function build_path($endpoint)
-    {
+    private function build_path($endpoint) {
         $path = sprintf("%s://%s:%s/api/v%s/%s",
             $this->API_PROTO,
             $this->API_HOST,
@@ -151,8 +162,7 @@ class API
         return $path;
     }
 
-    private function api_request($endpoint, $payload, $params=null, $request="POST")
-    {
+    private function api_request($endpoint, $payload, $params = null, $request = "POST") {
         $path = $this->build_path($endpoint);
         $response = array();
 
@@ -173,8 +183,7 @@ class API
         }
 
         // set headers
-        if ($payload && $request=="POST")
-        {
+        if ($payload && $request == "POST") {
             $httpheaders = array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($payload_string),
@@ -182,8 +191,7 @@ class API
                 $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
                 );
         }
-        else
-        {
+        else {
             $httpheaders = array(
                 'Content-Type: application/json',
                 $this->API_HEADER_KEY . ": " . $this->API_KEY,
