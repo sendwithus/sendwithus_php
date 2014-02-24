@@ -36,7 +36,7 @@ class API {
      * Send an email
      *
      * The additional optional parameters are as follows:
-     *     'data' - Default is null. Array of variables to merge into the template.
+     *     'email_data' - Default is null. Array of variables to merge into the template.
      *     'sender' - Default is null. Array ("address", "name", "reply_to") of sender.
      *     'cc' - Default is null. Array of ("address", "name") for carbon copy.
      *     'bcc' - Default is null. Array of ("address", "name") for blind carbon copy.
@@ -81,7 +81,7 @@ class API {
         if ($this->DEBUG) {
             error_log(sprintf("sending email `%s` to \n", $email_id));
             error_log(print_r($recipient, true));
-            if ($sender) {
+            if (isset($payload['sender'])) {
                 error_log(sprintf("\nfrom\n"));
                 error_log(print_r($sender, true));
             }
