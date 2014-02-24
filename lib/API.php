@@ -81,7 +81,7 @@ class API {
         if ($this->DEBUG) {
             error_log(sprintf("sending email `%s` to \n", $email_id));
             error_log(print_r($recipient, true));
-            if ($sender) {
+            if (isset($payload['sender'])) {
                 error_log(sprintf("\nfrom\n"));
                 error_log(print_r($sender, true));
             }
