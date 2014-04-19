@@ -157,7 +157,7 @@ class API {
      * @param string $email_address the email to unsubscribe from an active drip
      * @return array API response object
      */
-    public function unsubscribe($email_address) {
+    public function drip_unsubscribe($email_address) {
         $endpoint = "drips/unsubscribe";
 
         $payload = array(
