@@ -164,6 +164,20 @@ $response = $api->send('email_id',
 );
 ```
 
+## Drip Unsubscribe
+```php
+// Unsubscribe email address from active drips
+drip_unsubscribe(
+    $email_address,      // the email to unsubscribe from active drips
+)
+```
+
+## Drip Unsubscribe Example
+
+```php
+$response = $api->drip_unsubscribe('us@sendwithus.com');
+```
+
 ## Expected response
 
 ### Success

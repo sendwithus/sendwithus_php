@@ -152,9 +152,9 @@ class API {
     }
 
     /**
-     * Unsubscribe from active drips
+     * Unsubscribe email address from active drips
      *
-     * @param string $email_address the email to unsubscribe from an active drip
+     * @param string $email_address the email to unsubscribe from active drips
      * @return array API response object
      */
     public function drip_unsubscribe($email_address) {
