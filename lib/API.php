@@ -151,6 +151,22 @@ class API {
         return $this->api_request($endpoint, null, $params, "GET");
     }
 
+    /**
+     * Unsubscribe from active drips
+     *
+     * @param string $email_address the email to unsubscribe from an active drip
+     * @return array API response object
+     */
+    public function unsubscribe($email_address) {
+        $endpoint = "drips/unsubscribe";
+
+        $payload = array(
+            "email_address" => $email_address
+        );
+
+        return $this->api_request($endpoint, $payload);
+    }
+
     private function build_path($endpoint) {
         $path = sprintf("%s://%s:%s/api/v%s/%s",
             $this->API_PROTO,
