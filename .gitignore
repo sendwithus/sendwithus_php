@@ -1,4 +1,5 @@
 tmp/*
+.idea
 [Cc]onfig/core.php
 [Cc]onfig/database.php
 app/tmp/*
