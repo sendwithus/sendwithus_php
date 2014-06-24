@@ -83,7 +83,7 @@ class API {
             error_log(print_r($recipient, true));
             if (isset($payload['sender'])) {
                 error_log(sprintf("\nfrom\n"));
-                error_log(print_r($sender, true));
+                error_log(print_r($payload['sender'], true));
             }
             error_log(sprintf("\nwith\n"));
             error_log(print_r($payload, true));
@@ -163,6 +163,35 @@ class API {
         $payload = array(
             "email_address" => $email_address
         );
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * Render an email template with the provided data
+     *
+     * The additional optional parameters are as follows:
+     *     'template_data' - Default is null. Array of variables to merge into the template.
+     *
+     * @param string $email_id ID of email to send
+     * @param array $args (optional) additional optional parameters
+     * @return array API response object
+     */
+    public function render($email_id, $args = null) {
+        $endpoint = "render";
+
+        $payload = array(
+            "template_id" => $email_id
+        );
+
+        if (is_array($args)) {
+            $payload = array_merge($args, $payload);
+        }
+
+        if ($this->DEBUG) {
+            error_log(sprintf("rendering template `%s` with \n", $email_id));
+            error_log(print_r($payload, true));
+        }
 
         return $this->api_request($endpoint, $payload);
     }

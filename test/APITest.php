@@ -36,16 +36,16 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->bad_html = '<html><hed><body></body</html>';
 
 		$this->recipient = array(
-			'name' => 'Matt',
-			'address' => 'us@sendwithus.com');
+			'name' => 'Unit Tests - PHP Client',
+			'address' => 'swunit+phpclient@sendwithus.com');
 
 		$this->incompleteRecipient = array(
-			'name' => 'Matt');
+			'name' => 'Unit Tests - PHP Client');
 
 		$this->sender = array(
-			'name' => 'Company',
-			'address' => 'company@company.com',
-			'reply_to' => 'info@company.com');
+			'name' => 'Company Name',
+			'address' => 'company@example.com',
+			'reply_to' => 'info@example.com');
 
 		$this->data = array(
 			'name' => 'Jimmy the snake');
@@ -53,14 +53,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->cc = array(
             array(
                 'name' => 'test cc',
-                'address' => 'testcc@company.com'
+                'address' => 'testcc@example.com'
             )
         );
 
         $this->bcc = array(
             array(
                 'name' => 'test bcc',
-                'address' => 'testbcc@company.com'
+                'address' => 'testbcc@example.com'
             )
         );
 
@@ -274,6 +274,18 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         print 'Test invalid email id';
 	}
+
+    public function testRender() {
+        $r = $this->api->render(
+            $this->EMAIL_ID,
+            array("data" => $this->data)
+        );
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->html ?: $r->text);
+        print 'Test render';
+    }
+
 }
 
 ?>
