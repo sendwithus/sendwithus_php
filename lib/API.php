@@ -42,6 +42,7 @@ class API {
      *     'bcc' - Default is null. Array of ("address", "name") for blind carbon copy.
      *     'inline' - Default is null. String, path to file to include inline.
      *     'tags' - Default is null. Array of strings to tag email send with.
+     *     'files' - Default is null. Array of files to attach to email.
      *
      * @param string $email_id ID of email to send
      * @param array $recipient array of ("address", "name") to send to
@@ -49,6 +50,32 @@ class API {
      * @return array API response object
      */
     public function send($email_id, $recipient, $args = null) {
+        //in order to save backward compability detect old version of this function
+        $args_list = func_get_args();
+        $optional_keys = array(
+            'email_data',
+            'sender',
+            'cc',
+            'bcc',
+            'inline',
+            'tags',
+            'files'
+        );
+        if( $this->is_send_v1($args_list, $optional_keys) ){
+            //old order: $email_id, $recipient, $data=array(), $sender=null, $cc=null, $bcc=null, $inline=null
+            $opts = array();
+            //shift first two args
+            array_shift($args_list);
+            array_shift($args_list);
+            foreach( $args_list as $num => $arg ){
+                if( $arg ){
+                    $opts[$optional_keys[$num]] = $arg;
+                }
+            }
+
+            return $this->send( $email_id, $recipient, $opts );
+        }
+        var_dump($args_list);
         $endpoint = "send";
 
         $payload = array(
@@ -76,6 +103,20 @@ class API {
                 "id" => basename($inline_attachment_path),
                 "data" => $encoded_image
             );
+        }
+
+        // Optional inline attachment
+        if (isset($payload['files'])) {
+            $attach_files = array();
+            foreach( $payload['files'] as $file ){
+                $f = file_get_contents($file);
+                $encoded_file = base64_encode($f);
+                $attach_files[] = array(
+                    "id" => basename($file),
+                    "data" => $encoded_file
+                );
+            }
+            $payload['files'] = $attach_files;
         }
 
         if ($this->DEBUG) {
@@ -207,6 +248,37 @@ class API {
         return $path;
     }
 
+    /**
+     * Trying to detect old manner of call of the method 'send' according to arguments.
+     * First of all we are checking arguments length ( it should be less then 4 for new version ),
+     * then loop through 3rd argument ( data in old version, options in new )
+     * in order to find one of the optional key of the parameter
+     * If we found at least one optional parameter - this is new version.
+     * @param $args
+     * @param $optional_keys
+     * @return bool
+     */
+    private function is_send_v1($args, $optional_keys){
+        if( count( $args ) < 3 ){
+            //less than 3 args both versions do the same
+            return false;
+        }
+        if( count( $args ) > 3 ){
+            return true;
+        }
+        if( count( $args ) == 3 ){
+            if( !is_array( $args[2] ) ){
+                return false;
+            }
+            foreach( $args[2] as $k => $v ){
+                if( array_search( $k, $optional_keys ) !== false ){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
     private function api_request($endpoint, $payload, $params = null, $request = "POST") {
         $path = $this->build_path($endpoint);
         $response = array();
@@ -234,14 +306,14 @@ class API {
                 'Content-Length: ' . strlen($payload_string),
                 $this->API_HEADER_KEY . ": " . $this->API_KEY,
                 $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
-                );
+            );
         }
         else {
             $httpheaders = array(
                 'Content-Type: application/json',
                 $this->API_HEADER_KEY . ": " . $this->API_KEY,
                 $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
-                );
+            );
         }
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -276,7 +348,7 @@ class API {
                 'status' => "error",
                 'success' => false,
                 'exception' => $e
-                );
+            );
         }
 
         curl_close($ch);
