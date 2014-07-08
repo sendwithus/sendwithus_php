@@ -42,6 +42,7 @@ class API {
      *     'bcc' - Default is null. Array of ("address", "name") for blind carbon copy.
      *     'inline' - Default is null. String, path to file to include inline.
      *     'tags' - Default is null. Array of strings to tag email send with.
+     *     'version_name' - Default is blank. String, name of version to send
      *
      * @param string $email_id ID of email to send
      * @param array $recipient array of ("address", "name") to send to

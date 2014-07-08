@@ -164,6 +164,19 @@ $response = $api->send('email_id',
 );
 ```
 
+### Send specific version of an email
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'version_name' => 'My Version'
+    )
+);
+```
+
 ## Drip Unsubscribe
 ```php
 // Unsubscribe email address from active drips
