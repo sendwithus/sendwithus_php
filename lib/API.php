@@ -99,7 +99,7 @@ class API {
      * @return array API response object.
      */
     public function emails() {
-        $endpoint = "emails";
+        $endpoint = "templates";
         $payload = NULL;
         return $this->api_request($endpoint, $payload, null, "GET");
     }
@@ -114,7 +114,7 @@ class API {
      * @return array API response object
      */
     public function create_email($name, $subject, $html, $text=null) {
-        $endpoint = "emails";
+        $endpoint = "templates";
 
         $payload = array(
             "name" => $name,
