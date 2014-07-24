@@ -132,7 +132,7 @@ class API {
      * @return array API response object.
      */
     public function update_customer($email, $data=null) {
-        return $this.create_customer($email, $data);
+        return $this->create_customer($email, $data);
     }
 
     /**
