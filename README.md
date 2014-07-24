@@ -191,6 +191,55 @@ drip_unsubscribe(
 $response = $api->drip_unsubscribe('us@sendwithus.com');
 ```
 
+## Customers API
+
+### Create Customer
+```php
+create_customer(
+    $email,             // string, email of customer 
+    $data,              // array, optional, data for customer
+)
+```
+
+Example
+
+```php
+$response = $api->create_customer('us@sendwithus.com',
+    array('name' => 'Sendwithus')
+);
+```
+
+### Update Customer
+```php
+update_customer(
+    $email,             // string, email of customer 
+    $data,              // array, optional, data for customer
+)
+```
+
+Example
+
+```php
+$response = $api->update_customer('us@sendwithus.com',
+    array('name' => 'Sendwithus.com')
+);
+```
+
+```
+### Delete Customer
+```php
+delete_customer(
+    $email,             // string, email of customer 
+)
+```
+
+Example
+
+```php
+$response = $api->delete_customer('us@sendwithus.com');
+```
+
+
 ## Expected response
 
 ### Success

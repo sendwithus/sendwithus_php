@@ -105,6 +105,51 @@ class API {
     }
 
     /**
+     * Create Customer
+     *
+     * @param string $email customer email
+     * @param array $data customer data to
+     *
+     * @return array API response object.
+     */
+    public function create_customer($email, $data=null) {
+        $endpoint = "customers";
+        $payload = array("email" => $email);
+
+        if (is_array($data)) {
+            $payload['data'] = $data;
+        }
+
+        return $this->api_request($endpoint, $payload, null, "POST");
+    }
+
+    /**
+     * Update Customer
+     *
+     * @param string $email customer email
+     * @param array $data customer data to
+     *
+     * @return array API response object.
+     */
+    public function update_customer($email, $data=null) {
+        return $this.create_customer($email, $data);
+    }
+
+    /**
+     * Delete Customer
+     *
+     * @param string $email customer email
+     * @param array $data customer data to
+     *
+     * @return array API response object.
+     */
+    public function delete_customer($email) {
+        $endpoint = "customers/" + $email;
+        $payload = NULL;
+        return $this->api_request($endpoint, $payload, null, "DELETE");
+    }
+
+    /**
      * Create an Email
      *
      * @param string $name name of the email template
