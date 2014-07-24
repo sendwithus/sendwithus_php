@@ -225,7 +225,6 @@ $response = $api->update_customer('us@sendwithus.com',
 );
 ```
 
-```
 ### Delete Customer
 ```php
 delete_customer(
