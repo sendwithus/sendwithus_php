@@ -144,7 +144,7 @@ class API {
      * @return array API response object.
      */
     public function delete_customer($email) {
-        $endpoint = "customers/" + $email;
+        $endpoint = "customers/" . $email;
         $payload = NULL;
         return $this->api_request($endpoint, $payload, null, "DELETE");
     }
