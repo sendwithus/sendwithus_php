@@ -120,7 +120,7 @@ class API {
             $payload['data'] = $data;
         }
 
-        return $this->api_request($endpoint, $payload, null, "POST");
+        return $this->api_request($endpoint, $payload);
     }
 
     /**
