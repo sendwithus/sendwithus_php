@@ -286,6 +286,37 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test render';
     }
 
+    public function testCreateCustomer() {
+        $r = $this->api->create_customer(
+            $this->recipient['address'],
+            array("data" => $this->data)
+        );
+
+        $this->assertSuccess($r);
+        print 'Test create customer';
+    }
+
+    public function testUpdateCustomer() {
+        $r = $this->api->update_customer(
+            $this->recipient['address'],
+            array("data" => $this->data)
+        );
+
+        $this->assertSuccess($r);
+        print 'Test update customer';
+    }
+
+    public function testDeleteCustomer() {
+        $r = $this->api->create_customer($this->recipient['address']);
+
+        $this->assertSuccess($r);
+
+        $r = $this->api->delete_customer($this->recipient['address']);
+
+        $this->assertSuccess($r);
+        print 'Test delete customer';
+    }
+
 }
 
 ?>
