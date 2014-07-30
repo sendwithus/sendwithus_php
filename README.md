@@ -86,6 +86,7 @@ send(
 'cc'         // array of ("address", "name") for carbon copy.
 'bcc'        // array of ("address", "name") for blind carbon copy.
 'inline'     // string, path to file to include inline.
+'files'      // array, paths to files to attach to the send.
 'tags'       // array of strings to tag email send with.
 ```
 
@@ -177,6 +178,35 @@ $response = $api->send('email_id',
 );
 ```
 
+### Send email with an inline image attachment
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'inline' => 'filename.jpg'
+    )
+);
+```
+
+### Send email with attachments
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'files' => array(
+            'filename.txt',
+            'filename.pdf'
+        )
+    )
+);
+```
+
 ## Drip Unsubscribe
 ```php
 // Unsubscribe email address from active drips
@@ -196,7 +226,7 @@ $response = $api->drip_unsubscribe('us@sendwithus.com');
 ### Create Customer
 ```php
 create_customer(
-    $email,             // string, email of customer 
+    $email,             // string, email of customer
     $data,              // array, optional, data for customer
 )
 ```
@@ -212,7 +242,7 @@ $response = $api->create_customer('us@sendwithus.com',
 ### Update Customer
 ```php
 update_customer(
-    $email,             // string, email of customer 
+    $email,             // string, email of customer
     $data,              // array, optional, data for customer
 )
 ```
@@ -228,7 +258,7 @@ $response = $api->update_customer('us@sendwithus.com',
 ### Delete Customer
 ```php
 delete_customer(
-    $email,             // string, email of customer 
+    $email,             // string, email of customer
 )
 ```
 
