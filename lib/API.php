@@ -62,21 +62,23 @@ class API {
         }
 
         // Optional inline attachment
-        if(isset($payload['inline'])) {
+        if (isset($payload['inline'])) {
             $inline_attachment_path = $payload['inline'];
-        }
 
-        if (isset($inline_attachment_path)) {
-            if (!is_string($inline_attachment_path)) {
-                $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($inline_attachment_path));
-                throw new API_Error($e);
-            }
-            $image = file_get_contents($inline_attachment_path);
-            $encoded_image = base64_encode($image);
             $payload["inline"] = array(
                 "id" => basename($inline_attachment_path),
-                "data" => $encoded_image
+                "data" => $this->encode_attachment($inline_attachment_path)
             );
+        }
+
+        // Optional file attachment
+        if (isset($payload['files'])) {
+            foreach ($payload['files'] as &$file) {
+              $file = array(
+                  "id" => basename($file),
+                  "data" => $this->encode_attachment($file)
+              );
+            }
         }
 
         if ($this->DEBUG) {
@@ -195,6 +197,23 @@ class API {
         }
 
         return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * Helper function to Base64 encode files and return the encoded data
+     *
+     * @param string $path Local path of the file to encode
+     * @return string/false the encoded file data or false on failure
+     */
+    private function encode_attachment($path) {
+      if (!is_string($path)) {
+          $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($path));
+          throw new API_Error($e);
+      }
+
+      $file_data = file_get_contents($path);
+
+      return base64_encode($file_data);
     }
 
     private function build_path($endpoint) {
