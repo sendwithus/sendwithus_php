@@ -117,7 +117,7 @@ class API {
      */
     public function send_segment($email_id, $segment_id, $data=null) {
         $endpoint = 'segments/' . $segment_id . '/run';
-        $payload = array("email" => $email);
+        $payload = array("email" => $email_id);
 
         if (is_array($data)) {
             $payload['email_data'] = $data;
