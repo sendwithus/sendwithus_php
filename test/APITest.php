@@ -12,7 +12,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 {
 	private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
 	private $EMAIL_ID = 'test_fixture_1';
-    private $SEGMENT_ID = 'sgt_sET3QPvWAmo7cAt45vLH5V';
+    private $SEGMENT_ID = 'seg_VC8FDxDno9X64iUPDFSd76';
 
 	private $options = null;
 
