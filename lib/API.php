@@ -116,7 +116,7 @@ class API {
      * @return array API response object.
      */
     public function send_segment($email_id, $segment_id, $data=null) {
-        $endpoint = 'segments/' . $segment_id . '/run';
+        $endpoint = 'segments/' . $segment_id . '/send';
         $payload = array("email_id" => $email_id);
 
         if (is_array($data)) {
