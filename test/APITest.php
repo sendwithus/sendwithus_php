@@ -12,6 +12,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 {
 	private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
 	private $EMAIL_ID = 'test_fixture_1';
+    private $SEGMENT_ID = 'sgt_sET3QPvWAmo7cAt45vLH5V';
 
 	private $options = null;
 
@@ -332,6 +333,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->assertSuccess($r);
         print 'Test delete customer';
+    }
+    
+    public function testSendSegment() {
+        $r = $this->api->send_segment($this->EMAIL_ID, $this->SEGMENT_ID);
+
+        $this->assertSuccess($r);
+
+        print 'Test send segment';
     }
 
 }

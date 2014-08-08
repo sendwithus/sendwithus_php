@@ -107,6 +107,26 @@ class API {
     }
 
     /**
+     * Send to a Segment
+     *
+     * @param string $email_id template id
+     * @param string $segment_id segment to send to
+     * @param array $data dynamic data for send
+     *
+     * @return array API response object.
+     */
+    public function send_segment($email_id, $segment_id, $data=null) {
+        $endpoint = 'segments/' . $segment_id . '/run';
+        $payload = array("email" => $email);
+
+        if (is_array($data)) {
+            $payload['email_data'] = $data;
+        }
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
      * Create Customer
      *
      * @param string $email customer email

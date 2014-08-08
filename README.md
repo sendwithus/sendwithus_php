@@ -207,6 +207,21 @@ $response = $api->send('email_id',
 );
 ```
 
+## Send to a Segment
+```php
+send_segment(
+    $email_id,          // id of template to send
+    $segment_id,        // id of the segment to send to
+    $data               // optional array of data to send
+)
+```
+
+Example
+
+```php
+$response = $api->send_segment('us@sendwithus.com', 'segment_1234');
+```
+
 ## Drip Unsubscribe
 ```php
 // Unsubscribe email address from active drips
