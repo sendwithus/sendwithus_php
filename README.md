@@ -81,13 +81,14 @@ send(
 )
 
 // Send function options
-'email_data' // array of variables to merge into the template.
-'sender'     // array ("address", "name", "reply_to") of sender.
-'cc'         // array of ("address", "name") for carbon copy.
-'bcc'        // array of ("address", "name") for blind carbon copy.
-'inline'     // string, path to file to include inline.
-'files'      // array, paths to files to attach to the send.
-'tags'       // array of strings to tag email send with.
+'email_data'  // array of variables to merge into the template.
+'sender'      // array ("address", "name", "reply_to") of sender.
+'cc'          // array of ("address", "name") for carbon copy.
+'bcc'         // array of ("address", "name") for blind carbon copy.
+'inline'      // string, path to file to include inline.
+'files'       // array, paths to files to attach to the send.
+'tags'        // array of strings to tag email send with.
+'esp_account' // string of ESP ID to manually select ESP
 ```
 
 ## Send Examples
