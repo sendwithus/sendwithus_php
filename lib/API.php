@@ -17,7 +17,7 @@ class API {
     private $API_VERSION = '1';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.0.2";
+    private $API_CLIENT_VERSION = "2.0.3";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
@@ -102,6 +102,25 @@ class API {
      */
     public function emails() {
         $endpoint = "templates";
+        $payload = NULL;
+        return $this->api_request($endpoint, $payload, null, "GET");
+    }
+
+    /**
+     * Get a specific template
+     * 
+     * @param string $template_id template id
+     * @param string $version_id optional version id to get template version
+     *
+     * @return array API response object
+     */
+    public function get_template($template_id, $version_id=null){
+        if($version_id == NULL){
+            $endpoint="templates/" . $template_id . "/versions/" . $version_id;
+        } else {
+            $endpoint="templates/" . $template_id;
+        }
+        
         $payload = NULL;
         return $this->api_request($endpoint, $payload, null, "GET");
     }
@@ -196,6 +215,75 @@ class API {
 
         if ($this->DEBUG) {
             error_log(sprintf("creating email with name %s and subject %s\n", $name, $subject));
+        }
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * Create new template version
+     * @param string $name name of the email template
+     * @param string $subject subject line for the email template
+     * @param string $html HTML code for the email template
+     * @param string $template_id template id
+     * @param string $text Optional text version of the email template
+     * @return array API response object
+     */
+    public function create_new_template_version($name, $subject, $template_id, $html=null, $text=null) {
+        $endpoint = "templates/" . $template_id . "/versions";
+
+        $payload = array(
+            "name" => $name,
+            "subject" => $subject,
+        );
+
+        // set optional text
+        if ($text) {
+            $payload["text"] = $text;
+        }
+
+        // set optional html
+        if ($html) {
+            $payload["html"] = $html;
+        }
+
+        if ($this->DEBUG) {
+            error_log(sprintf("creating a new template version with name %s and subject %s\n", $name, $subject));
+        }
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * Update new template version
+     * @param string $name name of the email template
+     * @param string $subject subject line for the email template
+     * @param string $html HTML code for the email template
+     * @param string $template_id template id
+     * @param string $version_id template version id
+     * @param string $text Optional text version of the email template
+     * @return array API response object
+     */
+    public function create_new_template_version($name, $subject, $template_id, $version_id, $html=null, $text=null) {
+        $endpoint = "templates/" . $template_id . "/versions";
+
+        $payload = array(
+            "name" => $name,
+            "subject" => $subject,
+        );
+
+        // set optional text
+        if ($text) {
+            $payload["text"] = $text;
+        }
+
+        // set optional html
+        if ($html) {
+            $payload["html"] = $html;
+        }
+
+        if ($this->DEBUG) {
+            error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
         }
 
         return $this->api_request($endpoint, $payload);
