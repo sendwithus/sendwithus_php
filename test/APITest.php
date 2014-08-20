@@ -123,6 +123,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             $html=$this->good_html
         );
         $this->assertNotNull($r);
+        $this->assertSuccess($r);
         print "Created a new template version";
     }
 
@@ -135,6 +136,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             $html=$this->good_html
         );
         $this->assertNotNull($r);
+        $this->assertSuccess($r);
         print "Created a new template version";    
     }
     

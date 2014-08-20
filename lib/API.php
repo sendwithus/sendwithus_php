@@ -391,7 +391,7 @@ class API {
         }
 
         // set headers
-        if ($payload && ($request == "POST" || $reqest == "PUT")) {
+        if ($payload && ($request == "POST" || $request == "PUT")) {
             $httpheaders = array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($payload_string),
