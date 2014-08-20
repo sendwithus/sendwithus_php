@@ -93,7 +93,7 @@ $response = $api->create_new_template_version(
 ### Update email version
 _We validate all HTML content_
 ```php
-$response = $api->create_new_template_version(
+$response = $api->update_template_version(
     'Email Name',                                          // string email version name
     'Email Subject',                                       // string subject of email
 	'tem_JAkCjdjwJXUVwnemljflksEJks',                      // string id of email being updated

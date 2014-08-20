@@ -115,10 +115,10 @@ class API {
      * @return array API response object
      */
     public function get_template($template_id, $version_id=null){
-        if($version_id == NULL){
-            $endpoint="templates/" . $template_id . "/versions/" . $version_id;
-        } else {
-            $endpoint="templates/" . $template_id;
+        $endpoint="templates/" . $template_id;
+        
+        if($version_id){
+            $endpoint .= "/versions/" . $version_id;
         }
         
         $payload = NULL;
