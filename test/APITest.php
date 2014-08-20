@@ -137,7 +137,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         );
         $this->assertNotNull($r);
         $this->assertSuccess($r);
-        print "Created a new template version";    
+        print "Updated a template version";    
     }
     
     public function testCreateEmailFail() {

@@ -260,7 +260,7 @@ class API {
      * @return array API response object
      */
     public function update_template_version($name, $subject, $template_id, $version_id, $html, $text=null) {
-        $endpoint = "templates/" . $template_id . "/versions";
+        $endpoint = "templates/" . $template_id . "/versions/" . $version_id;
 
         $payload = array(
             "name" => $name,
