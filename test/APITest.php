@@ -70,6 +70,10 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->files = array('test/test_img.png', 'test/test_txt.txt');
         
         $this->tags = array('tag_one', 'tag_two');
+
+        $this->template_id = 'pmaBsiatWCuptZmojWESme';
+
+        $this->version_id = 'ver_pYj27c8DTBsWB4MRsoB2MF';
     }
     
     function tearDown() {
@@ -110,6 +114,29 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r);
         print 'Created an email';
     }
+
+    public function testCreateNewTemplateVersion(){
+        $r = $this->api->create_new_template_version(
+            'test name',
+            'test subject',
+            $this->template_id,
+            $html=$this->good_html
+        );
+        $this->assertNotNull($r);
+        print "Created a new template version";
+    }
+
+    public function testUpdateTemplateVersion(){
+        $r = $this->api->create_new_template_version(
+            'test name',
+            'test subject',
+            $this->template_id,
+            $this->version_id,
+            $html=$this->good_html
+        );
+        $this->assertNotNull($r);
+        print "Created a new template version";    
+    }
     
     public function testCreateEmailFail() {
         $r = $this->api->create_email(
@@ -120,7 +147,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         
         $this->assertFail($r);
         print 'Failed to create a bad email';
-    }
+    }    
     
     public function testSimpleSend() {
         $r = $this->api->send(

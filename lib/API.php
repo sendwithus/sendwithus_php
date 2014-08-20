@@ -229,8 +229,12 @@ class API {
      * @param string $text Optional text version of the email template
      * @return array API response object
      */
-    public function create_new_template_version($name, $subject, $template_id, $html=null, $text=null) {
-        $endpoint = "templates/" . $template_id . "/versions";
+    public function create_new_template_version($name, $subject, $template_id, $version_id=null,  $html=null, $text=null) {
+        if($version_id){
+            $endpoint = "templates/" . $template_id . "/versions/" . $version_id;
+        } else {
+            $endpoint = "templates/" . $template_id . "/versions";
+        }
 
         $payload = array(
             "name" => $name,
@@ -264,7 +268,7 @@ class API {
      * @param string $text Optional text version of the email template
      * @return array API response object
      */
-    public function create_new_template_version($name, $subject, $template_id, $version_id, $html=null, $text=null) {
+    public function update_template_version($name, $subject, $template_id, $version_id, $html=null, $text=null) {
         $endpoint = "templates/" . $template_id . "/versions";
 
         $payload = array(
@@ -286,7 +290,7 @@ class API {
             error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
         }
 
-        return $this->api_request($endpoint, $payload);
+        return $this->api_request($endpoint, $payload, $request="PUT");
     }
 
     /**
@@ -401,7 +405,7 @@ class API {
         }
 
         // set headers
-        if ($payload && $request == "POST") {
+        if ($payload && ($request == "POST" || $reqest == "PUT")) {
             $httpheaders = array(
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($payload_string),
