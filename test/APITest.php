@@ -133,7 +133,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             'test subject',
             $this->template_id,
             $this->version_id,
-            $html=$this->good_html
+            $this->good_html
         );
         $this->assertNotNull($r);
         $this->assertSuccess($r);
