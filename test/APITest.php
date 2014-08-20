@@ -128,7 +128,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testUpdateTemplateVersion(){
-        $r = $this->api->create_new_template_version(
+        $r = $this->api->update_template_version(
             'test name',
             'test subject',
             $this->template_id,
