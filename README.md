@@ -61,15 +61,47 @@ $api = new API($API_KEY, $options);
 $response = $api->emails();
 ```
 
-## Create emails
+## Get specific template
+```php
+$response = $api->get_template($template_id,     //string id of template
+                               $version_id       //optional string version id of template
+);
+```
 
+
+## Create emails
+### Create new email
 _We validate all HTML content_
 ```php
-$response = $api->create_email('Email Name',
-    'Email Subject',
-    '<html><head></head><body>Valid HTML<body></html>',
-    'Optional text content')
+$response = $api->create_email('Email Name',               // string email name
+    'Email Subject',                                       // string subject line of email
+    '<html><head></head><body>Valid HTML<body></html>',    // string of HTML code for email
+    'Optional text content')                               // optional string of text for email
 ```
+
+### Create new email template version
+_We validate all HTML content_
+```php
+$response = $api->create_new_template_version(
+    'Email Name',                                          // string email version name
+    'Email Subject',                                       // string subject of email
+	'tem_JAksjdjwJXUVwnemljflksEJks',                      // string id of email used
+    '<html><head></head><body>Valid HTML<body></html>',    // string block of HTML code used for email
+    'Optional text content')                               // optional string of text used for email
+```
+
+### Update email version
+_We validate all HTML content_
+```php
+$response = $api->update_template_version(
+    'Email Name',                                          // string email version name
+    'Email Subject',                                       // string subject of email
+	'tem_JAkCjdjwJXUVwnemljflksEJks',                      // string id of email being updated
+	'ver_iuweJskj4Jwkj2ndclk4jJDken',                      // string version of email being updated
+    '<html><head></head><body>Valid HTML<body></html>',    // string block of HTML code used for email
+    'Optional text content')                               // optional string of text used for email
+```
+
 
 ## Send emails
 ```php
