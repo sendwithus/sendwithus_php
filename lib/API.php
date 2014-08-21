@@ -17,7 +17,7 @@ class API {
     private $API_VERSION = '1';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.1.0";
+    private $API_CLIENT_VERSION = "2.2.0";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
@@ -300,6 +300,7 @@ class API {
     }
 
     /**
+     * @deprecated deprecated since v2.1.0 use the new drips
      * Unsubscribe email address from active drips
      *
      * @param string $email_address the email to unsubscribe from active drips
@@ -311,10 +312,70 @@ class API {
         $payload = array(
             "email_address" => $email_address
         );
+        
+        if ($this->DEBUG) {
+            error_log(sprintf("WARNING: Old campaign endpoints will soon be deprecated.")); // Is that good enough?
+        }
 
         return $this->api_request($endpoint, $payload);
     }
 
+    /**
+     * List drip campaigns
+     *
+     * @return array API response object
+     */
+    public function list_drip_campaigns(){
+        $endpoint = "drip_campaigns";
+        return $this->api_request($endpoint, null, null, "GET");
+    }
+
+    /**
+     * Start on drip campaign
+     *
+     * @param string $recipient_address email address being added to drip campaign
+     * @param string $drip_campaign_id drip campaign being added to
+     * @return array API response object
+     */
+    public function start_on_drip_campaign($recipient_address, $drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
+        
+        $payload = {
+            "recipient" => $recipient_address
+        }
+        
+        return $this->api_request($endpoint, $payload);
+    }    
+
+    /**
+     * Remove from drip campaign
+     *
+     * @param string $recipient_address email address being added to drip campaign
+     * @param string $drip_campaign_id drip campaign being added to
+     * @return array API response object
+     */
+    public function remove_on_drip_campaign($recipient_address, $drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/deactivate";
+        
+        $payload = {
+            "recipient" => $recipient_address
+        }
+        
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * List drip campaign steps
+     *
+     * @param string $drip_campaign_id id of drip campaign
+     * @return array API response object
+     */
+    public function list_drip_campaign_steps($drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/steps";
+
+        return $this->api_request($endpoint, null, null, "GET");
+    }
+   
     /**
      * Render an email template with the provided data
      *

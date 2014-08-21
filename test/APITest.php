@@ -229,7 +229,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with bcc';
     }
-/*
+
     public function testSendWithInline() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -244,7 +244,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with inline';
     }
-/*
+
     public function testSendWithFiles() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -258,7 +258,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with file attachments';
-        }*/
+        }
     
     public function testSendWithTags() {
         $r = $this->api->send(
@@ -369,6 +369,35 @@ class APITestCase extends PHPUnit_Framework_TestCase
         
         print 'Test send segment';
     }
+    
+    public function testListDripCampaigns(){
+        $r = $this->api->list_drip_campaigns();
+        
+        $this->assertSuccess($r);
+
+        print "Test list drip campaigns";
+    }
+    
+    public function testStartOnDripCampaign(){
+        $r = $this->api->start_on_drip_campaign("person@example.com","dc_asdf1234");
+        
+        $this->assertSuccess($r);
+
+        
+    }
+    
+    public function testRemoveOnDripCampaign(){
+        $r = $this->api->list_drip_campaigns("person@example.com","dc_asdf1234");
+        
+        $this->assertSuccess($r);
+    }
+    
+    public function testListDripCampaignSteps(){
+        $r = $this->api->list_drip_campaigns("dc_asdf1234");
+        
+        $this->assertSuccess($r);
+    }
+    
     
 }
 
