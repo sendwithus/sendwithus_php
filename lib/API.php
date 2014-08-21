@@ -17,7 +17,7 @@ class API {
     private $API_VERSION = '1';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.0.3";
+    private $API_CLIENT_VERSION = "2.1.0";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
@@ -114,8 +114,8 @@ class API {
      *
      * @return array API response object
      */
-    public function get_template($template_id, $version_id=null){
-        $endpoint="templates/" . $template_id;
+    public function get_template($template_id, $version_id = null){
+        $endpoint = "templates/" . $template_id;
         
         if($version_id){
             $endpoint .= "/versions/" . $version_id;
@@ -134,7 +134,7 @@ class API {
      *
      * @return array API response object.
      */
-    public function send_segment($email_id, $segment_id, $data=null) {
+    public function send_segment($email_id, $segment_id, $data = null) {
         $endpoint = 'segments/' . $segment_id . '/send';
         $payload = array("email_id" => $email_id);
 
@@ -165,7 +165,7 @@ class API {
     }
 
     /**
-     * Update Customer
+     * Updateo Customer
      *
      * @param string $email customer email
      * @param array $data customer data to
@@ -265,6 +265,7 @@ class API {
         $payload = array(
             "name" => $name,
             "subject" => $subject,
+            "html" => $html
         );
 
         // set optional text
@@ -276,7 +277,7 @@ class API {
             error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
         }
 
-        return $this->api_request($endpoint, $payload, $request="PUT");
+        return $this->api_request($endpoint, $payload, null,"PUT");
     }
 
     /**
