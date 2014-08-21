@@ -340,9 +340,9 @@ class API {
     public function start_on_drip_campaign($recipient_address, $drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
         
-        $payload = {
+        $payload = array(
             "recipient" => $recipient_address
-        }
+        );
         
         return $this->api_request($endpoint, $payload);
     }    
@@ -357,9 +357,9 @@ class API {
     public function remove_on_drip_campaign($recipient_address, $drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/deactivate";
         
-        $payload = {
+        $payload = array(
             "recipient" => $recipient_address
-        }
+        );
         
         return $this->api_request($endpoint, $payload);
     }
