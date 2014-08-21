@@ -165,7 +165,7 @@ class API {
     }
 
     /**
-     * Updateo Customer
+     * Update Customer
      *
      * @param string $email customer email
      * @param array $data customer data to
@@ -235,6 +235,7 @@ class API {
         $payload = array(
             "name" => $name,
             "subject" => $subject,
+            "html" => $html
         );
 
         // set optional text
@@ -277,7 +278,7 @@ class API {
             error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
         }
 
-        return $this->api_request($endpoint, $payload, null,"PUT");
+        return $this->api_request($endpoint, $payload, null, "PUT");
     }
 
     /**
