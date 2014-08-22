@@ -300,7 +300,7 @@ class API {
     }
 
     /**
-     * @deprecated deprecated since v2.1.0 use the new drips
+     * @deprecated deprecated since v2.1.0, check out our new drip campaigns here: INSERT LINK
      * Unsubscribe email address from active drips
      *
      * @param string $email_address the email to unsubscribe from active drips
@@ -311,11 +311,7 @@ class API {
 
         $payload = array(
             "email_address" => $email_address
-        );
-        
-        if ($this->DEBUG) {
-            error_log(sprintf("WARNING: Old campaign endpoints will soon be deprecated.")); // Is that good enough?
-        }
+        );       
 
         return $this->api_request($endpoint, $payload);
     }
@@ -371,7 +367,7 @@ class API {
      * @return array API response object
      */
     public function list_drip_campaign_steps($drip_campaign_id){
-        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/steps";
+        $endpoint = "drip_campaigns/" . $drip_campaign_id;
 
         return $this->api_request($endpoint, null, null, "GET");
     }
