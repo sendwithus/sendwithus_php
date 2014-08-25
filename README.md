@@ -346,7 +346,7 @@ print $response->code;
 
 ### Running Unit Tests
 
-Make sure to have phpunit installed and run the following from the root directory
+Make sure to have phpunit installed (http://phpunit.de/) and run the following from the root directory
 
 ```php
 phpunit test
