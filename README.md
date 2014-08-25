@@ -342,3 +342,13 @@ print $response->code;
 // 403 (bad api key)
 ```
 
+## Tests
+
+### Running Unit Tests
+
+Make sure to have phpunit installed and run the following from the root directory
+
+```php
+phpunit test
+```
+
