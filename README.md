@@ -270,6 +270,152 @@ drip_unsubscribe(
 $response = $api->drip_unsubscribe('us@sendwithus.com');
 ```
 
+## Drips 2.0
+
+### List Drip Campaigns
+List all drip campaigns for the current profile
+
+Example
+
+```php
+$response = $api->list_drip_campaigns();
+```
+
+Response
+
+```php
+Array
+(
+    [0] => stdClass Object
+        (
+            [drip_steps] => Array
+                (
+                    [0] => stdClass Object
+                        (
+                            [id] => dcs_1234abcd1234
+                            [object] => drip_step
+                            [delay_seconds] => 0
+                            [email_id] => tem_1234abcd1234
+                        )
+
+                )
+
+            [name] => Drip Campaign
+            [enabled] => 1
+            [id] => dc_1234abcd1234
+            [trigger_email_id] => tem_1234abcd1234
+            [object] => drip_campaign
+        )
+)
+```
+
+### Start on Drip Campaign
+Starts a customer on the first step of a specified drip campaign
+
+```php
+start_on_drip_campaign(
+    $recipient_address, // string, email address being added to drip campaign
+    $drip_campaign_id   // string, drip campaign being added to
+);
+```
+
+Example
+
+```php
+$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234');
+```
+
+Response
+
+```php
+stdClass Object
+(
+    [success] => 1
+    [drip_campaign] => stdClass Object
+        (
+            [id] => dc_1234abcd1234
+            [name] => Drip Campaign
+        )
+
+    [message] => Recipient successfully added to drip campaign.
+    [status] => OK
+    [recipient_address] => us@sendwithus.com
+)
+```
+
+### Remove from Drip Campaign
+Deactivates all pending emails for a customer on a specified drip campaign
+```php
+$response = $api->remove_from_drip_campaign(
+    $recipient_address, // string, email address being removed from drip campaign
+    $drip_campaign_id   // string, drip campaign being removed from
+);
+```
+
+Example
+
+```php
+$response = $api->remove_from_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234');
+```
+
+Response
+
+```php
+stdClass Object
+(
+    [success] => 1
+    [drip_campaign] => stdClass Object
+        (
+            [id] => dc_1234abcd1234
+            [name] => Drip Campaign
+        )
+
+    [message] => Recipient successfully removed from drip campaign.
+    [status] => OK
+    [recipient_address] => us@sendwithus.com
+)
+```
+
+### List Drip Campaign Details
+Show all the steps and other information in a specified campaign
+```php
+$response = $api->drip_campaign_details(
+    $drip_campaign_id   // string, drip campaign to list details from
+);
+```
+
+Example
+
+```php
+$response = $api->drip_campaign_details('dc_1234abcd1234');
+```
+
+Response
+
+```php
+stdClass Object
+(
+    [drip_steps] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [id] => dcs_1234abcd1234
+                    [object] => drip_step
+                    [delay_seconds] => 0
+                    [email_id] => tem_1234abcd1234
+                )
+
+        )
+
+    [name] => Drip Campaign
+    [enabled] => 1
+    [id] => dc_1234abcd1234
+    [trigger_email_id] => tem_1234abcd1234
+    [object] => drip_campaign
+)
+
+```
+
 ## Customers API
 
 ### Create Customer

@@ -17,7 +17,7 @@ class API {
     private $API_VERSION = '1';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.1.0";
+    private $API_CLIENT_VERSION = "2.2.0";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
@@ -108,7 +108,7 @@ class API {
 
     /**
      * Get a specific template
-     * 
+     *
      * @param string $template_id template id
      * @param string $version_id optional version id to get template version
      *
@@ -116,11 +116,11 @@ class API {
      */
     public function get_template($template_id, $version_id = null){
         $endpoint = "templates/" . $template_id;
-        
+
         if($version_id){
             $endpoint .= "/versions/" . $version_id;
         }
-        
+
         $payload = NULL;
         return $this->api_request($endpoint, $payload, null, "GET");
     }
@@ -313,6 +313,62 @@ class API {
         );
 
         return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * List drip campaigns
+     *
+     * @return array API response object
+     */
+    public function list_drip_campaigns(){
+        $endpoint = "drip_campaigns";
+        return $this->api_request($endpoint, null, null, "GET");
+    }
+
+    /**
+     * Start on drip campaign
+     *
+     * @param string $recipient_address email address being added to drip campaign
+     * @param string $drip_campaign_id drip campaign being added to
+     * @return array API response object
+     */
+    public function start_on_drip_campaign($recipient_address, $drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
+
+        $payload = array(
+            "recipient_address" => $recipient_address
+        );
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * Remove from drip campaign
+     *
+     * @param string $recipient_address email address being added to drip campaign
+     * @param string $drip_campaign_id drip campaign being added to
+     * @return array API response object
+     */
+    public function remove_from_drip_campaign($recipient_address, $drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/deactivate";
+
+        $payload = array(
+            "recipient_address" => $recipient_address
+        );
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * List drip campaign details
+     *
+     * @param string $drip_campaign_id id of drip campaign
+     * @return array API response object
+     */
+    public function drip_campaign_details($drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id;
+
+        return $this->api_request($endpoint, null, null, "GET");
     }
 
     /**
