@@ -270,6 +270,32 @@ drip_unsubscribe(
 $response = $api->drip_unsubscribe('us@sendwithus.com');
 ```
 
+## Drips 2.0
+
+### List Drip Campaigns
+List all drip campaigns for the current profile
+```php
+$response = $api->list_drip_campaigns();
+```
+
+### Start on Drip Campaign
+Starts a customer on the first step of a specified drip campaign
+```php
+$response = $api->start_on_drip_campaign($recipient_address, $drip_campaign_id);
+```
+
+### Remove from Drip Campaign
+Deactivates all pending emails for a customer on a specified drip campaign
+```php
+$response = $api->remove_from_drip_campaign($recipient_address, $drip_campaign_id);
+```
+
+### List Drip Campaign Details
+Show all the steps and other information in a specified campaign
+```php
+$response = $api->drip_campaign_details($drip_campaign_id);
+```
+
 ## Customers API
 
 ### Create Customer
