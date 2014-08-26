@@ -337,7 +337,7 @@ class API {
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
         
         $payload = array(
-            "recipient" => $recipient_address
+            "recipient_address" => $recipient_address
         );
         
         return $this->api_request($endpoint, $payload);
@@ -350,11 +350,11 @@ class API {
      * @param string $drip_campaign_id drip campaign being added to
      * @return array API response object
      */
-    public function remove_on_drip_campaign($recipient_address, $drip_campaign_id){
+    public function remove_from_drip_campaign($recipient_address, $drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/deactivate";
         
         $payload = array(
-            "recipient" => $recipient_address
+            "recipient_address" => $recipient_address
         );
         
         return $this->api_request($endpoint, $payload);
@@ -366,7 +366,7 @@ class API {
      * @param string $drip_campaign_id id of drip campaign
      * @return array API response object
      */
-    public function list_drip_campaign_details($drip_campaign_id){
+    public function drip_campaign_details($drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id;
 
         return $this->api_request($endpoint, null, null, "GET");

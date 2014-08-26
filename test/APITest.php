@@ -64,6 +64,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
                 'address' => 'testbcc@example.com'
             )
         );
+
+        $this->drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk';
         
         $this->inline = 'test/test_img.png';
         
@@ -373,29 +375,32 @@ class APITestCase extends PHPUnit_Framework_TestCase
     public function testListDripCampaigns(){
         $r = $this->api->list_drip_campaigns();
         
-        $this->assertSuccess($r);
+        $this->assertNotNull($r);
 
-        print "Test list drip campaigns";
+        print 'Test list drip campaigns';
     }
     
     public function testStartOnDripCampaign(){
-        $r = $this->api->start_on_drip_campaign("person@example.com","dc_asdf1234");
+        $r = $this->api->start_on_drip_campaign('person@example.com',$this->drip_campaign_id);
         
-        $this->assertSuccess($r);
-
+        $this->assertEquals($r->status, "OK");
         
+        print 'Test add to drip campaigns';
     }
     
     public function testRemoveOnDripCampaign(){
-        $r = $this->api->list_drip_campaigns("person@example.com","dc_asdf1234");
+        $r = $this->api->remove_from_drip_campaign('person@example.com',$this->drip_campaign_id);
         
-        $this->assertSuccess($r);
+        $this->assertEquals($r->status, "OK");
+
+        print 'Test remove from drip campaigns';
     }
     
     public function testListDripCampaignSteps(){
-        $r = $this->api->list_drip_campaigns("dc_asdf1234");
+        $r = $this->api->drip_campaign_details($this->drip_campaign_id);
         
-        $this->assertSuccess($r);
+        $this->assertEquals($r->object, 'drip_campaign');
+        print 'Test list drip campaign steps';
     }
     
     
