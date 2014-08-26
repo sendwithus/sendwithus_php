@@ -108,7 +108,7 @@ class API {
 
     /**
      * Get a specific template
-     * 
+     *
      * @param string $template_id template id
      * @param string $version_id optional version id to get template version
      *
@@ -116,11 +116,11 @@ class API {
      */
     public function get_template($template_id, $version_id = null){
         $endpoint = "templates/" . $template_id;
-        
+
         if($version_id){
             $endpoint .= "/versions/" . $version_id;
         }
-        
+
         $payload = NULL;
         return $this->api_request($endpoint, $payload, null, "GET");
     }
@@ -300,7 +300,6 @@ class API {
     }
 
     /**
-     * @deprecated deprecated since v2.1.0, check out our new drip campaigns here: INSERT LINK
      * Unsubscribe email address from active drips
      *
      * @param string $email_address the email to unsubscribe from active drips
@@ -311,7 +310,7 @@ class API {
 
         $payload = array(
             "email_address" => $email_address
-        );       
+        );
 
         return $this->api_request($endpoint, $payload);
     }
@@ -335,13 +334,13 @@ class API {
      */
     public function start_on_drip_campaign($recipient_address, $drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
-        
+
         $payload = array(
             "recipient_address" => $recipient_address
         );
-        
+
         return $this->api_request($endpoint, $payload);
-    }    
+    }
 
     /**
      * Remove from drip campaign
@@ -352,11 +351,11 @@ class API {
      */
     public function remove_from_drip_campaign($recipient_address, $drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/deactivate";
-        
+
         $payload = array(
             "recipient_address" => $recipient_address
         );
-        
+
         return $this->api_request($endpoint, $payload);
     }
 
@@ -371,7 +370,7 @@ class API {
 
         return $this->api_request($endpoint, null, null, "GET");
     }
-   
+
     /**
      * Render an email template with the provided data
      *
