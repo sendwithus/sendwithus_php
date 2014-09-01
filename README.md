@@ -327,7 +327,7 @@ $email_data = array(
     'name' => 'Jean-Luc'
 	'rank' => 'Captain'
 );
-$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $data = $email_data);
+$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data);
 ```
 
 Response
