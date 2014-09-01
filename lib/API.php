@@ -330,14 +330,19 @@ class API {
      *
      * @param string $recipient_address email address being added to drip campaign
      * @param string $drip_campaign_id drip campaign being added to
+     * @param array (optional) $data email data being sent with drip
      * @return array API response object
      */
-    public function start_on_drip_campaign($recipient_address, $drip_campaign_id){
-        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
-
+    public function start_on_drip_campaign($recipient_address, $drip_campaign_id, $data=null){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";        
+        
         $payload = array(
             "recipient_address" => $recipient_address
         );
+
+        if (is_array($data)) {
+            $payload['email_data'] = $data;
+        }
 
         return $this->api_request($endpoint, $payload);
     }
