@@ -315,14 +315,19 @@ Starts a customer on the first step of a specified drip campaign
 ```php
 start_on_drip_campaign(
     $recipient_address, // string, email address being added to drip campaign
-    $drip_campaign_id   // string, drip campaign being added to
+    $drip_campaign_id,  // string, drip campaign being added to
+	$data               // array, (optional) email data being added to drip campaign
 );
 ```
 
 Example
 
 ```php
-$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234');
+$email_data = array(
+    'name' => 'Jean-Luc'
+	'rank' => 'Captain'
+);
+$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data);
 ```
 
 Response
