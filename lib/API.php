@@ -324,7 +324,43 @@ class API {
         $endpoint = "drip_campaigns";
         return $this->api_request($endpoint, null, null, "GET");
     }
+    
+    /**
+     * List drip campaign details
+     *
+     * @param string $drip_campaign_id id of drip campaign
+     * @return array API response object
+     */
+    public function drip_campaign_details($drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id;
 
+        return $this->api_request($endpoint, null, null, "GET");
+    }
+
+    /**
+     * List customers on drip campaign
+     * 
+     * @param string $drip_campaign_id id of drip campaign
+     * @return array API response object
+     */
+    public function list_drip_campaign_customers($drip_campaign_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/customers";
+
+        return $this->api_request($endpoint, null, null, "GET");
+    }
+
+    /**
+     * List customers on drip campaign step
+     *
+     * @param string $drip_campaign_id id of drip campaign
+     * @param string $drip_step_id id of drip campaign step
+     * @return array API response object
+     */
+    public function list_drip_campaign_step_customers($drip_campaign_id, $drip_step_id){
+        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/steps/" . $drip_step_id . "/customers";
+
+        return $this->api_request($endpoint, null, null, "GET");
+    }
     /**
      * Start on drip campaign
      *
@@ -348,10 +384,10 @@ class API {
     }
 
     /**
-     * Remove from drip campaign
+     * Remove customer from drip campaign
      *
-     * @param string $recipient_address email address being added to drip campaign
-     * @param string $drip_campaign_id drip campaign being added to
+     * @param string $recipient_address email address being removed to drip campaign
+     * @param string $drip_campaign_id drip campaign being removed to
      * @return array API response object
      */
     public function remove_from_drip_campaign($recipient_address, $drip_campaign_id){
@@ -362,18 +398,6 @@ class API {
         );
 
         return $this->api_request($endpoint, $payload);
-    }
-
-    /**
-     * List drip campaign details
-     *
-     * @param string $drip_campaign_id id of drip campaign
-     * @return array API response object
-     */
-    public function drip_campaign_details($drip_campaign_id){
-        $endpoint = "drip_campaigns/" . $drip_campaign_id;
-
-        return $this->api_request($endpoint, null, null, "GET");
     }
 
     /**
