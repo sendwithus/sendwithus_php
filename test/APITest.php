@@ -77,6 +77,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->enabled_drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk';
 
+        $this->enabled_drip_campaign_step_id = 'dcs_yaAMiZNWCLAEGw7GLjBuGY'; 
+
         $this->disabled_drip_campaign_id = 'dc_AjR6Ue9PHPFYmEu2gd8x5V';
 
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
@@ -381,6 +383,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test list drip campaigns';
     }
 
+    public function testListDripCampaignDetails(){
+        $r = $this->api->drip_campaign_details($this->enabled_drip_campaign_id);
+        
+        $this->assertEquals($r->name, 'TEST_CAMPAIGN');
+
+        print 'Test list drip campaign details';
+    }
+
     public function testStartOnEnabledDripCampaign(){
         $r = $this->api->drip_campaign_details($this->enabled_drip_campaign_id);
         $this->assertTrue($r->enabled);
@@ -421,6 +431,22 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test add to false drip campaigns';
     }
 
+    public function testListCustomersOnCampaign(){
+        $r = $this->api->list_drip_campaign_customers($this->enabled_drip_campaign_id);
+
+        $this->assertEquals($r->id, $this->enabled_drip_campaign_id);
+
+        print 'Test list customers on drip campaign';
+    }
+
+    public function testListCustomersOnCampaignStep(){
+        $r = $this->api->list_drip_campaign_step_customers($this->enabled_drip_campaign_id, $this->enabled_drip_campaign_step_id);
+
+        $this->assertEquals($r->id, $this->enabled_drip_campaign_step_id);
+        
+        print 'Test list customers on a drip campaign step';
+    }
+
     public function testRemoveOnDripCampaign(){
         $r = $this->api->remove_from_drip_campaign('person@example.com',$this->enabled_drip_campaign_id);
         $this->assertSuccess($r);
@@ -431,7 +457,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     public function testListDripCampaignSteps(){
         $r = $this->api->drip_campaign_details($this->enabled_drip_campaign_id);
 
-        $this->assertEquals($r->object, 'drip_campaign');
+        $this->assertEquals($r->name, 'TEST_CAMPAIGN');
         print 'Test list drip campaign steps';
     }
 
