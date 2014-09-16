@@ -440,7 +440,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testListCustomersOnCampaignStep(){
-        $r = $this->api->list_drip_campaign_step_customers($this->enabled_drip_campaign_step_id);
+        $r = $this->api->list_drip_campaign_step_customers($this->enabled_drip_campaign, $this->enabled_drip_campaign_step_id);
 
         $this->assertEquals($r->id, $this->enabled_drip_campaign_id);
         
