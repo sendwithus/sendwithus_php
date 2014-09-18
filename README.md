@@ -109,7 +109,7 @@ $response = $api->update_template_version(
 send(
     $email_id,      // string, id of email to send
     $recipient,     // array, ("address", "name") to send to
-    $options        // (optional) array, (array) additional parameters - (see below)
+    $args           // (optional) array, (array) additional parameters - (see below)
 )
 
 // Send function options
@@ -317,7 +317,16 @@ start_on_drip_campaign(
     $recipient_address, // string, email address being added to drip campaign
     $drip_campaign_id,  // string, drip campaign being added to
 	$data               // array, (optional) email data being added to drip campaign
+	$args               // array, (optional) additional options being sent with email (tags, cc's, etc)
 );
+
+// Args options
+'email_data'  // array of variables to merge into the template.
+'sender'      // array ("address", "name", "reply_to") of sender.
+'cc'          // array of ("address", "name") for carbon copy.
+'bcc'         // array of ("address", "name") for blind carbon copy.
+'tags'        // array of strings to tag email send with.
+'esp_account' // string of ESP ID to manually select ESP
 ```
 
 Example
@@ -327,7 +336,12 @@ $email_data = array(
     'name' => 'Jean-Luc'
 	'rank' => 'Captain'
 );
-$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data);
+
+$args = array(
+    'tags' => array('all', 'the', 'tags'),
+    'cc' => array('address' => 'them@sendwithus.com')
+);
+$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data, $args);
 ```
 
 Response
