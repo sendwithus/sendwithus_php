@@ -364,6 +364,13 @@ class API {
     /**
      * Start on drip campaign
      *
+     * The additional optional parameters for $args are as follows:
+     *     'sender' - Default is null. Array ("address", "name", "reply_to") of sender.
+     *     'cc' - Default is null. Array of ("address", "name") for carbon copy.
+     *     'bcc' - Default is null. Array of ("address", "name") for blind carbon copy.
+     *     'tags' - Default is null. Array of strings to tag email send with.
+     *     'esp' - Default is null. Value of ("esp_account": "esp_id")
+     *
      * @param string $recipient_address email address being added to drip campaign
      * @param string $drip_campaign_id drip campaign being added to
      * @param array (optional) $data email data being sent with drip
