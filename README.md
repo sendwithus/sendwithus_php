@@ -317,6 +317,7 @@ start_on_drip_campaign(
     $recipient_address, // string, email address being added to drip campaign
     $drip_campaign_id,  // string, drip campaign being added to
 	$data               // array, (optional) email data being added to drip campaign
+	$args               // array, (optional) additional options being sent with email (tags, cc's, etc)
 );
 ```
 
@@ -327,7 +328,12 @@ $email_data = array(
     'name' => 'Jean-Luc'
 	'rank' => 'Captain'
 );
-$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data);
+
+$args = array(
+    'tags' => array('all', 'the', 'tags'),
+    'cc' => array('address' => 'them@sendwithus.com')
+);
+$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data, $args);
 ```
 
 Response

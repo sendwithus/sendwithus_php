@@ -17,7 +17,7 @@ class API {
     private $API_VERSION = '1';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.2.0";
+    private $API_CLIENT_VERSION = "2.2.1";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
@@ -367,11 +367,12 @@ class API {
      * @param string $recipient_address email address being added to drip campaign
      * @param string $drip_campaign_id drip campaign being added to
      * @param array (optional) $data email data being sent with drip
+     * @param array (optional) $args additional options being sent with email (tags, cc's, etc)
      * @return array API response object
      */
-    public function start_on_drip_campaign($recipient_address, $drip_campaign_id, $data=null){
+    public function start_on_drip_campaign($recipient_address, $drip_campaign_id, $data=null, $args=null){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";        
-        
+
         $payload = array(
             "recipient_address" => $recipient_address
         );
@@ -380,6 +381,10 @@ class API {
             $payload['email_data'] = $data;
         }
 
+        if (is_array($args)) {
+            $payload = array_merge($args, $payload);
+        }
+        
         return $this->api_request($endpoint, $payload);
     }
 
@@ -392,6 +397,22 @@ class API {
      */
     public function remove_from_drip_campaign($recipient_address, $drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/deactivate";
+
+        $payload = array(
+            "recipient_address" => $recipient_address
+        );
+
+        return $this->api_request($endpoint, $payload);
+    }
+
+    /**
+     * Remove customer from all drip campaigns
+     *
+     * @param string $recipient_address email address being removed to drip campaign
+     * @return array API response object
+     */
+    public function remove_from_all_drip_campaigns($recipient_address){
+        $endpoint = "drip_campaigns/deactivate";
 
         $payload = array(
             "recipient_address" => $recipient_address
