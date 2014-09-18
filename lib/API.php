@@ -398,7 +398,7 @@ class API {
     /**
      * Remove customer from drip campaign
      *
-     * @param string $recipient_address email address being removed to drip campaign
+     * @param string $recipient_address email address being removed drip campaign
      * @param string $drip_campaign_id drip campaign being removed to
      * @return array API response object
      */
@@ -415,7 +415,7 @@ class API {
     /**
      * Remove customer from all drip campaigns
      *
-     * @param string $recipient_address email address being removed to drip campaign
+     * @param string $recipient_address email address being removed from all drip campaigns
      * @return array API response object
      */
     public function remove_from_all_drip_campaigns($recipient_address){
