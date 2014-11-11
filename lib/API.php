@@ -10,10 +10,10 @@ require 'Error.php';
  */
 
 class API {
-    private $HTTP_POST = 'POST'
-    private $HTTP_GET = 'GET'
-    private $HTTP_PUT = 'PUT'
-    private $HTTP_DELETE = 'DELETE'
+    private $HTTP_POST = 'POST';
+    private $HTTP_GET = 'GET';
+    private $HTTP_PUT = 'PUT';
+    private $HTTP_DELETE = 'DELETE';
 
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $API_HOST = 'api.sendwithus.com';
@@ -188,8 +188,7 @@ class API {
      */
     public function delete_customer($email) {
         $endpoint = "customers/" . $email;
-        $payload = NULL;
-        return $this->api_request($endpoint, $this->$HTTP_DELETE, $payload);
+        return $this->api_request($endpoint, $this->$HTTP_DELETE);
     }
 
     /**
