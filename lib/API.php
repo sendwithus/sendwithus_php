@@ -107,8 +107,7 @@ class API {
      */
     public function emails() {
         $endpoint = "templates";
-        $payload = NULL;
-        return $this->api_request($endpoint, $this->$HTTP_GET, $payload);
+        return $this->api_request($endpoint, $this->$HTTP_GET);
     }
 
     /**
@@ -126,8 +125,7 @@ class API {
             $endpoint .= "/versions/" . $version_id;
         }
 
-        $payload = NULL;
-        return $this->api_request($endpoint, $this->$HTTP_GET, $payload);
+        return $this->api_request($endpoint, $this->$HTTP_GET);
     }
 
     /**
@@ -202,7 +200,7 @@ class API {
      *
      * @return array API response object.
      */
-    public function customer_conversion($email, $revenue) {
+    public function customer_conversion($email, $revenue=null) {
         $endpoint = "customers/" . $email . "/conversions";
         $payload = array("revenue" => $revenue);
 
