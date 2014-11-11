@@ -233,7 +233,7 @@ class API {
             error_log(sprintf("creating email with name %s and subject %s\n", $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST $payload);
+        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
     }
 
     /**
