@@ -97,7 +97,7 @@ class API {
             error_log(print_r($payload, true));
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -107,7 +107,7 @@ class API {
      */
     public function emails() {
         $endpoint = "templates";
-        return $this->api_request($endpoint, $this->$HTTP_GET);
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
 
     /**
@@ -125,7 +125,7 @@ class API {
             $endpoint .= "/versions/" . $version_id;
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_GET);
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
 
     /**
@@ -145,7 +145,7 @@ class API {
             $payload['email_data'] = $data;
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -164,7 +164,7 @@ class API {
             $payload['data'] = $data;
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -188,7 +188,7 @@ class API {
      */
     public function delete_customer($email) {
         $endpoint = "customers/" . $email;
-        return $this->api_request($endpoint, $this->$HTTP_DELETE);
+        return $this->api_request($endpoint, $this->HTTP_DELETE);
     }
 
     /**
@@ -203,7 +203,7 @@ class API {
         $endpoint = "customers/" . $email . "/conversions";
         $payload = array("revenue" => $revenue);
 
-        return $this->api_request($endpoint, $this->$HTTP_DELETE, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -233,7 +233,7 @@ class API {
             error_log(sprintf("creating email with name %s and subject %s\n", $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -263,7 +263,7 @@ class API {
             error_log(sprintf("creating a new template version with name %s and subject %s\n", $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -294,7 +294,7 @@ class API {
             error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_PUT, $payload);
+        return $this->api_request($endpoint, $this->HTTP_PUT, $payload);
     }
 
     /**
@@ -312,7 +312,7 @@ class API {
             "offset" => $offset
         );
 
-        return $this->api_request($endpoint, $this->$HTTP_GET, null, $params);
+        return $this->api_request($endpoint, $this->HTTP_GET, null, $params);
     }
 
     /**
@@ -328,7 +328,7 @@ class API {
             "email_address" => $email_address
         );
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -338,7 +338,7 @@ class API {
      */
     public function list_drip_campaigns(){
         $endpoint = "drip_campaigns";
-        return $this->api_request($endpoint, $this->$HTTP_GET);
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
 
     /**
@@ -350,7 +350,7 @@ class API {
     public function drip_campaign_details($drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id;
 
-        return $this->api_request($endpoint, $this->$HTTP_GET);
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
 
     /**
@@ -362,7 +362,7 @@ class API {
     public function list_drip_campaign_customers($drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/customers";
 
-        return $this->api_request($endpoint, $this->$HTTP_GET);
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
 
     /**
@@ -375,7 +375,7 @@ class API {
     public function list_drip_campaign_step_customers($drip_campaign_id, $drip_step_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/steps/" . $drip_step_id . "/customers";
 
-        return $this->api_request($endpoint, $this->$HTTP_GET);
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
     /**
      * Start on drip campaign
@@ -408,7 +408,7 @@ class API {
             $payload = array_merge($args, $payload);
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -425,7 +425,7 @@ class API {
             "recipient_address" => $recipient_address
         );
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -441,7 +441,7 @@ class API {
             "recipient_address" => $recipient_address
         );
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
@@ -470,7 +470,7 @@ class API {
             error_log(print_r($payload, true));
         }
 
-        return $this->api_request($endpoint, $this->$HTTP_POST, $payload);
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
     }
 
     /**
