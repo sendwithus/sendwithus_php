@@ -77,7 +77,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->enabled_drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk';
 
-        $this->enabled_drip_campaign_step_id = 'dcs_yaAMiZNWCLAEGw7GLjBuGY'; 
+        $this->enabled_drip_campaign_step_id = 'dcs_yaAMiZNWCLAEGw7GLjBuGY';
 
         $this->disabled_drip_campaign_id = 'dc_AjR6Ue9PHPFYmEu2gd8x5V';
 
@@ -144,17 +144,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         );
         $this->assertNotNull($r->created);
         print "Updated a template version";
-    }
-
-    public function testCreateEmailFail() {
-        $r = $this->api->create_email(
-            'test name',
-            'test subject',
-            $this->bad_html
-        );
-
-        $this->assertFail($r);
-        print 'Failed to create a bad email';
     }
 
     public function testSimpleSend() {
@@ -369,6 +358,20 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test delete customer';
     }
 
+    public function testCustomerConversion() {
+        $r = $this->api->customer_conversion($this->recipient['address']);
+        $this->assertSuccess($r);
+
+        print 'Test customer conversion';
+    }
+
+    public function testCustomerConversionRevenue() {
+        $r = $this->api->customer_conversion($this->recipient['address'], 1234);
+        $this->assertSuccess($r);
+
+        print 'Test customer conversion revenue';
+    }
+
     public function testSendSegment() {
         $r = $this->api->send_segment($this->EMAIL_ID, $this->SEGMENT_ID);
         $this->assertSuccess($r);
@@ -385,7 +388,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testListDripCampaignDetails(){
         $r = $this->api->drip_campaign_details($this->enabled_drip_campaign_id);
-        
+
         $this->assertEquals($r->name, 'TEST_CAMPAIGN');
 
         print 'Test list drip campaign details';
@@ -443,7 +446,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $r = $this->api->list_drip_campaign_step_customers($this->enabled_drip_campaign_id, $this->enabled_drip_campaign_step_id);
 
         $this->assertEquals($r->id, $this->enabled_drip_campaign_step_id);
-        
+
         print 'Test list customers on a drip campaign step';
     }
 
