@@ -314,6 +314,18 @@ class API {
 
         return $this->api_request($endpoint, $this->HTTP_GET, null, $params);
     }
+	
+    /**
+     * Get email details by log id
+     *
+     * @param type $email_id
+     * @return array API response object
+     */
+    public function log_id($log_id){
+        $endpoint = "logs/".$log_id;
+
+        return $this->api_request($endpoint, null, array(), "GET");
+    }	
 
     /**
      * Unsubscribe email address from active drips
@@ -501,7 +513,7 @@ class API {
         return $path;
     }
 
-    private function api_request($endpoint, $request = "POST", $payload = null, $params = null) {
+    protected function api_request($endpoint, $request = "POST", $payload = null, $params = null) {
         $path = $this->build_path($endpoint);
         $response = array();
 
