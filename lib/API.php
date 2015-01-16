@@ -321,7 +321,7 @@ class API {
      * @param type $email_id
      * @return array API response object
      */
-    public function log_id($log_id){
+    public function get_log($log_id){
         $endpoint = "logs/".$log_id;
 
         return $this->api_request($endpoint, null, array(), "GET");
