@@ -156,7 +156,7 @@ class API {
      * @return array API response object.
      */
     public function get_customer($email) {
-        $endpoint = "customers/{$email}";
+        $endpoint = "customers/" . $email;
 
         return $this->api_request($endpoint, $this->HTTP_GET);
     }
