@@ -338,6 +338,20 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test create customer';
     }
 
+    public function testGetCustomer() {
+        $r = $this->api->create_customer(
+            $this->recipient['address'],
+            array("data" => $this->data)
+        );
+        $this->assertSuccess($r);
+        $r = $this->api->get_customer(
+            $this->recipient['address']
+        );
+        $this->assertSuccess($r);
+
+        print 'Test get customer';
+    }
+
     public function testUpdateCustomer() {
         $r = $this->api->update_customer(
             $this->recipient['address'],

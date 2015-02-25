@@ -149,6 +149,19 @@ class API {
     }
 
     /**
+     * Get Customer
+     *
+     * @param string $email customer email
+     *
+     * @return array API response object.
+     */
+    public function get_customer($email) {
+        $endpoint = "customers/" . $email;
+
+        return $this->api_request($endpoint, $this->HTTP_GET);
+    }
+
+    /**
      * Create Customer
      *
      * @param string $email customer email
