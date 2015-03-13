@@ -321,7 +321,6 @@ start_on_drip_campaign(
 );
 
 // Args options
-'email_data'  // array of variables to merge into the template.
 'sender'      // array ("address", "name", "reply_to") of sender.
 'cc'          // array of ("address", "name") for carbon copy.
 'bcc'         // array of ("address", "name") for blind carbon copy.
