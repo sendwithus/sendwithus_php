@@ -253,7 +253,37 @@ send_segment(
 Example
 
 ```php
-$response = $api->send_segment('us@sendwithus.com', 'segment_1234');
+$response = $api->send_segment(tem_123jeDI23, 'seg_0biVV4Ncf1234');
+```
+
+## Get an Email Log
+```php
+get_log(
+    $log_id          // id of log to retrieve
+)
+```
+
+Example
+
+```php
+$response = api->get_log('log_d4R7hV4d0r')
+```
+
+Response
+
+```php
+(
+    [email_id] => tem_1jeid84bg
+    [recipient_name] =>
+    [message] => Mandrill: Message has been successfully delivered to the receiving server.
+    [id] => log_d4R7hV4d0r
+    [object] => log
+    [created] => 1409287597
+    [email_name] => test
+    [recipient_address] => person@example.com
+    [status] => sent
+    [email_version] => Original Version
+)
 ```
 
 ## Drip Unsubscribe

@@ -329,6 +329,18 @@ class API {
     }
 
     /**
+     * Get Specific Email Log
+     *
+     * @param string $log_id the log getting retrieved
+     * @return array API response object
+     */
+    public function get_log($log_id) {
+        $endpoint = "logs/" . $log_id;
+
+        return $this->api_request($endpoint, $this->HTTP_GET);
+    }
+
+    /**
      * Unsubscribe email address from active drips
      *
      * @param string $email_address the email to unsubscribe from active drips
