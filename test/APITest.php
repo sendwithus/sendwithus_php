@@ -82,6 +82,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->disabled_drip_campaign_id = 'dc_AjR6Ue9PHPFYmEu2gd8x5V';
 
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
+
+        $this->log_id = '130be975-dc07-4071-9333-58530e5df052-i03a5q';
     }
 
     function tearDown() {
@@ -110,6 +112,12 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $r = $this->api->logs();
         $this->assertNotNull($r);
         print 'Got logs';
+    }
+
+    public function testGetSingleLog() {
+        $r = $this->api->get_log($this->log_id);
+        $this->assertNotNull($r);
+        print 'Getting a log';
     }
 
     public function testCreateEmailSuccess() {
