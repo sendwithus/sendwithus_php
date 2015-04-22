@@ -394,6 +394,13 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test customer conversion revenue';
     }
 
+    public function testGetSegments() {
+        $r = $this->api->get_segments($this->EMAIL_ID, $this->SEGMENT_ID);
+        $this->assertNotNull($r);
+
+        print 'Test get segments';
+    }
+
     public function testSendSegment() {
         $r = $this->api->send_segment($this->EMAIL_ID, $this->SEGMENT_ID);
         $this->assertSuccess($r);

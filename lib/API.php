@@ -129,6 +129,15 @@ class API {
     }
 
     /**
+     * Get Segments
+     */
+    public function get_segments() {
+        $endpoint = 'segments';
+
+        return $this->api_request($endpoint, $this->HTTP_GET);
+    }
+
+    /**
      * Send to a Segment
      *
      * @param string $email_id template id
