@@ -84,6 +84,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
 
         $this->log_id = '130be975-dc07-4071-9333-58530e5df052-i03a5q';
+
+        $this->group_id = 'grp_jRAn4ttdmDV7Bk5z42pgHn';
     }
 
     function tearDown() {
@@ -378,6 +380,27 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertSuccess($r);
 
         print 'Test delete customer';
+    }
+
+    public function testAddCustomerToGroup() {
+        $r = $this->api->add_customer_to_group('person@example.com', $this->group_id);
+        $this->assertSuccess($r);
+
+        print 'Test add to group';
+    }
+
+    public function testRemoveCustomerFromGroup() {
+        $r = $this->api->add_customer_to_group('person@example.com', $this->group_id);
+        $this->assertSuccess($r);
+
+        print 'Test remove from group';
+    }
+
+    public function testListGroups() {
+        $r = $this->api->list_groups();
+        $this->assertSuccess($r);
+
+        print 'Test list groups';
     }
 
     public function testCustomerConversion() {

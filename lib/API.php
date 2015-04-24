@@ -22,7 +22,7 @@ class API {
     private $API_VERSION = '1';
     private $API_HEADER_KEY = 'X-SWU-API-KEY';
     private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.3.1";
+    private $API_CLIENT_VERSION = "2.4.0";
     private $API_CLIENT_STUB = "php-%s";
 
     private $DEBUG = false;
@@ -217,6 +217,45 @@ class API {
         $payload = array("revenue" => $revenue);
 
         return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+    }
+
+    /**
+     * Add Customer to a Group
+     *
+     * @param string $email customer email
+     * @param string $group_id ID of group
+     *
+     * @return array API response object
+     */
+    public function add_customer_to_group($email, $group_id) {
+        $endpoint = "customers/" . $email . "/groups/" . $group_id;
+
+        return $this->api_request($endpoint, $this->HTTP_POST);
+    }
+
+    /**
+     * Remove Customer from a Group
+     *
+     * @param string $email customer email
+     * @param string $group_id ID of group
+     *
+     * @return array API response object
+     */
+    public function remove_customer_from_group($email, $group_id) {
+        $endpoint = "customers/" . $email . "/groups/" . $group_id;
+
+        return $this->api_request($endpoint, $this->HTTP_POST);
+    }
+
+    /**
+     * Get all Customer Groups
+     *
+     * @return array API response object.
+     */
+    public function list_groups() {
+        $endpoint = "groups";
+
+        return $this->api_request($endpoint, $this->HTTP_GET);
     }
 
     /**
@@ -557,7 +596,6 @@ class API {
         }
         else {
             $httpheaders = array(
-                'Content-Type: application/json',
                 $this->API_HEADER_KEY . ": " . $this->API_KEY,
                 $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
                 );
