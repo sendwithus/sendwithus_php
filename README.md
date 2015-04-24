@@ -511,6 +511,41 @@ Example
 $response = $api->delete_customer('us@sendwithus.com');
 ```
 
+### Add Customer to Group
+Adds a customer to a specified group
+
+```php
+add_customer_to_group('curtis@sendwithus.com', 'grp_jk2jejidi3');
+```
+
+### Remove Customer From Group
+Removes a customer from a specified group
+
+```php
+remove_customer_from_group('curtis@sendwithus.com', 'grp_jk2jejidi3');
+```
+
+## Groups API
+
+### List Groups
+List all groups
+
+Example
+
+```php
+$response = $api->list_groups();
+
+print_r($response->groups[0]);
+
+/*
+(
+    [id] => grp_nEozfaiWwBHW4Fsmc
+    [description] => An example group
+    [name] => Group name
+)
+*/
+
+```
 
 ## Expected response
 
