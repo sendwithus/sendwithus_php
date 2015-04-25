@@ -471,6 +471,11 @@ stdClass Object
 create_customer(
     $email,             // string, email of customer
     $data,              // array, optional, data for customer
+    $args               // array, optional, optional parameters:
+
+    // The additional optional parameters are as follows:
+    //      'locale' - Default is null. String to specify a locale for this customer.
+    //      'groups' - Default is null. Array of group IDs
 )
 ```
 

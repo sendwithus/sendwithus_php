@@ -165,16 +165,25 @@ class API {
      * Create Customer
      *
      * @param string $email customer email
-     * @param array $data customer data to
+     * @param array $data (optional) customer data to
+     * @param array $args (optional) optional arguments
+     *
+     * The additional optional parameters are as follows:
+     *     'locale' - Default is null. String to specify a locale for this customer.
+     *     'groups' - Default is null. Array of group IDs
      *
      * @return array API response object.
      */
-    public function create_customer($email, $data=null) {
+    public function create_customer($email, $data=null, $args=null) {
         $endpoint = "customers";
         $payload = array("email" => $email);
 
         if (is_array($data)) {
             $payload['data'] = $data;
+        }
+
+        if (is_array($args)) {
+            $payload = array_merge($args, $payload);
         }
 
         return $this->api_request($endpoint, $this->HTTP_POST, $payload);
