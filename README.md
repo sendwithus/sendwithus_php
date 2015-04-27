@@ -241,7 +241,36 @@ $response = $api->send('email_id',
 );
 ```
 
-## Send to a Segment
+## Segments
+
+### Get segments
+```php
+get_segments()
+```
+
+Example
+
+```php
+$response = $api->get_segments();
+```
+
+Response
+
+```php
+Array
+(
+    [0] => stdClass Object
+        (
+            [created] => 1402378620
+            [id] => seg_0biVV4Ncf1234
+            [name] => TEST_SEGMENT
+            [object] => segment
+        )
+
+)
+```
+
+### Send to a Segment
 ```php
 send_segment(
     $email_id,          // id of template to send
