@@ -316,6 +316,18 @@ class API {
     }
 
     /**
+     * Delete Group
+     *
+     * @param string $group_id group id
+     *
+     * @return array API response object.
+     */
+    public function delete_group($group_id) {
+        $endpoint = "groups/" . $group_id;
+        return $this->api_request($endpoint, $this->HTTP_DELETE);
+    }
+
+    /**
      * Create an Email
      *
      * @param string $name name of the email template
