@@ -277,6 +277,23 @@ class API {
     }
 
     /**
+     * Create a Group
+     *
+     * @param string $name group name
+     * @param string $description (optional) group description
+     *
+     * @return array API response object.
+     */
+    public function create_group($name, $description='') {
+        $endpoint = "groups";
+        $payload = array("name" => $name);
+
+        $payload['description'] = $description;
+        
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+    }
+
+    /**
      * Create an Email
      *
      * @param string $name name of the email template
