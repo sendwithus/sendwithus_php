@@ -648,6 +648,20 @@ stdClass Object
 */
 ```
 
+### Delete Group
+```php
+delete_group(
+    $group_id,             // string, group_id of group
+)
+```
+
+Example
+
+```php
+$response = $api->delete_group('grp_ooEDQKetS2Yqs7FSGAdReB');
+```
+
+
 ## Expected response
 
 ### Success
