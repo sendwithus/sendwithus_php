@@ -581,6 +581,39 @@ print_r($response->groups[0]);
 
 ```
 
+### Create a Group
+```php
+create_group(
+    $name,             // string, name of group
+    $description,      // string, optional, description for group
+)
+```
+
+Example
+
+```php
+$response = $api->create_group('Group name',
+    'An example group'
+);
+
+print_r($response);
+
+/*
+stdClass Object
+(
+    [success] => 1
+    [group] => stdClass Object
+        (
+            [name] => Group name
+            [description] => An example group
+            [id] => grp_ooEDQKetS2Yqs7FSGAdReB
+        )
+
+    [status] => OK
+)
+*/
+```
+
 ## Expected response
 
 ### Success
