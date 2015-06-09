@@ -294,6 +294,28 @@ class API {
     }
 
     /**
+     * Update Group
+     * @param string $name name of the group
+     * @param string $group_id group id
+     * @param string $description (optional) group description
+     * @return array API response object
+     */
+    public function update_group($name,  $group_id, $description='') {
+        $endpoint = "groups/" . $group_id;
+
+        $payload = array(
+            "name" => $name,
+            "description" => $description
+        );
+
+        if ($this->DEBUG) {
+            error_log(sprintf("updating customer group\n ID:%s", $group_id));
+        }
+
+        return $this->api_request($endpoint, $this->HTTP_PUT, $payload);
+    }
+
+    /**
      * Create an Email
      *
      * @param string $name name of the email template
