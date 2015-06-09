@@ -277,6 +277,57 @@ class API {
     }
 
     /**
+     * Create a Group
+     *
+     * @param string $name group name
+     * @param string $description (optional) group description
+     *
+     * @return array API response object.
+     */
+    public function create_group($name, $description='') {
+        $endpoint = "groups";
+        $payload = array("name" => $name);
+
+        $payload['description'] = $description;
+        
+        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+    }
+
+    /**
+     * Update Group
+     * @param string $name name of the group
+     * @param string $group_id group id
+     * @param string $description (optional) group description
+     * @return array API response object
+     */
+    public function update_group($name,  $group_id, $description='') {
+        $endpoint = "groups/" . $group_id;
+
+        $payload = array(
+            "name" => $name,
+            "description" => $description
+        );
+
+        if ($this->DEBUG) {
+            error_log(sprintf("updating customer group\n ID:%s", $group_id));
+        }
+
+        return $this->api_request($endpoint, $this->HTTP_PUT, $payload);
+    }
+
+    /**
+     * Delete Group
+     *
+     * @param string $group_id group id
+     *
+     * @return array API response object.
+     */
+    public function delete_group($group_id) {
+        $endpoint = "groups/" . $group_id;
+        return $this->api_request($endpoint, $this->HTTP_DELETE);
+    }
+
+    /**
      * Create an Email
      *
      * @param string $name name of the email template
