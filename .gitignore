@@ -5,6 +5,8 @@ app/tmp/*
 app/[Cc]onfig/core.php
 app/[Cc]onfig/database.php
 !empty
-
+.DS_Store
+lib/.DS_Store
+test/.DS_Store
 *.swo
 *.swp
