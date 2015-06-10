@@ -86,7 +86,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->log_id = '130be975-dc07-4071-9333-58530e5df052-i03a5q';
 
-        $this->group_id = 'grp_jRAn4ttdmDV7Bk5z42pgHn';
+        $this->group_id = 'grp_NrSQ5sJdCGpBRLkqiTGVN4';
 
         $this->api->create_customer(
             $this->recipient['address'],
