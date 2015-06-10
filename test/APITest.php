@@ -549,7 +549,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     public function testCreateGroup(){
         $r = $this->api->create_group($this->group_name, $this->group_description);
         $this->assertSuccess($r);
-        
+
         print 'Test creating a group';
     }
 
@@ -585,7 +585,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testDeleteBadGroup(){
         $r = $this->api->delete_group($this->bad_group_id);
-
         $this->assertFail($r);
 
         print 'Test deleting an already deleted group';
