@@ -132,7 +132,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         }
         return null;
     }
-    /*
+    
     public function testGetEmails() {
         $r = $this->api->emails();
         $this->assertNotNull($r);
@@ -544,17 +544,19 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertEquals($r->name, 'TEST_CAMPAIGN');
         print 'Test list drip campaign steps';
     }
-    */
+    
 
     public function testCreateGroup(){
         $r = $this->api->create_group($this->group_name, $this->group_description);
         $this->assertSuccess($r);
+        
         print 'Test creating a group';
     }
 
     public function testCreateGroupAgain(){
         $r = $this->api->create_group($this->group_name, $this->group_description);
         $this->assertFail($r);
+
         print 'Test creating the same group a second time';
     }
     
@@ -562,12 +564,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $id = $this->getGroupId($this->group_name);
         $r = $this->api->update_group($this->group_name, $id, $this->group_update_description);
         $this->assertSuccess($r);
+
         print 'Test update group name';
     }
 
     public function testUpdateBadGroup(){
         $r = $this->api->update_group($this->group_name, $this->bad_group_id, $this->group_update_description);
         $this->assertFail($r);
+
         print 'Test update non-existant group';
     }
 
@@ -575,12 +579,15 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $id = $this->getGroupId($this->group_name);
         $r = $this->api->delete_group($id);
         $this->assertSuccess($r);
+
         print 'Test deleting a group';
     }
 
     public function testDeleteBadGroup(){
         $r = $this->api->delete_group($this->bad_group_id);
+
         $this->assertFail($r);
+
         print 'Test deleting an already deleted group';
     }
 
