@@ -24,6 +24,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     private $cc = null;
     private $bcc = null;
 
+
     function setUp() {
 
         $this->options = array(
@@ -85,12 +86,20 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->log_id = '130be975-dc07-4071-9333-58530e5df052-i03a5q';
 
-        $this->group_id = 'grp_jRAn4ttdmDV7Bk5z42pgHn';
+        $this->group_id = 'grp_NrSQ5sJdCGpBRLkqiTGVN4';
 
         $this->api->create_customer(
             $this->recipient['address'],
             array("data" => $this->data)
         );
+
+        $this->group_name = 'test_group';
+
+        $this->group_description = 'test';
+
+        $this->group_update_description = 'testtest';
+
+        $this->bad_group_id = 'notanid';
     }
 
     function tearDown() {
@@ -112,6 +121,18 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->exception);
     }
 
+    private function getGroupId($name){
+        $r = $this->api->list_groups();
+        $data = $r->groups;
+        foreach ($data as $group){
+            if ($group->name == $name){
+              return $group->id;  
+            }
+            
+        }
+        return null;
+    }
+    
     public function testGetEmails() {
         $r = $this->api->emails();
         $this->assertNotNull($r);
@@ -523,7 +544,51 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertEquals($r->name, 'TEST_CAMPAIGN');
         print 'Test list drip campaign steps';
     }
+    
 
+    public function testCreateGroup(){
+        $r = $this->api->create_group($this->group_name, $this->group_description);
+        $this->assertSuccess($r);
+
+        print 'Test creating a group';
+    }
+
+    public function testCreateGroupAgain(){
+        $r = $this->api->create_group($this->group_name, $this->group_description);
+        $this->assertFail($r);
+
+        print 'Test creating the same group a second time';
+    }
+    
+    public function testUpdateGroup(){
+        $id = $this->getGroupId($this->group_name);
+        $r = $this->api->update_group($this->group_name, $id, $this->group_update_description);
+        $this->assertSuccess($r);
+
+        print 'Test update group name';
+    }
+
+    public function testUpdateBadGroup(){
+        $r = $this->api->update_group($this->group_name, $this->bad_group_id, $this->group_update_description);
+        $this->assertFail($r);
+
+        print 'Test update non-existant group';
+    }
+
+    public function testDeleteGroup(){
+        $id = $this->getGroupId($this->group_name);
+        $r = $this->api->delete_group($id);
+        $this->assertSuccess($r);
+
+        print 'Test deleting a group';
+    }
+
+    public function testDeleteBadGroup(){
+        $r = $this->api->delete_group($this->bad_group_id);
+        $this->assertFail($r);
+
+        print 'Test deleting an already deleted group';
+    }
 
 }
 

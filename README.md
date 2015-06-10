@@ -581,6 +581,87 @@ print_r($response->groups[0]);
 
 ```
 
+### Create a Group
+```php
+create_group(
+    $name,             // string, name of group
+    $description,      // string, optional, description for group
+)
+```
+
+Example
+
+```php
+$response = $api->create_group('Group name',
+    'An example group'
+);
+
+print_r($response);
+
+/*
+stdClass Object
+(
+    [success] => 1
+    [group] => stdClass Object
+        (
+            [name] => Group name
+            [description] => An example group
+            [id] => grp_ooEDQKetS2Yqs7FSGAdReB
+        )
+
+    [status] => OK
+)
+*/
+```
+
+### Update a Group
+```php
+update_group(
+    $name,             // string, name of group
+    $group_id          // string id of group
+    $description,      // string, optional, description for group
+)
+```
+
+Example
+
+```php
+$response = $api->update_group('Updated Group name',
+    'An example group updated description'
+);
+
+print_r($response);
+
+/*
+stdClass Object
+(
+    [success] => 1
+    [group] => stdClass Object
+        (
+            [name] => Updated Group name
+            [description] => An example group updated description
+            [id] => grp_ooEDQKetS2Yqs7FSGAdReB
+        )
+
+    [status] => OK
+)
+*/
+```
+
+### Delete Group
+```php
+delete_group(
+    $group_id,             // string, group_id of group
+)
+```
+
+Example
+
+```php
+$response = $api->delete_group('grp_ooEDQKetS2Yqs7FSGAdReB');
+```
+
+
 ## Expected response
 
 ### Success
