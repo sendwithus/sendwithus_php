@@ -686,6 +686,38 @@ print $response->code;
 // 403 (bad api key)
 ```
 
+### List Customer Logs
+List all customer logs
+
+Example
+
+```php
+$response = api->get_customer_logs("email@email.com");
+
+print_r($response);
+
+/*
+(
+    [success] => 1
+    [logs] => Array
+        (
+        [email_name] => Name of email
+        [message] => Message body
+        [recipient_name] => Recipient name
+        [email_version] => Name of email version
+        [object] => log
+        [email_id] => ID of email
+        [created] => Time stamp
+        [recipient_address] => Email address of recipient
+        [status] => Status of email
+        [id] => ID of log
+        )
+    [status] => OK
+)
+*/
+
+```
+
 ## Tests
 
 ### Running Unit Tests
