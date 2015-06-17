@@ -594,13 +594,11 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test deleting an already deleted group';
     } 
     
-
     public function testGetCustomerLogs(){
         $logs = $this->api->get_customer_logs($this->log_address);
         $this->assertEquals(false, empty($logs->logs));
 
         print 'Test retrieving real customer logs';
-
     }
 
     public function testGetBadCustomerLogs(){
