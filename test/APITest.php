@@ -37,6 +37,10 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->bad_html = '<html><hed><body></body</html>';
 
+        $this->bad_email = 'flerp@asuih';
+
+        $this->log_address = 'person@example.com';
+
         $this->recipient = array(
             'name' => 'Unit Tests - PHP Client',
             'address' => 'swunit+phpclient@sendwithus.com');
@@ -184,7 +188,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->created);
         print "Updated a template version";
     }
-
+    
     public function testSimpleSend() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -295,7 +299,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with file attachments';
         }
-
+    
     public function testSendWithTags() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -588,6 +592,20 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertFail($r);
 
         print 'Test deleting an already deleted group';
+    } 
+    
+    public function testGetCustomerLogs(){
+        $logs = $this->api->get_customer_logs($this->log_address);
+        $this->assertEquals(false, empty($logs->logs));
+
+        print 'Test retrieving real customer logs';
+    }
+
+    public function testGetBadCustomerLogs(){
+        $logs = $this->api->get_customer_logs($this->bad_email);
+        $this->assertEquals(True, empty($logs->logs));
+
+        print 'Test retrieving non-existant customer logs';
     }
 
 }
