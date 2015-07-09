@@ -149,7 +149,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Got logs';
     }
 
-    public function testGetLogsAdv() {
+    public function testGetLogsWithTimestamp() {
         $r = $this->api->logs($created_lt=time());
         $this->assertNotNull($r);
         print 'Got time stamped logs';
