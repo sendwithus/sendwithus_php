@@ -149,6 +149,12 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Got logs';
     }
 
+    public function testGetLogsAdv() {
+        $r = $this->api->logs($created_lt=time());
+        $this->assertNotNull($r);
+        print 'Got time stamped logs';
+    }
+
     public function testGetSingleLog() {
         $r = $this->api->get_log($this->log_id);
         $this->assertNotNull($r);
@@ -608,6 +614,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test retrieving non-existant customer logs';
     }
 
-}
 
+}
 ?>

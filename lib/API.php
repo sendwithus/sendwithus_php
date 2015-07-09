@@ -436,15 +436,32 @@ class API {
      *
      * @param string $count (optional) the number of logs to return. Max: 100
      * @param array $offset (optional) offset the number of logs to return
+     * @param int created_gt (optional) return logs created strictly after the given UTC timestamp
+     * @param int created_gte (optional) return logs created on or after the given UTC timestamp
+     * @param created_lt (optional) return logs created strictly before the given UTC timestamp
+     * @param created_lte (optional) return logs created on or before the given UTC timestamp
      * @return array API response object
      */
-    public function logs($count = 100, $offset = 0) {
+    public function logs($count = 100, $offset = 0, $created_gt = null, $created_gte = null, $created_lt = null, $created_lte = null) {
         $endpoint = "logs";
 
         $params = array(
             "count" => $count,
             "offset" => $offset
         );
+
+        if (!is_null($created_gt)) {
+            $params['created_gt'] = $created_gt;
+        }
+        if (!is_null($created_gte)) {
+            $params['created_gte'] = $created_gte;
+        }
+        if (!is_null($created_lt)) {
+            $params['created_lt'] = $created_lt;
+        }
+        if (!is_null($created_lte)) {
+            $params['created_lte'] = $created_lte;
+        }
 
         return $this->api_request($endpoint, $this->HTTP_GET, null, $params);
     }
