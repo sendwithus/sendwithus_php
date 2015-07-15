@@ -130,13 +130,13 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $data = $r->groups;
         foreach ($data as $group){
             if ($group->name == $name){
-              return $group->id;  
+              return $group->id;
             }
-            
+
         }
         return null;
     }
-    
+
     public function testGetEmails() {
         $r = $this->api->emails();
         $this->assertNotNull($r);
@@ -194,7 +194,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->created);
         print "Updated a template version";
     }
-    
+
     public function testSimpleSend() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -305,7 +305,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with file attachments';
         }
-    
+
     public function testSendWithTags() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -554,7 +554,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertEquals($r->name, 'TEST_CAMPAIGN');
         print 'Test list drip campaign steps';
     }
-    
 
     public function testCreateGroup(){
         $r = $this->api->create_group($this->group_name, $this->group_description);
@@ -569,7 +568,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         print 'Test creating the same group a second time';
     }
-    
+
     public function testUpdateGroup(){
         $id = $this->getGroupId($this->group_name);
         $r = $this->api->update_group($this->group_name, $id, $this->group_update_description);
@@ -598,8 +597,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertFail($r);
 
         print 'Test deleting an already deleted group';
-    } 
-    
+    }
+
     public function testGetCustomerLogs(){
         $logs = $this->api->get_customer_logs($this->log_address);
         $this->assertEquals(false, empty($logs->logs));
