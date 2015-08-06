@@ -608,6 +608,24 @@ class API {
     }
 
     /**
+     * Start Batch API transaction
+     *
+     * @return BatchAPI object
+     */
+    public function start_batch() {
+        return new BatchAPI(
+            $this->API_KEY,
+            array(
+                'API_HOST' => $this->API_HOST,
+                'API_PROTO' => $this->API_PROTO,
+                'API_PORT' => $this->API_PORT,
+                'API_VERSION' => $this->API_VERSION,
+                'DEBUG' => $this->DEBUG,
+            )
+        );
+    }
+
+    /**
      * Render an email template with the provided data
      *
      * The additional optional parameters are as follows:
@@ -653,14 +671,15 @@ class API {
       return base64_encode($file_data);
     }
 
-    protected function build_path($endpoint) {
-        $path = sprintf("%s://%s:%s/api/v%s/%s",
-            $this->API_PROTO,
-            $this->API_HOST,
-            $this->API_PORT,
-            $this->API_VERSION,
-            $endpoint);
-
+    protected function build_path($endpoint, $absolute = True) {
+        $path = sprintf("/api/v%s/%s", $this->API_VERSION, $endpoint);
+        if ($absolute) {
+            $path = sprintf("%s://%s:%s%s",
+                $this->API_PROTO,
+                $this->API_HOST,
+                $this->API_PORT,
+                $path);
+        }
         return $path;
     }
 
@@ -738,6 +757,106 @@ class API {
         curl_close($ch);
 
         return $response;
+    }
+}
+
+
+class BatchAPI extends API {
+    private $commands;
+
+    public function __construct($api_key, $options = array()) {
+        parent::__construct($api_key, $options);
+        $this->commands = array();
+    }
+
+    protected function api_request($endpoint, $request = "POST", $payload = null, $params = null) {
+        $path = $this->build_path($endpoint, $absolute = false);
+
+        if ($params) {
+            $path = $path . '?' . http_build_query($params);
+        }
+
+        $command = array(
+            'path' => $path,
+            'method' => $request
+        );
+
+        // set payload
+        if ($payload) {
+            $command['body'] = $payload;
+        }
+
+        $this->commands[] = $command;
+    }
+
+    /**
+     * Execute all currently queued commands
+     *
+     * @return array BatchAPI response object.
+     */
+    public function execute() {
+        $endpoint = "batch";
+        $path = $this->build_path($endpoint);
+
+        $ch = curl_init($path);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, self::HTTP_POST);
+
+        // set payload
+        $payload_string = json_encode($this->commands);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload_string);
+
+        // set headers
+        $httpheaders = array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload_string),
+            $this->API_HEADER_KEY . ": " . $this->API_KEY,
+            $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
+        );
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/data/ca-certificates.pem');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpheaders);
+
+        if ($this->DEBUG) {
+            // enable curl verbose output to STDERR
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+
+            error_log(sprintf("payload: %s\r\n", $payload_string));
+            error_log(sprintf("path: %s\r\n", $path));
+        }
+
+        try {
+            $result = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $response = json_decode( $result );
+
+            if ($code != 200) {
+                throw new API_Error("Request was not successful", $code, $result, $response);
+            }
+        } catch (API_Error $e) {
+            if ($this->DEBUG) {
+                error_log(sprintf("Caught exception: %s\r\n", $e->getMessage()));
+                error_log(print_r($e, true));
+            }
+
+            $response = (object) array(
+                'code' => $code,
+                'status' => "error",
+                'success' => false,
+                'exception' => $e
+            );
+        }
+
+        curl_close($ch);
+        $this->commands = array();
+
+        return $response;
+    }
+
+    public function command_length() {
+        return count($this->commands);
     }
 }
 
