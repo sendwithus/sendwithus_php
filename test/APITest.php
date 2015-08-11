@@ -614,6 +614,45 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test retrieving non-existant customer logs';
     }
 
+    public function testBatchCreateCustomer() {
+       $batch_api_one = $this->api->start_batch();
+       $batch_api_two = $this->api->start_batch();
+
+       $data = array('segment' => 'Batch Updated Customer');
+       for($i = 0; $i < 10; $i++) {
+           $batch_api_one->create_customer(sprintf('test+php+%s@sendwithus.com', $i), $data);
+           $this->assertEquals($batch_api_one->command_length(), $i + 1);
+
+           if ($i % 2 == 0) {
+               $batch_api_two->create_customer(sprintf('test+php+%s+again@sendwithus.com', $i), $data);
+               $this->assertEquals($batch_api_two->command_length(), ($i/2) + 1);
+           }
+       }
+
+       // Run batch 1
+       $result = $batch_api_one->execute();
+       $this->assertEquals(count($result), 10);
+       foreach($result as $response) {
+           $this->assertEquals($response->status_code, 200);
+       }
+
+       // Batch one should be empty, batch two still full
+       $this->assertEquals($batch_api_one->command_length(), 0);
+       $this->assertEquals($batch_api_two->command_length(), 5);
+       
+       // Run batch 2
+       $result = $batch_api_two->execute();
+       $this->assertEquals(count($result), 5);
+       foreach($result as $response) {
+           $this->assertEquals($response->status_code, 200);
+       }
+       
+       // Batch one should be empty, batch two still full
+       $this->assertEquals($batch_api_one->command_length(), 0);
+       $this->assertEquals($batch_api_two->command_length(), 0);
+       
+       print 'Test creating customers in batch';
+    }
 
 }
 ?>

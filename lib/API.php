@@ -10,22 +10,22 @@ require 'Error.php';
  */
 
 class API {
-    private $HTTP_POST = 'POST';
-    private $HTTP_GET = 'GET';
-    private $HTTP_PUT = 'PUT';
-    private $HTTP_DELETE = 'DELETE';
+    const HTTP_POST = 'POST';
+    const HTTP_GET = 'GET';
+    const HTTP_PUT = 'PUT';
+    const HTTP_DELETE = 'DELETE';
 
-    private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
-    private $API_HOST = 'api.sendwithus.com';
-    private $API_PORT = '443';
-    private $API_PROTO = 'https';
-    private $API_VERSION = '1';
-    private $API_HEADER_KEY = 'X-SWU-API-KEY';
-    private $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    private $API_CLIENT_VERSION = "2.7.0";
-    private $API_CLIENT_STUB = "php-%s";
+    protected $API_KEY = 'THIS_IS_A_TEST_API_KEY';
+    protected $API_HOST = 'api.sendwithus.com';
+    protected $API_PORT = '443';
+    protected $API_PROTO = 'https';
+    protected $API_VERSION = '1';
+    protected $API_HEADER_KEY = 'X-SWU-API-KEY';
+    protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
+    protected $API_CLIENT_VERSION = "2.7.0";
+    protected $API_CLIENT_STUB = "php-%s";
 
-    private $DEBUG = false;
+    protected $DEBUG = false;
 
     public function __construct($api_key, $options = array()) {
         $this->API_KEY = $api_key;
@@ -97,7 +97,7 @@ class API {
             error_log(print_r($payload, true));
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -107,7 +107,7 @@ class API {
      */
     public function emails() {
         $endpoint = "templates";
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -125,7 +125,7 @@ class API {
             $endpoint .= "/versions/" . $version_id;
         }
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -134,7 +134,7 @@ class API {
     public function get_segments() {
         $endpoint = 'segments';
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -154,7 +154,7 @@ class API {
             $payload['email_data'] = $data;
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -167,9 +167,9 @@ class API {
     public function get_customer($email) {
         $endpoint = "customers/" . $email;
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
-	
+
 	/**
 	 * Get Customer Logs
 	 *
@@ -180,7 +180,7 @@ class API {
 	public function get_customer_logs( $email ) {
 		$endpoint = "customers/" . $email . "/logs";
 
-		return $this->api_request( $endpoint, $this->HTTP_GET );
+		return $this->api_request( $endpoint, self::HTTP_GET );
 	}
 
     /**
@@ -208,7 +208,7 @@ class API {
             $payload = array_merge($args, $payload);
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -232,7 +232,7 @@ class API {
      */
     public function delete_customer($email) {
         $endpoint = "customers/" . $email;
-        return $this->api_request($endpoint, $this->HTTP_DELETE);
+        return $this->api_request($endpoint, self::HTTP_DELETE);
     }
 
     /**
@@ -247,7 +247,7 @@ class API {
         $endpoint = "customers/" . $email . "/conversions";
         $payload = array("revenue" => $revenue);
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -261,7 +261,7 @@ class API {
     public function add_customer_to_group($email, $group_id) {
         $endpoint = "customers/" . $email . "/groups/" . $group_id;
 
-        return $this->api_request($endpoint, $this->HTTP_POST);
+        return $this->api_request($endpoint, self::HTTP_POST);
     }
 
     /**
@@ -275,7 +275,7 @@ class API {
     public function remove_customer_from_group($email, $group_id) {
         $endpoint = "customers/" . $email . "/groups/" . $group_id;
 
-        return $this->api_request($endpoint, $this->HTTP_POST);
+        return $this->api_request($endpoint, self::HTTP_POST);
     }
 
     /**
@@ -286,7 +286,7 @@ class API {
     public function list_groups() {
         $endpoint = "groups";
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -302,8 +302,8 @@ class API {
         $payload = array("name" => $name);
 
         $payload['description'] = $description;
-        
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -325,7 +325,7 @@ class API {
             error_log(sprintf("updating customer group\n ID:%s", $group_id));
         }
 
-        return $this->api_request($endpoint, $this->HTTP_PUT, $payload);
+        return $this->api_request($endpoint, self::HTTP_PUT, $payload);
     }
 
     /**
@@ -337,7 +337,7 @@ class API {
      */
     public function delete_group($group_id) {
         $endpoint = "groups/" . $group_id;
-        return $this->api_request($endpoint, $this->HTTP_DELETE);
+        return $this->api_request($endpoint, self::HTTP_DELETE);
     }
 
     /**
@@ -367,7 +367,7 @@ class API {
             error_log(sprintf("creating email with name %s and subject %s\n", $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -397,7 +397,7 @@ class API {
             error_log(sprintf("creating a new template version with name %s and subject %s\n", $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -428,7 +428,7 @@ class API {
             error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
         }
 
-        return $this->api_request($endpoint, $this->HTTP_PUT, $payload);
+        return $this->api_request($endpoint, self::HTTP_PUT, $payload);
     }
 
     /**
@@ -463,7 +463,7 @@ class API {
             $params['created_lte'] = $created_lte;
         }
 
-        return $this->api_request($endpoint, $this->HTTP_GET, null, $params);
+        return $this->api_request($endpoint, self::HTTP_GET, null, $params);
     }
 
     /**
@@ -475,7 +475,7 @@ class API {
     public function get_log($log_id) {
         $endpoint = "logs/" . $log_id;
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -491,7 +491,7 @@ class API {
             "email_address" => $email_address
         );
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -501,7 +501,7 @@ class API {
      */
     public function list_drip_campaigns(){
         $endpoint = "drip_campaigns";
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -513,7 +513,7 @@ class API {
     public function drip_campaign_details($drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id;
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -525,7 +525,7 @@ class API {
     public function list_drip_campaign_customers($drip_campaign_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/customers";
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
 
     /**
@@ -538,7 +538,7 @@ class API {
     public function list_drip_campaign_step_customers($drip_campaign_id, $drip_step_id){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/steps/" . $drip_step_id . "/customers";
 
-        return $this->api_request($endpoint, $this->HTTP_GET);
+        return $this->api_request($endpoint, self::HTTP_GET);
     }
     /**
      * Start on drip campaign
@@ -571,7 +571,7 @@ class API {
             $payload = array_merge($args, $payload);
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -588,7 +588,7 @@ class API {
             "recipient_address" => $recipient_address
         );
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -604,7 +604,25 @@ class API {
             "recipient_address" => $recipient_address
         );
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
+    }
+
+    /**
+     * Start Batch API transaction
+     *
+     * @return BatchAPI object
+     */
+    public function start_batch() {
+        return new BatchAPI(
+            $this->API_KEY,
+            array(
+                'API_HOST' => $this->API_HOST,
+                'API_PROTO' => $this->API_PROTO,
+                'API_PORT' => $this->API_PORT,
+                'API_VERSION' => $this->API_VERSION,
+                'DEBUG' => $this->DEBUG,
+            )
+        );
     }
 
     /**
@@ -633,7 +651,7 @@ class API {
             error_log(print_r($payload, true));
         }
 
-        return $this->api_request($endpoint, $this->HTTP_POST, $payload);
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
@@ -642,7 +660,7 @@ class API {
      * @param string $path Local path of the file to encode
      * @return string/false the encoded file data or false on failure
      */
-    private function encode_attachment($path) {
+    protected function encode_attachment($path) {
       if (!is_string($path)) {
           $e = sprintf("inline parameter must be path to file as string, received: %s", gettype($path));
           throw new API_Error($e);
@@ -653,18 +671,19 @@ class API {
       return base64_encode($file_data);
     }
 
-    private function build_path($endpoint) {
-        $path = sprintf("%s://%s:%s/api/v%s/%s",
-            $this->API_PROTO,
-            $this->API_HOST,
-            $this->API_PORT,
-            $this->API_VERSION,
-            $endpoint);
-
+    protected function build_path($endpoint, $absolute = True) {
+        $path = sprintf("/api/v%s/%s", $this->API_VERSION, $endpoint);
+        if ($absolute) {
+            $path = sprintf("%s://%s:%s%s",
+                $this->API_PROTO,
+                $this->API_HOST,
+                $this->API_PORT,
+                $path);
+        }
         return $path;
     }
 
-    private function api_request($endpoint, $request = "POST", $payload = null, $params = null) {
+    protected function api_request($endpoint, $request = "POST", $payload = null, $params = null) {
         $path = $this->build_path($endpoint);
         $response = array();
 
@@ -738,6 +757,106 @@ class API {
         curl_close($ch);
 
         return $response;
+    }
+}
+
+
+class BatchAPI extends API {
+    private $commands;
+
+    public function __construct($api_key, $options = array()) {
+        parent::__construct($api_key, $options);
+        $this->commands = array();
+    }
+
+    protected function api_request($endpoint, $request = "POST", $payload = null, $params = null) {
+        $path = $this->build_path($endpoint, $absolute = false);
+
+        if ($params) {
+            $path = $path . '?' . http_build_query($params);
+        }
+
+        $command = array(
+            'path' => $path,
+            'method' => $request
+        );
+
+        // set payload
+        if ($payload) {
+            $command['body'] = $payload;
+        }
+
+        $this->commands[] = $command;
+    }
+
+    /**
+     * Execute all currently queued commands
+     *
+     * @return array BatchAPI response object.
+     */
+    public function execute() {
+        $endpoint = "batch";
+        $path = $this->build_path($endpoint);
+
+        $ch = curl_init($path);
+
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, self::HTTP_POST);
+
+        // set payload
+        $payload_string = json_encode($this->commands);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload_string);
+
+        // set headers
+        $httpheaders = array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload_string),
+            $this->API_HEADER_KEY . ": " . $this->API_KEY,
+            $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
+        );
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/data/ca-certificates.pem');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpheaders);
+
+        if ($this->DEBUG) {
+            // enable curl verbose output to STDERR
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+
+            error_log(sprintf("payload: %s\r\n", $payload_string));
+            error_log(sprintf("path: %s\r\n", $path));
+        }
+
+        try {
+            $result = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $response = json_decode( $result );
+
+            if ($code != 200) {
+                throw new API_Error("Request was not successful", $code, $result, $response);
+            }
+        } catch (API_Error $e) {
+            if ($this->DEBUG) {
+                error_log(sprintf("Caught exception: %s\r\n", $e->getMessage()));
+                error_log(print_r($e, true));
+            }
+
+            $response = (object) array(
+                'code' => $code,
+                'status' => "error",
+                'success' => false,
+                'exception' => $e
+            );
+        }
+
+        curl_close($ch);
+        $this->commands = array();
+
+        return $response;
+    }
+
+    public function command_length() {
+        return count($this->commands);
     }
 }
 
