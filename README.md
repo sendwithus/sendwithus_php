@@ -729,6 +729,27 @@ print_r($response);
 
 ```
 
+## Batch API
+Batch requests together to be run all at once.
+
+### Usage
+Create a batch_api object by calling `start_batch()`
+Do any request you would do normally with the API but on the batch_api object.
+Execute all commands at once by calling `execute()` on the object.
+
+### Example
+```php
+$batch_api = api->start_batch();
+for($i = 0; $i < 10; $i++) {
+    $batch_api->create_customer('us@sendwithus.com',
+        array('name' => 'Sendwithus'));
+}
+$result = $batch_api->execute();
+
+// $result will be an array of responses for each command executed.
+
+```
+
 ## Tests
 
 ### Running Unit Tests
@@ -738,4 +759,3 @@ Make sure to have phpunit installed (http://phpunit.de/) and run the following f
 ```php
 phpunit test
 ```
-
