@@ -732,6 +732,7 @@ class API {
             error_log(sprintf("path: %s\r\n", $path));
         }
 
+        $code = null;
         try {
             $result = curl_exec($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -787,6 +788,11 @@ class BatchAPI extends API {
         }
 
         $this->commands[] = $command;
+
+        return (object) array(
+            'status' => 'Batched',
+            'success' => true,
+        );
     }
 
     /**
@@ -827,6 +833,8 @@ class BatchAPI extends API {
             error_log(sprintf("path: %s\r\n", $path));
         }
 
+        $code = null;
+
         try {
             $result = curl_exec($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -853,6 +861,21 @@ class BatchAPI extends API {
         $this->commands = array();
 
         return $response;
+    }
+
+    /**
+     * Cancel any pending batched commands to be sent.
+     *
+     * @return object
+     */
+    public function cancel() {
+        $this->commands = array();
+        return (object) array(
+            'code' => 0,  // Use 0 because we didn't even talk to the server.
+            'status' => 'Canceled',
+            'success' => true,
+            'exception' => null
+        );
     }
 
     public function command_length() {

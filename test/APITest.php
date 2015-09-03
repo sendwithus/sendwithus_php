@@ -16,6 +16,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     private $options = null;
 
+    /** @var \sendwithus\API  */
     private $api = null;
     private $recipient = null;
     private $incompleteRecepient = null;
@@ -614,13 +615,29 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test retrieving non-existant customer logs';
     }
 
+    public function testBatchConstructor() {
+        $batch = new \sendwithus\BatchAPI($this->API_KEY, $this->options);
+        $this->assertNotEmpty($batch);
+    }
+
+    public function testBatchApiRequest() {
+        $batch = $this->api->start_batch();
+        $result = $batch->get_customer_logs($this->log_address);
+        $this->assertTrue($result->success);
+        $this->assertEquals('Batched', $result->status);
+        $result = $batch->execute();
+        $this->assertTrue(is_array($result));
+    }
+
     public function testBatchCreateCustomer() {
        $batch_api_one = $this->api->start_batch();
        $batch_api_two = $this->api->start_batch();
 
        $data = array('segment' => 'Batch Updated Customer');
        for($i = 0; $i < 10; $i++) {
-           $batch_api_one->create_customer(sprintf('test+php+%s@sendwithus.com', $i), $data);
+           $result = $batch_api_one->create_customer(sprintf('test+php+%s@sendwithus.com', $i), $data);
+           $this->assertTrue($result->success);
+           $this->assertEquals('Batched', $result->status);
            $this->assertEquals($batch_api_one->command_length(), $i + 1);
 
            if ($i % 2 == 0) {
@@ -652,6 +669,23 @@ class APITestCase extends PHPUnit_Framework_TestCase
        $this->assertEquals($batch_api_two->command_length(), 0);
        
        print 'Test creating customers in batch';
+    }
+
+    public function testBatchCancel() {
+        $batch_api = $this->api->start_batch();
+
+        $data = array('segment' => 'Batch Updated Customer');
+        for($i = 1; $i <= 10; $i++) {
+            $result = $batch_api->create_customer(sprintf('test+php+%s@sendwithus.com', $i), $data);
+            $this->assertTrue($result->success);
+            $this->assertEquals('Batched', $result->status);
+            $this->assertEquals($i, $batch_api->command_length());
+        }
+
+        $result = $batch_api->cancel();
+        $this->assertTrue($result->success);
+        $this->assertEquals('Canceled', $result->status);
+        $this->assertEquals(0, $batch_api->command_length());
     }
 
 }
