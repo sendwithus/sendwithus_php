@@ -786,14 +786,32 @@ Execute all commands at once by calling `execute()` on the object.
 ```php
 $batch_api = api->start_batch();
 for($i = 0; $i < 10; $i++) {
-    $batch_api->create_customer('us@sendwithus.com',
+    $result = $batch_api->create_customer('us@sendwithus.com',
         array('name' => 'Sendwithus'));
+    // $result->success == true && $result->status == 'Batched'
 }
 $result = $batch_api->execute();
 
 // $result will be an array of responses for each command executed.
 
 ```
+
+### Canceling Batch Request
+Sometimes it is necessary to cancel all the api requests that have been batched, but not yet sent.
+To do that, use `cancel()`:
+
+### Example
+```php
+$batch_api = api->start_batch();
+for($i = 0; $i < 10; $i++) {
+    $batch_api->create_customer('us@sendwithus.com',
+        array('name' => 'Sendwithus'));
+}
+$result = $batch_api->cancel();
+// $result->success == true && $result->status == 'Canceled'
+```
+
+Once you have canceled a batch, you can continue to use the batch to make more requests.
 
 ## Tests
 
