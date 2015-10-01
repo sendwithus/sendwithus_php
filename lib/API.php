@@ -479,6 +479,18 @@ class API {
     }
 
     /**
+     * Get Specific Email's Events
+     *
+     * @param string $log_id the log getting retrieved
+     * @return array API response object
+     */
+    public function get_events($log_id) {
+        $endpoint = "logs/" . $log_id . "/events";
+
+        return $this->api_request($endpoint, self::HTTP_GET);
+    }
+
+    /**
      * Unsubscribe email address from active drips
      *
      * @param string $email_address the email to unsubscribe from active drips
