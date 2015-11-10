@@ -504,6 +504,85 @@ stdClass Object
 
 ```
 
+## ESP Accounts API
+
+### Get ESP accounts
+```php
+// possible esp_type values are -
+// sendgrid
+// mailgun
+// mandrill
+// postmark
+// ses
+// mailjet
+// dyn
+// sparkpost
+// smtp
+
+get_esp_accounts(
+    $esp_type,      // string, optional, filter response to only return ESP accounts of a certain type
+    $count,         // integer, optional, the number of logs to return. Max: 100, Default: 100
+    $offset         // integer, optional, Offset the number of logs to return. Default: 0
+)
+```
+
+Example
+
+```php
+$response = $api->get_esp_accounts('mailgun');
+```
+
+### Create ESP account
+```php
+// possible esp_type values are -
+// sendgrid
+// mailgun
+// mandrill
+// postmark
+// ses
+// mailjet
+// dyn
+// sparkpost
+// smtp
+
+create_esp_account(
+    $name,          // string, the name of your account
+    $esp_type,      // string, Must be one of the options listed above
+    $credentials    // array, account credentials of the new esp account. See docs for formats
+)
+```
+
+Example
+
+```php
+// see the docs for formats
+// https://www.sendwithus.com/docs/api#email-service-providers
+
+$credentials = array(
+    'username' => 'mysendgridusername',
+    'password' => 'mysendgridpassword'
+);
+
+$response = $api->create_esp_account(
+    'My SendGrid Account',
+    'sendgrid',
+    $credentials
+);
+```
+
+### Set default ESP account
+```php
+set_default_esp_account(
+    '$esp_id'       // string, the ID of the ESP account
+)
+```
+
+Example
+
+```php
+$response = $api->set_default_esp_account('esp_asdf12rastrast');
+```
+
 ## Customers API
 
 ### Create Customer

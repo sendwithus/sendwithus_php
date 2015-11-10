@@ -620,6 +620,65 @@ class API {
     }
 
     /**
+     * Get ESP Accounts
+     *
+     * @param string (optional) $esp_type filter response to only return ESP accounts of a certain type
+     * @param string $count (optional) the number of accounts to return. Max: 100
+     * @param array $offset (optional) offset the number of accounts to return
+     * @return array API response object
+     */
+    public function get_esp_accounts($esp_type = null, $count = 100, $offset = 0) {
+        $endpoint = 'esp_accounts';
+
+        $params = array(
+            "count" => $count,
+            "offset" => $offset
+        );
+
+        if (!is_null($esp_type)) {
+            $params['esp_type'] = $esp_type;
+        }
+
+        return $this->api_request($endpoint, self::HTTP_GET, null, $params);
+    }
+
+    /**
+     * Create ESP Account
+     *
+     * @param string $name the name of the ESP account
+     * @param string $esp_type the type of ESP being created
+     * @param array $credentials an array of credentials for the ESP type
+     * @return array API response object
+     */
+    public function create_esp_account($name, $esp_type, $credentials) {
+        $endpoint = 'esp_accounts';
+
+        $payload = array(
+            "name" => $name,
+            "esp_type" => $esp_type,
+            "credentials" => $credentials
+        );
+
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
+    }
+
+    /**
+     * Set default ESP Account
+     *
+     * @param string $esp_id ID of the ESP Account
+     * @return array API response object
+     */
+    public function set_default_esp_account($esp_id) {
+        $endpoint = 'esp_accounts/set_default';
+
+        $payload = array(
+            "esp_id" => $esp_id
+        );
+
+        return $this->api_request($endpoint, self::HTTP_PUT, $payload);
+    }
+
+    /**
      * Start Batch API transaction
      *
      * @return BatchAPI object
