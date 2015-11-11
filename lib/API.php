@@ -623,17 +623,12 @@ class API {
      * Get ESP Accounts
      *
      * @param string (optional) $esp_type filter response to only return ESP accounts of a certain type
-     * @param string $count (optional) the number of accounts to return. Max: 100
-     * @param array $offset (optional) offset the number of accounts to return
      * @return array API response object
      */
-    public function get_esp_accounts($esp_type = null, $count = 100, $offset = 0) {
+    public function get_esp_accounts($esp_type = null) {
         $endpoint = 'esp_accounts';
 
-        $params = array(
-            "count" => $count,
-            "offset" => $offset
-        );
+        $params = array();
 
         if (!is_null($esp_type)) {
             $params['esp_type'] = $esp_type;
