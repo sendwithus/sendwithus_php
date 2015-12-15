@@ -901,3 +901,43 @@ Make sure to have phpunit installed (http://phpunit.de/) and run the following f
 ```php
 phpunit test
 ```
+
+
+# Troubleshooting
+
+## General Steps
+
+-   Enable debug mode
+-   Make sure you're using the latest PHP client
+-   Make sure \`data/ca-certificate.pem\` is included. This file is <span class="underline">required</span>
+-   Capture the response data and check your logs
+
+## Enable Debug Mode
+
+Debug mode prints out the underlying cURL information as well as the payload that gets sent to sendwithus. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiate the API.
+
+```php
+$API_KEY = 'THIS_IS_A_TEST_API_KEY';
+$options = array(
+    'DEBUG' => true
+);
+
+$api = new API($API_KEY, $options);
+```
+## Response Ranges
+
+Sendwithus' API typically sends responses back in these ranges:
+
+-   2xx – Successful Request
+-   4xx – Failed Request (Client error)
+-   5xx – Failed Request (Server error)
+
+If you're receiving an error in the 400 response range follow these steps:
+
+-   Double check the data and ID'S getting passed to sendwithus
+-   Ensure your API key is correct
+-   Make sure there's no extraneous spaces in the id's getting passed
+
+## Gmail Delivery Issues
+
+Sendwithus recommends using one of our [https://support.sendwithus.com/esp_accounts/esp_compatability/](supported ESPs). For some hints on getting Gmail working check [https://support.sendwithus.com/esp_accounts/can_i_use_gmail/](here).
