@@ -902,7 +902,6 @@ Make sure to have phpunit installed (http://phpunit.de/) and run the following f
 phpunit test
 ```
 
-
 # Troubleshooting
 
 ## General Steps
@@ -940,4 +939,4 @@ If you're receiving an error in the 400 response range follow these steps:
 
 ## Gmail Delivery Issues
 
-Sendwithus recommends using one of our [https://support.sendwithus.com/esp_accounts/esp_compatability/](supported ESPs). For some hints on getting Gmail working check [https://support.sendwithus.com/esp_accounts/can_i_use_gmail/](here).
+Sendwithus recommends using one of our [supported ESPs](https://support.sendwithus.com/esp_accounts/esp_compatability/ "ESP Compatibility Chart"). For some hints on getting Gmail working check [here](https://support.sendwithus.com/esp_accounts/can_i_use_gmail/ "Can I use Gmail?").
