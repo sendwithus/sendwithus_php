@@ -908,12 +908,12 @@ phpunit test
 
 -   Enable debug mode
 -   Make sure you're using the latest PHP client
--   Make sure `data/ca-certificate.pem` is included. This file is <span class="underline">required</span>
+-   Make sure `data/ca-certificate.pem` is included. This file is *required*
 -   Capture the response data and check your logs &mdash; often this will have the exact error
 
 ## Enable Debug Mode
 
-Debug mode prints out the underlying cURL information as well as the data payload that gets sent to sendwithus. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiate the API.
+Debug mode prints out the underlying cURL information as well as the data payload that gets sent to sendwithus. You will most likely find this information in your logs. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiating the API object. Use the debug mode to compare the data payload getting sent to [sendwithus' API docs](https://www.sendwithus.com/docs/api "Official Sendwithus API Docs").
 
 ```php
 $API_KEY = 'THIS_IS_A_TEST_API_KEY';
@@ -923,6 +923,7 @@ $options = array(
 
 $api = new API($API_KEY, $options);
 ```
+
 ## Response Ranges
 
 Sendwithus' API typically sends responses back in these ranges:
@@ -936,6 +937,8 @@ If you're receiving an error in the 400 response range follow these steps:
 -   Double check the data and ID'S getting passed to sendwithus
 -   Ensure your API key is correct
 -   Make sure there's no extraneous spaces in the id's getting passed
+
+*Note*: Enable Debug mode to check the response code.
 
 ## Gmail Delivery Issues
 
