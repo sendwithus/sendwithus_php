@@ -908,12 +908,12 @@ phpunit test
 
 -   Enable debug mode
 -   Make sure you're using the latest PHP client
--   Make sure \`data/ca-certificate.pem\` is included. This file is <span class="underline">required</span>
--   Capture the response data and check your logs
+-   Make sure `data/ca-certificate.pem` is included. This file is <span class="underline">required</span>
+-   Capture the response data and check your logs &mdash; often this will have the exact error
 
 ## Enable Debug Mode
 
-Debug mode prints out the underlying cURL information as well as the payload that gets sent to sendwithus. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiate the API.
+Debug mode prints out the underlying cURL information as well as the data payload that gets sent to sendwithus. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiate the API.
 
 ```php
 $API_KEY = 'THIS_IS_A_TEST_API_KEY';
