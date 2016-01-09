@@ -22,7 +22,7 @@ class API {
     protected $API_VERSION = '1';
     protected $API_HEADER_KEY = 'X-SWU-API-KEY';
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    protected $API_CLIENT_VERSION = "2.11.0";
+    protected $API_CLIENT_VERSION = "2.12.0";
     protected $API_CLIENT_STUB = "php-%s";
 
     protected $DEBUG = false;
@@ -528,30 +528,6 @@ class API {
         return $this->api_request($endpoint, self::HTTP_GET);
     }
 
-    /**
-     * List customers on drip campaign
-     *
-     * @param string $drip_campaign_id id of drip campaign
-     * @return array API response object
-     */
-    public function list_drip_campaign_customers($drip_campaign_id){
-        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/customers";
-
-        return $this->api_request($endpoint, self::HTTP_GET);
-    }
-
-    /**
-     * List customers on drip campaign step
-     *
-     * @param string $drip_campaign_id id of drip campaign
-     * @param string $drip_step_id id of drip campaign step
-     * @return array API response object
-     */
-    public function list_drip_campaign_step_customers($drip_campaign_id, $drip_step_id){
-        $endpoint = "drip_campaigns/" . $drip_campaign_id . "/steps/" . $drip_step_id . "/customers";
-
-        return $this->api_request($endpoint, self::HTTP_GET);
-    }
     /**
      * Start on drip campaign
      *

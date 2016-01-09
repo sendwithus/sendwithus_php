@@ -526,22 +526,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test add to false drip campaigns';
     }
 
-    public function testListCustomersOnCampaign(){
-        $r = $this->api->list_drip_campaign_customers($this->enabled_drip_campaign_id);
-
-        $this->assertEquals($r->id, $this->enabled_drip_campaign_id);
-
-        print 'Test list customers on drip campaign';
-    }
-
-    public function testListCustomersOnCampaignStep(){
-        $r = $this->api->list_drip_campaign_step_customers($this->enabled_drip_campaign_id, $this->enabled_drip_campaign_step_id);
-
-        $this->assertEquals($r->id, $this->enabled_drip_campaign_step_id);
-
-        print 'Test list customers on a drip campaign step';
-    }
-
     public function testRemoveOnDripCampaign(){
         $r = $this->api->remove_from_drip_campaign('person@example.com',$this->enabled_drip_campaign_id);
         $this->assertSuccess($r);
