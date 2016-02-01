@@ -141,14 +141,14 @@ $response = $api->send('email_id',
         'name' => 'Matt',
         'address' => 'us@sendwithus.com'),
     array(
-        'email_data' => array('name' => 'Jimmy the snake'),
-        'sender' => array(
-            'name' => 'Company',
-            'address' => 'company@company.com',
-            'reply_to' => 'info@company.com'
+    	'email_data' => array('name' => 'Jimmy the snake'),
+    	'sender' => array(
+    		'name' => 'Company',
+    		'address' => 'company@company.com',
+    		'reply_to' => 'info@company.com'
 	),
 	'esp_account' => 'esp_EMpi5eo59cG4cCWd7AdW7J'
-    )
+)
 );
 ```
 
@@ -158,7 +158,8 @@ $response = $api->send('email_id',
 $response = $api->send('email_id',
     array(
         'name' => 'Matt',
-        'address' => 'us@sendwithus.com'),
+        'address' => 'us@sendwithus.com'
+    ),
     array(
         'email_data' => array('name' => 'Jimmy the snake'),
         'sender' => array(
