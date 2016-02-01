@@ -146,8 +146,8 @@ $response = $api->send('email_id',
             'name' => 'Company',
             'address' => 'company@company.com',
             'reply_to' => 'info@company.com'
-			)
-		'esp_account' => 'esp_EMpi5eo59cG4cCWd7AdW7J'
+	),
+	'esp_account' => 'esp_EMpi5eo59cG4cCWd7AdW7J'
     )
 );
 ```
