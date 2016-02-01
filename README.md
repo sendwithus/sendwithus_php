@@ -143,12 +143,12 @@ $response = $api->send('email_id',
     array(
     	'email_data' => array('name' => 'Jimmy the snake'),
     	'sender' => array(
-    		'name' => 'Company',
-    		'address' => 'company@company.com',
-    		'reply_to' => 'info@company.com'
-	),
-	'esp_account' => 'esp_EMpi5eo59cG4cCWd7AdW7J'
-)
+            'name' => 'Company',
+            'address' => 'company@company.com', 
+            'reply_to' => 'info@company.com'
+        ),
+        'esp_account' => 'esp_EMpi5eo59cG4cCWd7AdW7J'
+    )
 );
 ```
 
