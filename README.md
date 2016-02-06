@@ -104,6 +104,9 @@ $response = $api->update_template_version(
 
 
 ## Send emails
+
+*NOTE* - If a customer does not exist by the specified email (recipient address), the send call will create a customer.
+
 ```php
 // Send function header
 send(
