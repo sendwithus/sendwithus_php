@@ -107,7 +107,7 @@ $response = $api->update_template_version(
 ```php
 // Send function header
 send(
-    $email_id,      // string, id of email to send
+    $email_id,      // string, id of email to send (template id)
     $recipient,     // associative array, ("address" => "ckent@dailyplanet.com", "name" => "Clark") to send to
     $args           // (optional) array, (array) additional parameters - (see below)
 )
