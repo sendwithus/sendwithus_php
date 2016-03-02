@@ -22,7 +22,7 @@ class API {
     protected $API_VERSION = '1';
     protected $API_HEADER_KEY = 'X-SWU-API-KEY';
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    protected $API_CLIENT_VERSION = "2.12.0";
+    protected $API_CLIENT_VERSION = "2.12.1";
     protected $API_CLIENT_STUB = "php-%s";
 
     protected $DEBUG = false;
@@ -275,7 +275,7 @@ class API {
     public function remove_customer_from_group($email, $group_id) {
         $endpoint = "customers/" . $email . "/groups/" . $group_id;
 
-        return $this->api_request($endpoint, self::HTTP_POST);
+        return $this->api_request($endpoint, self::HTTP_DELETE);
     }
 
     /**
