@@ -116,14 +116,14 @@ send(
 )
 
 // Send function options
-'email_data'  // array of variables to merge into the template.
-'sender'      // array ("address", "name", "reply_to") of sender.
-'cc'          // array of ("address", "name") for carbon copy.
-'bcc'         // array of ("address", "name") for blind carbon copy.
-'inline'      // string, path to file to include inline.
-'files'       // array, paths to files to attach to the send.
-'tags'        // array of strings to tag email send with.
-'esp_account' // string of ESP ID to manually select ESP
+'template_data'  // array of variables to merge into the template.
+'sender'         // array ("address", "name", "reply_to") of sender.
+'cc'             // array of ("address", "name") for carbon copy.
+'bcc'            // array of ("address", "name") for blind carbon copy.
+'inline'         // string, path to file to include inline.
+'files'          // array, paths to files to attach to the send.
+'tags'           // array of strings to tag email send with.
+'esp_account'    // string of ESP ID to manually select ESP
 ```
 
 ## Send Examples
@@ -144,10 +144,10 @@ $response = $api->send('email_id',
         'name' => 'Matt',
         'address' => 'us@sendwithus.com'),
     array(
-    	'email_data' => array('name' => 'Jimmy the snake'),
+    	'template_data' => array('name' => 'Jimmy the snake'),
     	'sender' => array(
             'name' => 'Company',
-            'address' => 'company@company.com', 
+            'address' => 'company@company.com',
             'reply_to' => 'info@company.com'
         ),
         'esp_account' => 'esp_EMpi5eo59cG4cCWd7AdW7J'
@@ -164,7 +164,7 @@ $response = $api->send('email_id',
         'address' => 'us@sendwithus.com'
     ),
     array(
-        'email_data' => array('name' => 'Jimmy the snake'),
+        'template_data' => array('name' => 'Jimmy the snake'),
         'sender' => array(
             'name' => 'Company',
             'address' => 'company@company.com',
@@ -244,6 +244,38 @@ $response = $api->send('email_id',
     )
 );
 ```
+
+
+## Render templates
+
+```php
+// Render function header
+render(
+    $email_id,      // string, id of email to send (template id)
+    $args           // (optional) array, (array) additional parameters - (see below)
+)
+
+// Send function options
+'template_data'  // Array of variables to merge into the template.
+'version_id'     // Version ID obtained from /templates/(:template_id)/versions
+'version_name'   // Version name that you want rendered (provide either a version_name or a version_id, not both)
+'locale'         // Template locale to render
+'strict'         // Render in strict mode (fails on missing template data)
+```
+
+### Example:
+
+```php
+$response = $api->send('email_id',
+    array('address' => 'us@sendwithus.com'),
+    array(
+        'template_data' => array(
+            'name' => 'Bobby Boucher'
+        )
+    )
+);
+```
+
 
 ## Segments
 
@@ -405,7 +437,7 @@ start_on_drip_campaign(
 Example
 
 ```php
-$email_data = array(
+$template_data = array(
     'name' => 'Jean-Luc'
 	'rank' => 'Captain'
 );
@@ -414,7 +446,7 @@ $args = array(
     'tags' => array('all', 'the', 'tags'),
     'cc' => array('address' => 'them@sendwithus.com')
 );
-$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $email_data, $args);
+$response = $api->start_on_drip_campaign('us@sendwithus.com', 'dc_1234abcd1234', $template_data, $args);
 ```
 
 Response
