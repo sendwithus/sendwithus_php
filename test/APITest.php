@@ -71,9 +71,9 @@ class APITestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->inline = 'test/test_img.png';
+        $this->inline = __DIR__ . '/test_img.png';
 
-        $this->files = array('test/test_img.png', 'test/test_txt.txt');
+        $this->files = array(__DIR__ . '/test_img.png', __DIR__ . '/test_txt.txt');
 
         $this->tags = array('tag_one', 'tag_two');
 

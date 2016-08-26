@@ -79,6 +79,9 @@ class API {
         // Optional file attachment
         if (isset($payload['files'])) {
             foreach ($payload['files'] as &$file) {
+              if (is_array($file) && isset($file['id']) && isset($file['data'])) {
+                  continue;
+              }
               $file = array(
                   "id" => basename($file),
                   "data" => $this->encode_attachment($file)
