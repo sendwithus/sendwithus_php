@@ -68,12 +68,16 @@ class API {
 
         // Optional inline attachment
         if (isset($payload['inline'])) {
-            $inline_attachment_path = $payload['inline'];
 
-            $payload["inline"] = array(
-                "id" => basename($inline_attachment_path),
-                "data" => $this->encode_attachment($inline_attachment_path)
-            );
+            if (is_string($payload['inline'])) {
+
+                $inline_attachment_path = $payload['inline'];
+
+                $payload["inline"] = array(
+                    "id" => basename($inline_attachment_path),
+                    "data" => $this->encode_attachment($inline_attachment_path)
+                );
+            }
         }
 
         // Optional file attachment
