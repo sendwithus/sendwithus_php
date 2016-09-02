@@ -120,8 +120,12 @@ send(
 'sender'         // array ("address", "name", "reply_to") of sender.
 'cc'             // array of ("address", "name") for carbon copy.
 'bcc'            // array of ("address", "name") for blind carbon copy.
-'inline'         // string, path to file to include inline.
-'files'          // array, paths to files to attach to the send.
+'inline'         // string, path to file to include inline
+                 // or an associative array with "id" containing filename
+                 // and "data" containing base64 encoded file content
+'files'          // array, each element represents either a string path to file to attach
+                 // or an associative array with "id" containing filename
+                 // and "data" containing base64 encoded file content
 'tags'           // array of strings to tag email send with.
 'esp_account'    // string of ESP ID to manually select ESP
 ```
@@ -229,6 +233,22 @@ $response = $api->send('email_id',
 );
 ```
 
+### Send email with an inline encoded image attachment
+
+```php
+$response = $api->send('email_id',
+    array(
+        'name' => 'Matt',
+        'address' => 'us@sendwithus.com'),
+    array(
+        'inline' => array(
+            'id' => 'photo.jpg',
+            'data' => base64_encode(file_get_contents('filename.jpg'))
+        )
+    )
+);
+```
+
 ### Send email with attachments
 
 ```php
@@ -239,7 +259,11 @@ $response = $api->send('email_id',
     array(
         'files' => array(
             'filename.txt',
-            'filename.pdf'
+            'filename.pdf',
+            array(
+                'id' => 'photo.jpg',
+                'data' => base64_encode(file_get_contents('filename.jpg'))
+            )
         )
     )
 );

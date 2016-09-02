@@ -71,9 +71,9 @@ class APITestCase extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->inline = 'test/test_img.png';
+        $this->inline = __DIR__ . '/test_img.png';
 
-        $this->files = array('test/test_img.png', 'test/test_txt.txt');
+        $this->files = array(__DIR__ . '/test_img.png', __DIR__ . '/test_txt.txt');
 
         $this->tags = array('tag_one', 'tag_two');
 
@@ -292,6 +292,24 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Simple send with inline';
     }
 
+    public function testSendWithInlineEncoded() {
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array(
+                "data" => $this->data,
+                "inline" => array(
+                    'id' => basename($this->files[0]),
+                    'data' => base64_encode(file_get_contents($this->files[0]))
+                )
+            )
+        );
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Simple send with inline';
+    }
+
     public function testSendWithFiles() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -305,7 +323,34 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with file attachments';
-        }
+    }
+
+    public function testSendWithFilesEncoded() {
+
+        $files = array(
+            array(
+                'id' => basename($this->files[0]),
+                'data' => base64_encode(file_get_contents($this->files[0]))
+            ),
+            array(
+                'id' => basename($this->files[1]),
+                'data' => base64_encode(file_get_contents($this->files[1]))
+            )
+        );
+
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array(
+                "data" => $this->data,
+                "files" => $files
+            )
+        );
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Simple send with file attachments';
+    }
     
     public function testSendWithTags() {
         $r = $this->api->send(
