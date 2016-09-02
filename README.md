@@ -243,7 +243,7 @@ $response = $api->send('email_id',
     array(
         'inline' => array(
             'id' => 'photo.jpg',
-            'data' => base64_encode('filename.jpg')
+            'data' => base64_encode(file_get_contents('filename.jpg'))
         )
     )
 );
@@ -262,7 +262,7 @@ $response = $api->send('email_id',
             'filename.pdf',
             array(
                 'id' => 'photo.jpg',
-                'data' => base64_encode('filename.jpg')
+                'data' => base64_encode(file_get_contents('filename.jpg'))
             )
         )
     )
