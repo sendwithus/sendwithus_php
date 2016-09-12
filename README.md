@@ -386,6 +386,36 @@ Response
 )
 ```
 
+## Resend a Specific Email from Log
+```php
+resend(
+    $log_id          // id of log to resend
+)
+```
+
+Example
+
+```php
+$response = api->resend('log_d4R7hV4d0r')
+```
+
+Response
+
+```php
+(
+    [status] => OK
+    [receipt_id] => 130be975-dc07-4071-9333-58530e5df052-i03a5q
+    [email] => stdClass Object
+        (
+            [locale] => en-US
+            [version_name] => Test Template
+            [name] => test
+        )
+
+    [success] => 1
+)
+```
+
 ## Drip Unsubscribe
 ```php
 // Unsubscribe email address from active drips

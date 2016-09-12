@@ -108,6 +108,22 @@ class API {
     }
 
     /**
+     * Resend a specific email by id
+     *
+     * @param string $log_id log id
+     * @return array API response object
+     */
+    public function resend($log_id){
+        $endpoint = "resend";
+
+        $payload = array(
+            "log_id" => $log_id
+        );
+
+        return $this->api_request($endpoint, self::HTTP_POST, $payload);
+    }
+
+    /**
      * Get Emails
      *
      * @return array API response object.
