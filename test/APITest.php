@@ -390,6 +390,13 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test resend mail from log';
     }
 
+    public function testResendFailed(){
+        $r = $this->api->resend('i-do-not-exist-log-id');
+        $this->assertFail($r);
+
+        print 'Test resend mail with invalid log';
+    }
+
     public function testInvalidAPIKey() {
         $api = new \sendwithus\API('INVALID_API_KEY', $this->options);
 
