@@ -24,6 +24,7 @@ class API {
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
     protected $API_CLIENT_VERSION = "2.14.0";
     protected $API_CLIENT_STUB = "php-%s";
+    protected $RETURN_PATH = 'Return-Path';
 
     protected $DEBUG = false;
 
@@ -48,6 +49,7 @@ class API {
      *     'inline' - Default is null. String, path to file to include inline.
      *     'tags' - Default is null. Array of strings to tag email send with.
      *     'version_name' - Default is blank. String, name of version to send
+     *     'return_path' - Default is null. String, Return-Path for header
      *
      * @param string $email_id ID of email to send
      * @param array $recipient array of ("address", "name") to send to
@@ -763,7 +765,12 @@ class API {
 
         // set payload
         $payload_string = null;
+        $return_path = null;
         if ($payload) {
+            if (isset($payload['return_path'])) {
+                $return_path = $payload['return_path'];
+                unset($payload['return_path']);
+            }
             $payload_string = json_encode($payload);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload_string);
         }
@@ -776,6 +783,9 @@ class API {
                 $this->API_HEADER_KEY . ": " . $this->API_KEY,
                 $this->API_HEADER_CLIENT . ": " . $this->API_CLIENT_STUB
                 );
+            if ($return_path) {
+                $httpheaders []= $this->RETURN_PATH . ": " . $return_path;
+            }
         }
         else {
             $httpheaders = array(
