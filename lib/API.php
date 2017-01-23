@@ -152,35 +152,6 @@ class API {
     }
 
     /**
-     * Get Segments
-     */
-    public function get_segments() {
-        $endpoint = 'segments';
-
-        return $this->api_request($endpoint, self::HTTP_GET);
-    }
-
-    /**
-     * Send to a Segment
-     *
-     * @param string $email_id template id
-     * @param string $segment_id segment to send to
-     * @param array $data dynamic data for send
-     *
-     * @return array API response object.
-     */
-    public function send_segment($email_id, $segment_id, $data = null) {
-        $endpoint = 'segments/' . $segment_id . '/send';
-        $payload = array("email_id" => $email_id);
-
-        if (is_array($data)) {
-            $payload['email_data'] = $data;
-        }
-
-        return $this->api_request($endpoint, self::HTTP_POST, $payload);
-    }
-
-    /**
      * Get Customer
      *
      * @param string $email customer email
