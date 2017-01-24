@@ -12,7 +12,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $EMAIL_ID = 'test_fixture_1';
-    private $SEGMENT_ID = 'seg_VC8FDxDno9X64iUPDFSd76';
 
     private $options = null;
 
@@ -131,13 +130,13 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $data = $r->groups;
         foreach ($data as $group){
             if ($group->name == $name){
-              return $group->id;  
+              return $group->id;
             }
-            
+
         }
         return null;
     }
-    
+
     public function testGetEmails() {
         $r = $this->api->emails();
         $this->assertNotNull($r);
@@ -195,7 +194,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->created);
         print "Updated a template version";
     }
-    
+
     public function testSimpleSend() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -351,7 +350,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertNotNull($r->receipt_id);
         print 'Simple send with file attachments';
     }
-    
+
     public function testSendWithTags() {
         $r = $this->api->send(
             $this->EMAIL_ID,
@@ -516,20 +515,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test customer conversion revenue';
     }
 
-    public function testGetSegments() {
-        $r = $this->api->get_segments($this->EMAIL_ID, $this->SEGMENT_ID);
-        $this->assertNotNull($r);
-
-        print 'Test get segments';
-    }
-
-    public function testSendSegment() {
-        $r = $this->api->send_segment($this->EMAIL_ID, $this->SEGMENT_ID);
-        $this->assertSuccess($r);
-
-        print 'Test send segment';
-    }
-
     public function testListDripCampaigns(){
         $r = $this->api->list_drip_campaigns();
         $this->assertNotNull($r);
@@ -598,7 +583,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertEquals($r->name, 'TEST_CAMPAIGN');
         print 'Test list drip campaign steps';
     }
-    
+
 
     public function testCreateGroup(){
         $r = $this->api->create_group($this->group_name, $this->group_description);
@@ -613,7 +598,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         print 'Test creating the same group a second time';
     }
-    
+
     public function testUpdateGroup(){
         $id = $this->getGroupId($this->group_name);
         $r = $this->api->update_group($this->group_name, $id, $this->group_update_description);
@@ -642,8 +627,8 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertFail($r);
 
         print 'Test deleting an already deleted group';
-    } 
-    
+    }
+
     public function testGetCustomerLogs(){
         $logs = $this->api->get_customer_logs($this->log_address);
         $this->assertEquals(false, empty($logs->logs));
@@ -699,18 +684,18 @@ class APITestCase extends PHPUnit_Framework_TestCase
        // Batch one should be empty, batch two still full
        $this->assertEquals($batch_api_one->command_length(), 0);
        $this->assertEquals($batch_api_two->command_length(), 5);
-       
+
        // Run batch 2
        $result = $batch_api_two->execute();
        $this->assertEquals(count($result), 5);
        foreach($result as $response) {
            $this->assertEquals($response->status_code, 200);
        }
-       
+
        // Batch one should be empty, batch two still full
        $this->assertEquals($batch_api_one->command_length(), 0);
        $this->assertEquals($batch_api_two->command_length(), 0);
-       
+
        print 'Test creating customers in batch';
     }
 

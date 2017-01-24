@@ -22,7 +22,7 @@ class API {
     protected $API_VERSION = '1';
     protected $API_HEADER_KEY = 'X-SWU-API-KEY';
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    protected $API_CLIENT_VERSION = "2.14.0";
+    protected $API_CLIENT_VERSION = "3.0.0";
     protected $API_CLIENT_STUB = "php-%s";
 
     protected $DEBUG = false;
@@ -149,35 +149,6 @@ class API {
         }
 
         return $this->api_request($endpoint, self::HTTP_GET);
-    }
-
-    /**
-     * Get Segments
-     */
-    public function get_segments() {
-        $endpoint = 'segments';
-
-        return $this->api_request($endpoint, self::HTTP_GET);
-    }
-
-    /**
-     * Send to a Segment
-     *
-     * @param string $email_id template id
-     * @param string $segment_id segment to send to
-     * @param array $data dynamic data for send
-     *
-     * @return array API response object.
-     */
-    public function send_segment($email_id, $segment_id, $data = null) {
-        $endpoint = 'segments/' . $segment_id . '/send';
-        $payload = array("email_id" => $email_id);
-
-        if (is_array($data)) {
-            $payload['email_data'] = $data;
-        }
-
-        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**
