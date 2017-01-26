@@ -128,6 +128,7 @@ send(
                  // and "data" containing base64 encoded file content
 'tags'           // array of strings to tag email send with.
 'esp_account'    // string of ESP ID to manually select ESP
+'headers'        // associative array of header name and value
 ```
 
 ## Send Examples
