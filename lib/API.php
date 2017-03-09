@@ -186,7 +186,6 @@ class API {
      *
      * The additional optional parameters are as follows:
      *     'locale' - Default is null. String to specify a locale for this customer.
-     *     'groups' - Default is null. Array of group IDs
      *
      * @return array API response object.
      */
@@ -242,96 +241,6 @@ class API {
         $payload = array("revenue" => $revenue);
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
-    }
-
-    /**
-     * Add Customer to a Group
-     *
-     * @param string $email customer email
-     * @param string $group_id ID of group
-     *
-     * @return array API response object
-     */
-    public function add_customer_to_group($email, $group_id) {
-        $endpoint = "customers/" . $email . "/groups/" . $group_id;
-
-        return $this->api_request($endpoint, self::HTTP_POST);
-    }
-
-    /**
-     * Remove Customer from a Group
-     *
-     * @param string $email customer email
-     * @param string $group_id ID of group
-     *
-     * @return array API response object
-     */
-    public function remove_customer_from_group($email, $group_id) {
-        $endpoint = "customers/" . $email . "/groups/" . $group_id;
-
-        return $this->api_request($endpoint, self::HTTP_DELETE);
-    }
-
-    /**
-     * Get all Customer Groups
-     *
-     * @return array API response object.
-     */
-    public function list_groups() {
-        $endpoint = "groups";
-
-        return $this->api_request($endpoint, self::HTTP_GET);
-    }
-
-    /**
-     * Create a Group
-     *
-     * @param string $name group name
-     * @param string $description (optional) group description
-     *
-     * @return array API response object.
-     */
-    public function create_group($name, $description='') {
-        $endpoint = "groups";
-        $payload = array("name" => $name);
-
-        $payload['description'] = $description;
-
-        return $this->api_request($endpoint, self::HTTP_POST, $payload);
-    }
-
-    /**
-     * Update Group
-     * @param string $name name of the group
-     * @param string $group_id group id
-     * @param string $description (optional) group description
-     * @return array API response object
-     */
-    public function update_group($name,  $group_id, $description='') {
-        $endpoint = "groups/" . $group_id;
-
-        $payload = array(
-            "name" => $name,
-            "description" => $description
-        );
-
-        if ($this->DEBUG) {
-            error_log(sprintf("updating customer group\n ID:%s", $group_id));
-        }
-
-        return $this->api_request($endpoint, self::HTTP_PUT, $payload);
-    }
-
-    /**
-     * Delete Group
-     *
-     * @param string $group_id group id
-     *
-     * @return array API response object.
-     */
-    public function delete_group($group_id) {
-        $endpoint = "groups/" . $group_id;
-        return $this->api_request($endpoint, self::HTTP_DELETE);
     }
 
     /**
