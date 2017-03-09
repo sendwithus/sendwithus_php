@@ -1,12 +1,12 @@
 sendwithus_php
 ==============
 
-sendwithus PHP Client
+Sendwithus PHP Client
 
-## status
+## Status
 [![Build Status](https://travis-ci.org/sendwithus/sendwithus_php.png)](https://travis-ci.org/sendwithus/sendwithus_php)
 
-## requirements
+## Requirements
     curl library must be installed and enabled in php.ini
 
 Install it via Composer
@@ -291,7 +291,7 @@ render(
 ### Example:
 
 ```php
-$response = $api->send('email_id',
+$response = $api->render('email_id',
     array('address' => 'us@sendwithus.com'),
     array(
         'template_data' => array(
@@ -959,7 +959,7 @@ phpunit test
 
 ## Enable Debug Mode
 
-Debug mode prints out the underlying cURL information as well as the data payload that gets sent to sendwithus. You will most likely find this information in your logs. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiating the API object. Use the debug mode to compare the data payload getting sent to [sendwithus' API docs](https://www.sendwithus.com/docs/api "Official Sendwithus API Docs").
+Debug mode prints out the underlying cURL information as well as the data payload that gets sent to Sendwithus. You will most likely find this information in your logs. To enable it, simply put `"DEBUG" => true` in the optional parameters when instantiating the API object. Use the debug mode to compare the data payload getting sent to [sendwithus' API docs](https://www.sendwithus.com/docs/api "Official Sendwithus API Docs").
 
 ```php
 $API_KEY = 'THIS_IS_AN_EXAMPLE_API_KEY';
@@ -980,7 +980,7 @@ Sendwithus' API typically sends responses back in these ranges:
 
 If you're receiving an error in the 400 response range follow these steps:
 
--   Double check the data and ID's getting passed to sendwithus
+-   Double check the data and ID's getting passed to Sendwithus
 -   Ensure your API key is correct
 -   Make sure there's no extraneous spaces in the id's getting passed
 
