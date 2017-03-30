@@ -680,49 +680,6 @@ Example
 $response = $api->delete_customer('us@sendwithus.com');
 ```
 
-### Conversion on Customer
-Adds a conversion event to recent templates for recipient
-
-```php
-customer_conversion(
-    $email,             // string, email of customer
-    $revenue,           // integer, optional, amount in cents
-);
-```
-
-Example (required parameters only)
-
-```php
-$response = $api->customer_conversion('curtis@sendwithus.com');
-
-print_r($response);
-
-/*
-stdClass Object
-(
-    [status] => OK
-    [success] => 1
-)
-*/
-```
-
-Example (all parameters)
-
-```php
-// $19.99 in revenue
-$response = $api->customer_conversion('curtis@sendwithus.com', 1999);
-
-print_r($response);
-
-/*
-stdClass Object
-(
-    [status] => OK
-    [success] => 1
-)
-*/
-```
-
 ### List Customer Logs
 List all customer logs
 

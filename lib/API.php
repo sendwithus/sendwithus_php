@@ -22,7 +22,7 @@ class API {
     protected $API_VERSION = '1';
     protected $API_HEADER_KEY = 'X-SWU-API-KEY';
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    protected $API_CLIENT_VERSION = "4.0.0";
+    protected $API_CLIENT_VERSION = "5.0.0";
     protected $API_CLIENT_STUB = "php-%s";
 
     protected $DEBUG = false;
@@ -226,21 +226,6 @@ class API {
     public function delete_customer($email) {
         $endpoint = "customers/" . $email;
         return $this->api_request($endpoint, self::HTTP_DELETE);
-    }
-
-    /**
-     * Customer Conversion
-     *
-     * @param string $email customer email
-     * @param array $revenue Optional revenue cent value
-     *
-     * @return array API response object.
-     */
-    public function customer_conversion($email, $revenue=null) {
-        $endpoint = "customers/" . $email . "/conversions";
-        $payload = array("revenue" => $revenue);
-
-        return $this->api_request($endpoint, self::HTTP_POST, $payload);
     }
 
     /**

@@ -459,20 +459,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Test delete customer';
     }
 
-    public function testCustomerConversion() {
-        $r = $this->api->customer_conversion($this->recipient['address']);
-        $this->assertSuccess($r);
-
-        print 'Test customer conversion';
-    }
-
-    public function testCustomerConversionRevenue() {
-        $r = $this->api->customer_conversion($this->recipient['address'], 1234);
-        $this->assertSuccess($r);
-
-        print 'Test customer conversion revenue';
-    }
-
     public function testListDripCampaigns(){
         $r = $this->api->list_drip_campaigns();
         $this->assertNotNull($r);
