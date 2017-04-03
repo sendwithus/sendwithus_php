@@ -88,7 +88,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
 
-        $this->log_id = '130be975-dc07-4071-9333-58530e5df052-i03a5q';
+        $this->log_id = 'log_3bff29415746578d992ada6847b6ff08-3';
 
 
         $this->api->create_customer(
@@ -362,9 +362,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
-        $r = $this->api->resend($this->log_id);
-        $this->assertSuccess($r);
+        $send = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array("data" => $this->data)
+        );
 
+        $r = $this->api->resend($send->receipt_id);
+        $this->assertSuccess($r);
         print 'Test resend mail from log';
     }
 
