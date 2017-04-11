@@ -6,7 +6,7 @@
 
 require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
-// require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Autoload.php';
 
 class APITestCase extends PHPUnit_Framework_TestCase
 {
