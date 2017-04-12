@@ -6,9 +6,9 @@
 
 require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
-require_once 'PHPUnit/Autoload.php';
+// require_once 'PHPUnit/Autoload.php';
 
-class APITestCase extends PHPUnit_Framework_TestCase
+class APITestCase extends \PHPUnit\Framework\TestCase
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $EMAIL_ID = 'test_fixture_1';
