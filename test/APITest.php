@@ -362,15 +362,8 @@ class APITestCase extends \PHPUnit\Framework\TestCase
     }
 
     public function testResend(){
-        $send = $this->api->send(
-            $this->EMAIL_ID,
-            $this->recipient,
-            array("data" => $this->data)
-        );
-
-        $r = $this->api->resend($send->receipt_id);
+        $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
-        print 'Test resend mail from log';
     }
 
     public function testResendFailed(){
