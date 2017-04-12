@@ -2,7 +2,9 @@
     "name": "sendwithus/api",
     "description": "sendwithus.com PHP Client",
     "autoload": {
-        "classmap": ["lib"],
-        "require-dev" : {"phpunit/phpunit":"3.7.*"}
+        "classmap": ["lib"]
+    },
+    "require-dev": {
+    	"phpunit/phpunit": "3.7.*"
     }
 }
