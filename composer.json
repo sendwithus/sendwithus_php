@@ -3,5 +3,8 @@
     "description": "sendwithus.com PHP Client",
     "autoload": {
         "classmap": ["lib"]
-    }
+    },
+    "require": {
+       "phpunit/phpunit": "^5.7"
+   }
 }
