@@ -8,7 +8,6 @@ require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
 // require_once 'PHPUnit/Autoload.php';
 
-
 class APITestCase extends PHPUnit_Framework_TestCase
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
@@ -363,13 +362,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
-        $send = $this->api->send(
-            $this->EMAIL_ID,
-            $this->recipient,
-            array("data" => $this->data)
-        );
-
-        $r = $this->api->resend($send->receipt_id);
+        $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
 
         print 'Test resend mail from log';
