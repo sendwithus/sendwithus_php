@@ -362,7 +362,13 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
-        $r = $this->api->resend($this->log_id);
+        $send = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array("data" => $this->data)
+        );
+
+        $r = $this->api->resend($send->receipt_id);
         $this->assertSuccess($r);
 
         print 'Test resend mail from log';
