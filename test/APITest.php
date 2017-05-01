@@ -361,18 +361,18 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Simple bad send';
     }
 
-    public function testResend(){
-        $send = $this->api->send(
-            $this->EMAIL_ID,
-            $this->recipient,
-            array("data" => $this->data)
-        );
+    // public function testResend(){
+    //     $send = $this->api->send(
+    //         $this->EMAIL_ID,
+    //         $this->recipient,
+    //         array("data" => $this->data)
+    //     );
 
-        $r = $this->api->resend($send->receipt_id);
-        $this->assertSuccess($r);
+    //     $r = $this->api->resend($send->receipt_id);
+    //     $this->assertSuccess($r);
 
-        print 'Test resend mail from log';
-    }
+    //     print 'Test resend mail from log';
+    // }
 
     public function testResendFailed(){
         $r = $this->api->resend('i-do-not-exist-log-id');
