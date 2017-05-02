@@ -387,7 +387,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         * hasn't had time to be saved in database before testresend is executed.
         * This is to prevent this timing issue.
         */
-        sleep(10);
+        sleep(15);
 
         $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
