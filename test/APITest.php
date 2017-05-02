@@ -384,7 +384,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         /*
         * Author: Marie Starck on May 2nd, 2017
         * Sometimes the tests run too fast and the send executed in the setUp
-        * hasn't had time to be saved in database before testresend is executed.
+        * hasn't had time to be saved in database before testResend is executed.
         * This is to prevent this timing issue.
         */
         sleep(15);
