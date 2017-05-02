@@ -8,6 +8,20 @@ require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
 // require_once 'PHPUnit/Autoload.php';
 
+
+/*
+* Author: Marie Starck on May 2nd, 2017
+*
+* For compabitlity with older PHP versions and PHP 7
+* PHP 7 uses PHPUnit 6 which only accepts \PHPUnit\Framework\TestCase
+* whereas older PHP versions use PHPUnit_Framework_TestCase
+* This allows both to work.
+* For more information: https://thephp.cc/news/2017/02/migrating-to-phpunit-6
+*/
+if (!class_exists('\PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Framework\TestCase')) {
+  class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
+}
+
 class APITestCase extends PHPUnit_Framework_TestCase
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
@@ -88,13 +102,18 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
 
-        $this->log_id = '130be975-dc07-4071-9333-58530e5df052-i03a5q';
-
-
         $this->api->create_customer(
             $this->recipient['address'],
             array("data" => $this->data)
         );
+
+        $send = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array("data" => $this->data)
+        );
+
+        $this->log_id = $send->receipt_id;
     }
 
     function tearDown() {
@@ -362,6 +381,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
+        /*
+        * Author: Marie Starck on May 2nd, 2017
+        * Sometimes the tests run too fast and the send executed in the setUp
+        * hasn't had time to be saved in database before testresend is executed.
+        * This is to prevent this timing issue.
+        */
+        sleep(15);
+
         $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
 
