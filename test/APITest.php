@@ -8,6 +8,16 @@ require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
 // require_once 'PHPUnit/Autoload.php';
 
+
+/*
+* Author: Marie Starck on May 2nd, 2017
+*
+* For compabitlity with older PHP versions and PHP 7
+* PHP 7 uses PHPUnit 6 which only accepts \PHPUnit\Framework\TestCase
+* whereas older PHP versions use PHPUnit_Framework_TestCase
+* This allows both to work.
+* For more information: https://thephp.cc/news/2017/02/migrating-to-phpunit-6
+*/
 if (!class_exists('\PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Framework\TestCase')) {
   class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
 }
@@ -371,14 +381,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
-        sleep(10);
-        // $send = $this->api->send(
-        //     $this->EMAIL_ID,
-        //     $this->recipient,
-        //     array("data" => $this->data)
-        // );
-
-        // $r = $this->api->resend($send->receipt_id);
         $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
 
