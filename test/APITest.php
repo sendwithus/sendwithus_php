@@ -384,7 +384,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         /*
         * Author: Marie Starck on May 2nd, 2017
         * Sometimes the tests run too fast and the send executed in the setUp
-        * hasn't had time to be saved in database before testresend is executed.
+        * hasn't had time to be saved in database before testResend is executed.
         * This is to prevent this timing issue.
         */
         sleep(15);
@@ -484,20 +484,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertSuccess($r);
 
         print 'Test delete customer';
-    }
-
-    public function testCustomerConversion() {
-        $r = $this->api->customer_conversion($this->recipient['address']);
-        $this->assertSuccess($r);
-
-        print 'Test customer conversion';
-    }
-
-    public function testCustomerConversionRevenue() {
-        $r = $this->api->customer_conversion($this->recipient['address'], 1234);
-        $this->assertSuccess($r);
-
-        print 'Test customer conversion revenue';
     }
 
     public function testListDripCampaigns(){
