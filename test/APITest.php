@@ -381,6 +381,14 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
+        /*
+        * Author: Marie Starck on May 2nd, 2017
+        * Sometimes the tests run too fast and the send executed in the setUp
+        * hasn't had time to be saved in database before testresend is executed.
+        * This is to prevent this timing issue.
+        */
+        sleep(10);
+
         $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
 
