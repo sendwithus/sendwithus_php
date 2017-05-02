@@ -8,7 +8,7 @@ require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
 // require_once 'PHPUnit/Autoload.php';
 
-class APITestCase extends PHPUnit_Framework_TestCase
+class APITestCase extends \PHPUnit\Framework\TestCase
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     private $EMAIL_ID = 'test_fixture_1';
@@ -88,13 +88,18 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
 
-        $this->log_id = 'log_3bff29415746578d992ada6847b6ff08-3';
-
-
         $this->api->create_customer(
             $this->recipient['address'],
             array("data" => $this->data)
         );
+
+        $send = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array("data" => $this->data)
+        );
+
+        $this->log_id = $send->receipt_id;
     }
 
     function tearDown() {
@@ -361,18 +366,20 @@ class APITestCase extends PHPUnit_Framework_TestCase
         print 'Simple bad send';
     }
 
-    // public function testResend(){
-    //     $send = $this->api->send(
-    //         $this->EMAIL_ID,
-    //         $this->recipient,
-    //         array("data" => $this->data)
-    //     );
+    public function testResend(){
+        sleep(10);
+        // $send = $this->api->send(
+        //     $this->EMAIL_ID,
+        //     $this->recipient,
+        //     array("data" => $this->data)
+        // );
 
-    //     $r = $this->api->resend($send->receipt_id);
-    //     $this->assertSuccess($r);
+        // $r = $this->api->resend($send->receipt_id);
+        $r = $this->api->resend($this->log_id);
+        $this->assertSuccess($r);
 
-    //     print 'Test resend mail from log';
-    // }
+        print 'Test resend mail from log';
+    }
 
     public function testResendFailed(){
         $r = $this->api->resend('i-do-not-exist-log-id');
