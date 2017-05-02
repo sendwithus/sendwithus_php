@@ -8,6 +8,10 @@ require_once(dirname(__FILE__) . '/../lib/API.php');
 require_once(dirname(__FILE__) . '/../lib/Error.php');
 // require_once 'PHPUnit/Autoload.php';
 
+if (!class_exists('\PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Framework\TestCase')) {
+  class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
+}
+
 class APITestCase extends PHPUnit_Framework_TestCase
 {
     private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
