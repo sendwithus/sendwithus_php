@@ -37,6 +37,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     private $data = null;
     private $cc = null;
     private $bcc = null;
+    private $return_path = null;
 
 
     function setUp() {
@@ -69,6 +70,10 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->data = array(
             'name' => 'Jimmy the snake');
+
+        $this->dataWithReturnPath = array(
+            'name' => 'Jimmy the snake',
+            'return_path' => '<bounce@example.com>');
 
         $this->cc = array(
             array(
@@ -227,6 +232,20 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertSuccess($r);
         $this->assertNotNull($r->receipt_id);
         print 'Send with null data';
+    }
+
+    public function testSendWithReturnPath() {
+        $r = $this->api->send(
+            $this->EMAIL_ID,
+            $this->recipient,
+            array(
+                "data" => $this->dataWithReturnPath
+            )
+        );
+
+        $this->assertSuccess($r);
+        $this->assertNotNull($r->receipt_id);
+        print 'Send with return_path';
     }
 
     public function testSendWithSender() {
