@@ -24,7 +24,7 @@ if (!class_exists('\PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Frame
 
 class APITestCase extends PHPUnit_Framework_TestCase
 {
-    private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
+    private $API_KEY = 'PHP_API_CLIENT_TEST_KEY';
     private $EMAIL_ID = 'test_fixture_1';
 
     private $options = null;
