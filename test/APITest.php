@@ -172,7 +172,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testCreateNewTemplateVersion(){
         $r = $this->api->create_new_template_version(
-            'test name',
+            'test name '.time(),
             'test subject',
             $this->template_id,
             $html=$this->good_html
