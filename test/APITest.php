@@ -53,8 +53,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->bad_email = 'flerp@asuih';
 
-        $this->log_address = 'person@example.com';
-
         $this->recipient = array(
             'name' => 'Unit Tests - PHP Client',
             'address' => 'swunit+phpclient@sendwithus.com');
@@ -557,7 +555,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 
     public function testGetCustomerLogs(){
-        $logs = $this->api->get_customer_logs($this->log_address);
+        $logs = $this->api->get_customer_logs($this->recipient['address']);
         $this->assertEquals(false, empty($logs->logs));
 
         print 'Test retrieving real customer logs';
@@ -577,7 +575,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testBatchApiRequest() {
         $batch = $this->api->start_batch();
-        $result = $batch->get_customer_logs($this->log_address);
+        $result = $batch->get_customer_logs($this->recipient['address']);
         $this->assertTrue($result->success);
         $this->assertEquals('Batched', $result->status);
         $result = $batch->execute();
