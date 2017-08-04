@@ -24,7 +24,7 @@ if (!class_exists('\PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Frame
 
 class APITestCase extends PHPUnit_Framework_TestCase
 {
-    private $API_KEY = 'THIS_IS_A_TEST_API_KEY';
+    private $API_KEY = 'PHP_API_CLIENT_TEST_KEY';
     private $EMAIL_ID = 'test_fixture_1';
 
     private $options = null;
@@ -52,8 +52,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->bad_html = '<html><hed><body></body</html>';
 
         $this->bad_email = 'flerp@asuih';
-
-        $this->log_address = 'person@example.com';
 
         $this->recipient = array(
             'name' => 'Unit Tests - PHP Client',
@@ -172,7 +170,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testCreateNewTemplateVersion(){
         $r = $this->api->create_new_template_version(
-            'test name',
+            'test name '.time(),
             'test subject',
             $this->template_id,
             $html=$this->good_html
@@ -557,7 +555,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
 
     public function testGetCustomerLogs(){
-        $logs = $this->api->get_customer_logs($this->log_address);
+        $logs = $this->api->get_customer_logs($this->recipient['address']);
         $this->assertEquals(false, empty($logs->logs));
 
         print 'Test retrieving real customer logs';
@@ -577,7 +575,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testBatchApiRequest() {
         $batch = $this->api->start_batch();
-        $result = $batch->get_customer_logs($this->log_address);
+        $result = $batch->get_customer_logs($this->recipient['address']);
         $this->assertTrue($result->success);
         $this->assertEquals('Batched', $result->status);
         $result = $batch->execute();
