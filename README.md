@@ -301,17 +301,6 @@ $response = $api->render('email_id',
 );
 ```
 
-## Get Email Logs
-```php
-logs(
-    $count             //The number of logs to return. Max: 100, Default: 100
-    $offset            //Offset the number of logs to return. Default: 0
-    $created_gt        //Return logs created strictly after the given UTC timestamp
-    $created_gte       //Return logs created on or after the given UTC timestamp
-    $created_lt        //Return logs created strictly before the given UTC timestamp
-    $created_lte       //Return logs created on or before the given UTC timestamp
-)
-```
 ## Get a Specific Email's Log
 ```php
 get_log(
