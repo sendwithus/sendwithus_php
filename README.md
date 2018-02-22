@@ -424,8 +424,8 @@ Starts a customer on the first step of a specified drip campaign
 start_on_drip_campaign(
     $recipient_address, // string, email address being added to drip campaign
     $drip_campaign_id,  // string, drip campaign being added to
-	$data               // array, (optional) email data being added to drip campaign
-	$args               // array, (optional) additional options being sent with email (tags, cc's, etc)
+    $data               // array, (optional) email data being added to drip campaign
+    $args               // array, (optional) additional options being sent with email (tags, cc's, etc)
 );
 
 // Args options
@@ -440,8 +440,8 @@ Example
 
 ```php
 $template_data = array(
-    'name' => 'Jean-Luc'
-	'rank' => 'Captain'
+    'name' => 'Jean-Luc',
+    'rank' => 'Captain'
 );
 
 $args = array(
