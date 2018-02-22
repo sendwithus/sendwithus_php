@@ -22,7 +22,7 @@ class API {
     protected $API_VERSION = '1';
     protected $API_HEADER_KEY = 'X-SWU-API-KEY';
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    protected $API_CLIENT_VERSION = "6.0.0";
+    protected $API_CLIENT_VERSION = "6.1.0";
     protected $API_CLIENT_STUB = "php-%s";
     protected $API_DEBUG_HANDLER = null;
 
