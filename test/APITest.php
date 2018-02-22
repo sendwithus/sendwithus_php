@@ -629,5 +629,41 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $batch_api->command_length());
     }
 
+
+    public function testLogMessage() {
+        $method = new ReflectionMethod('\sendwithus\API', 'log_message');
+        $method->setAccessible(true);
+
+        $options = array(
+            'DEBUG' => false,
+            'API_DEBUG_HANDLER' => function () {
+                return false;
+            }
+        );
+
+        $api = new \sendwithus\API($this->API_KEY, $options);
+        $result = $method->invoke($api, 'test message');
+
+        $this->assertTrue($result);
+        print 'Test default log handler';
+    }
+
+    public function testLogMessageCustom() {
+        $method = new ReflectionMethod('\sendwithus\API', 'log_message');
+        $method->setAccessible(true);
+
+        $options = array(
+            'DEBUG' => true,
+            'API_DEBUG_HANDLER' => function () {
+                return false;
+            }
+        );
+
+        $api = new \sendwithus\API($this->API_KEY, $options);
+        $result = $method->invoke($api, 'test message');
+
+        $this->assertFalse($result);
+        print 'Test custom log handler';
+    }
 }
 ?>

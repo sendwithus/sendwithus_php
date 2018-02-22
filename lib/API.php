@@ -24,6 +24,7 @@ class API {
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
     protected $API_CLIENT_VERSION = "6.0.0";
     protected $API_CLIENT_STUB = "php-%s";
+    protected $API_DEBUG_HANDLER = null;
 
     protected $DEBUG = false;
 
@@ -94,14 +95,14 @@ class API {
         }
 
         if ($this->DEBUG) {
-            error_log(sprintf("sending email `%s` to \n", $email_id));
-            error_log(print_r($recipient, true));
+            $this->log_message(sprintf("sending email `%s` to \n", $email_id));
+            $this->log_message(print_r($recipient, true));
             if (isset($payload['sender'])) {
-                error_log(sprintf("\nfrom\n"));
-                error_log(print_r($payload['sender'], true));
+                $this->log_message(sprintf("\nfrom\n"));
+                $this->log_message(print_r($payload['sender'], true));
             }
-            error_log(sprintf("\nwith\n"));
-            error_log(print_r($payload, true));
+            $this->log_message(sprintf("\nwith\n"));
+            $this->log_message(print_r($payload, true));
         }
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
@@ -252,7 +253,7 @@ class API {
         }
 
         if ($this->DEBUG) {
-            error_log(sprintf("creating email with name %s and subject %s\n", $name, $subject));
+            $this->log_message(sprintf("creating email with name %s and subject %s\n", $name, $subject));
         }
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
@@ -282,7 +283,9 @@ class API {
         }
 
         if ($this->DEBUG) {
-            error_log(sprintf("creating a new template version with name %s and subject %s\n", $name, $subject));
+            $this->log_message(
+                sprintf("creating a new template version with name %s and subject %s\n", $name, $subject)
+            );
         }
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
@@ -313,7 +316,15 @@ class API {
         }
 
         if ($this->DEBUG) {
-            error_log(sprintf("updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n", $template_id, $version_id, $name, $subject));
+            $this->log_message(
+                sprintf(
+                    "updating template\n ID:%s\nVERSION:%s\n with name %s and subject %s\n",
+                    $template_id,
+                    $version_id,
+                    $name,
+                    $subject
+                )
+            );
         }
 
         return $this->api_request($endpoint, self::HTTP_PUT, $payload);
@@ -488,8 +499,8 @@ class API {
         }
 
         if ($this->DEBUG) {
-            error_log(sprintf("rendering template `%s` with \n", $email_id));
-            error_log(print_r($payload, true));
+            $this->log_message(sprintf("rendering template `%s` with \n", $email_id));
+            $this->log_message(print_r($payload, true));
         }
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
@@ -569,8 +580,8 @@ class API {
             // enable curl verbose output to STDERR
             curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-            error_log(sprintf("payload: %s\r\n", $payload_string));
-            error_log(sprintf("path: %s\r\n", $path));
+            $this->log_message(sprintf("payload: %s\r\n", $payload_string));
+            $this->log_message(sprintf("path: %s\r\n", $path));
         }
 
         $code = null;
@@ -584,8 +595,8 @@ class API {
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                error_log(sprintf("Caught exception: %s\r\n", $e->getMessage()));
-                error_log(print_r($e, true));
+                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()));
+                $this->log_message(print_r($e, true));
             }
 
             $response = (object) array(
@@ -597,6 +608,28 @@ class API {
         }
 
         curl_close($ch);
+
+        return $response;
+    }
+
+    /**
+     * Log debug messages using the custom handler passed as an option in the constructor.
+     * If not handler is defined it falls back to using 'error_log'.
+     *
+     * @param $message string the logged message
+     * @return bool true on success or false on failure
+     */
+    protected function log_message($message)
+    {
+        if (
+            $this->DEBUG &&
+            $this->API_DEBUG_HANDLER &&
+            is_callable($this->API_DEBUG_HANDLER)
+        ) {
+            $response = call_user_func($this->API_DEBUG_HANDLER, $message);
+        } else {
+            $response = error_log($message);
+        }
 
         return $response;
     }
@@ -670,8 +703,8 @@ class BatchAPI extends API {
             // enable curl verbose output to STDERR
             curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-            error_log(sprintf("payload: %s\r\n", $payload_string));
-            error_log(sprintf("path: %s\r\n", $path));
+            $this->log_message(sprintf("payload: %s\r\n", $payload_string));
+            $this->log_message(sprintf("path: %s\r\n", $path));
         }
 
         $code = null;
@@ -686,8 +719,8 @@ class BatchAPI extends API {
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                error_log(sprintf("Caught exception: %s\r\n", $e->getMessage()));
-                error_log(print_r($e, true));
+                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()));
+                $this->log_message(print_r($e, true));
             }
 
             $response = (object) array(
