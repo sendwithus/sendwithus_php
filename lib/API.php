@@ -15,6 +15,9 @@ class API {
     const HTTP_PUT = 'PUT';
     const HTTP_DELETE = 'DELETE';
 
+    const LOG_ERR    = 'ERR';
+    const LOG_DEBUG  = 'DEBUG';
+
     protected $API_KEY = 'THIS_IS_A_TEST_API_KEY';
     protected $API_HOST = 'api.sendwithus.com';
     protected $API_PORT = '443';
@@ -595,8 +598,8 @@ class API {
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()));
-                $this->log_message(print_r($e, true));
+                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()), self::LOG_ERR);
+                $this->log_message(print_r($e, true), self::LOG_ERR);
             }
 
             $response = (object) array(
@@ -617,16 +620,17 @@ class API {
      * If not handler is defined it falls back to using 'error_log'.
      *
      * @param $message string the logged message
+     * @param string $priority_level based on syslog priority levels http://php.net/manual/en/function.syslog.php
      * @return bool true on success or false on failure
      */
-    protected function log_message($message)
+    protected function log_message($message, $priority_level = self::LOG_DEBUG)
     {
         if (
             $this->DEBUG &&
             $this->API_DEBUG_HANDLER &&
             is_callable($this->API_DEBUG_HANDLER)
         ) {
-            $response = call_user_func($this->API_DEBUG_HANDLER, $message);
+            $response = call_user_func($this->API_DEBUG_HANDLER, $message, $priority_level);
         } else {
             $response = error_log($message);
         }
@@ -719,8 +723,8 @@ class BatchAPI extends API {
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()));
-                $this->log_message(print_r($e, true));
+                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()), self::LOG_ERR);
+                $this->log_message(print_r($e, true), self::LOG_ERR);
             }
 
             $response = (object) array(
