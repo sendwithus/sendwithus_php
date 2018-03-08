@@ -48,8 +48,9 @@ require_once 'vendor/autoload.php';
 $API_KEY = 'THIS_IS_A_TEST_API_KEY';
 $options = array(
     'DEBUG' => true,
-    'API_DEBUG_HANDLER' => function ($message) {
-        error_log('[SendWithUs][Debug] ' . $message);
+    'API_DEBUG_HANDLER' => function ($message, $priority_level) {
+        // possible priority levels - http://php.net/manual/en/function.syslog.php
+        error_log("[SendWithUs][$priority_level] " . $message);
     }
 );
 
