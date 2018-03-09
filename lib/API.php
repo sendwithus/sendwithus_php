@@ -98,14 +98,19 @@ class API {
         }
 
         if ($this->DEBUG) {
-            $this->log_message(sprintf("sending email `%s` to \n", $email_id));
-            $this->log_message(print_r($recipient, true));
+            $message = sprintf(
+                "Sending email `%s` to \n `%s`",
+                $email_id,
+                print_r($recipient, true)
+            );
             if (isset($payload['sender'])) {
-                $this->log_message(sprintf("\nfrom\n"));
-                $this->log_message(print_r($payload['sender'], true));
+                $message .= sprintf(
+                    "\nfrom\n `%s`",
+                    print_r($payload['sender'], true)
+                );
             }
-            $this->log_message(sprintf("\nwith\n"));
-            $this->log_message(print_r($payload, true));
+            $message .= sprintf("\nwith\n%s", print_r($payload, true));
+            $this->log_message($message);
         }
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
@@ -502,8 +507,11 @@ class API {
         }
 
         if ($this->DEBUG) {
-            $this->log_message(sprintf("rendering template `%s` with \n", $email_id));
-            $this->log_message(print_r($payload, true));
+            $this->log_message(sprintf(
+                "rendering template `%s` with \n%s",
+                $email_id,
+                print_r($payload, true)
+            ));
         }
 
         return $this->api_request($endpoint, self::HTTP_POST, $payload);
@@ -583,8 +591,7 @@ class API {
             // enable curl verbose output to STDERR
             curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-            $this->log_message(sprintf("payload: %s\r\n", $payload_string));
-            $this->log_message(sprintf("path: %s\r\n", $path));
+            $this->log_message(sprintf("payload: %s\r\npath: %s\r\n", $payload_string, $path));
         }
 
         $code = null;
@@ -598,8 +605,10 @@ class API {
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()), self::LOG_ERR);
-                $this->log_message(print_r($e, true), self::LOG_ERR);
+                $this->log_message(
+                    sprintf("Caught exception: %s\r\n%s", $e->getMessage(), print_r($e, true)),
+                    self::LOG_ERR
+                );
             }
 
             $response = (object) array(
@@ -707,8 +716,7 @@ class BatchAPI extends API {
             // enable curl verbose output to STDERR
             curl_setopt($ch, CURLOPT_VERBOSE, true);
 
-            $this->log_message(sprintf("payload: %s\r\n", $payload_string));
-            $this->log_message(sprintf("path: %s\r\n", $path));
+            $this->log_message(sprintf("payload: %s\r\npath: %s\r\n", $payload_string, $path));
         }
 
         $code = null;
@@ -723,8 +731,10 @@ class BatchAPI extends API {
             }
         } catch (API_Error $e) {
             if ($this->DEBUG) {
-                $this->log_message(sprintf("Caught exception: %s\r\n", $e->getMessage()), self::LOG_ERR);
-                $this->log_message(print_r($e, true), self::LOG_ERR);
+                $this->log_message(
+                    sprintf("Caught exception: %s\r\n%s", $e->getMessage(), print_r($e, true)),
+                    self::LOG_ERR
+                );
             }
 
             $response = (object) array(
