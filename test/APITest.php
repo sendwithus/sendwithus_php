@@ -449,12 +449,9 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testDeleteCustomer() {
-        $r = $this->api->create_customer($this->recipient['address']);
+        $r = $this->api->delete_customer('swunitdel+phpclient@sendwithus.com');
         $this->assertSuccess($r);
-
-        $r = $this->api->delete_customer($this->recipient['address']);
-        $this->assertSuccess($r);
-
+        
         print 'Test delete customer';
     }
 
