@@ -105,13 +105,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             array("data" => $this->data)
         );
 
-        $send = $this->api->send(
-            $this->EMAIL_ID,
-            $this->recipient,
-            array("data" => $this->data)
-        );
-
-        $this->log_id = $send->receipt_id;
+        $this->log_id = 'log_152fea9a9673c4acff249d5778b3ccef-3';
     }
 
     function tearDown() {
@@ -367,14 +361,6 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testResend(){
-        /*
-        * Author: Marie Starck on May 2nd, 2017
-        * Sometimes the tests run too fast and the send executed in the setUp
-        * hasn't had time to be saved in database before testResend is executed.
-        * This is to prevent this timing issue.
-        */
-        sleep(60);
-
         $r = $this->api->resend($this->log_id);
         $this->assertSuccess($r);
 
