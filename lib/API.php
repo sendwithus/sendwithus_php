@@ -410,7 +410,7 @@ class API {
      *     'tags' - Default is null. Array of strings to tag email send with.
      *     'esp' - Default is null. Value of ("esp_account": "esp_id")
      *
-     * @param string $recipient_address email address being added to drip campaign
+     * @param array $recipient_address array of ("address", "name") to send to
      * @param string $drip_campaign_id drip campaign being added to
      * @param array (optional) $data email data being sent with drip
      * @param array (optional) $args additional options being sent with email (tags, cc's, etc)
@@ -419,9 +419,14 @@ class API {
     public function start_on_drip_campaign($recipient_address, $drip_campaign_id, $data=null, $args=null){
         $endpoint = "drip_campaigns/" . $drip_campaign_id . "/activate";
 
-        $payload = array(
-            "recipient_address" => $recipient_address
-        );
+        $payload = array();
+        if (is_array($recipient_address)) {
+            $payload["recipient"] = $recipient_address;
+        } else if (is_string($recipient_address)){
+            $payload = array(
+                "recipient_address" => $recipient_address
+            );
+        }
 
         if (is_array($data)) {
             $payload['email_data'] = $data;
