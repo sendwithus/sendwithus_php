@@ -534,7 +534,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testGetBadCustomerLogs(){
         $logs = $this->api->get_customer_logs($this->bad_email);
-        $this->assertEquals(True, empty($logs->logs));
+        $this->assertEquals(true, empty($logs->logs));
 
         print 'Test retrieving non-existant customer logs';
     }
