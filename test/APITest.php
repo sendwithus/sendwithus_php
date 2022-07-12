@@ -146,7 +146,9 @@ class APITest extends PHPUnit_Framework_TestCase
         $r = $this->api->create_email(
             'test name',
             'test subject',
-            $this->good_html
+            $this->good_html,
+	    null,
+	    'test preheader'
         );
 
         $this->assertNotNull($r);
@@ -158,7 +160,9 @@ class APITest extends PHPUnit_Framework_TestCase
             'test name '.time(),
             'test subject',
             $this->template_id,
-            $html=$this->good_html
+            $html=$this->good_html,
+	    null,
+	    'test preheader'
         );
         $this->assertNotNull($r->created);
         print "Created a new template version";
@@ -170,10 +174,25 @@ class APITest extends PHPUnit_Framework_TestCase
             'test subject',
             $this->template_id,
             $this->version_id,
-            $this->good_html
+            $this->good_html,
+	    null,
+	    'test preheader'
         );
         $this->assertNotNull($r->created);
         print "Updated a template version";
+    }
+
+    public function testGetTemplate(){
+        $r = $this->api->get_template(
+            $this->template_id,
+	    $this->version_id
+        );
+        $this->assertEquals($r->id, $this->version_id);
+        $this->assertNotNull($r->created);
+        $this->assertNotNull($r->subject);
+        $this->assertNotNull($r->html);
+        $this->assertNotNull($r->preheader);
+        print 'Get template version';
     }
 
     public function testSimpleSend() {
