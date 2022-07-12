@@ -244,9 +244,11 @@ class API {
      * @param string $subject subject line for the email template
      * @param string $html HTML code for the email template
      * @param string $text Optional text version of the email template
+     * @param string $preheader Optional preheader for the email template
+     * @param string $amp_html Optional AMP version of the email template
      * @return array API response object
      */
-    public function create_email($name, $subject, $html, $text=null) {
+    public function create_email($name, $subject, $html, $text=null, $preheader=null, $amp_html=null) {
         $endpoint = "templates";
 
         $payload = array(
@@ -255,9 +257,15 @@ class API {
             "html" => $html
         );
 
-        // set optional text
+        // set optionals
         if ($text) {
             $payload["text"] = $text;
+        }
+        if (!is_null($preheader)) {
+            $payload["preheader"] = $preheader;
+        }
+        if (!is_null($amp_html)) {
+            $payload["amp_html"] = $amp_html;
         }
 
         if ($this->DEBUG) {
@@ -274,9 +282,11 @@ class API {
      * @param string $template_id template id
      * @param string $html HTML code for the email template
      * @param string $text Optional text version of the email template
+     * @param string $preheader Optional preheader for the email template
+     * @param string $amp_html Optional AMP version of the email template
      * @return array API response object
      */
-    public function create_new_template_version($name, $subject, $template_id, $html, $text=null) {
+    public function create_new_template_version($name, $subject, $template_id, $html, $text=null, $preheader=null, $amp_html=null) {
         $endpoint = "templates/" . $template_id . "/versions";
 
         $payload = array(
@@ -285,9 +295,15 @@ class API {
             "html" => $html
         );
 
-        // set optional text
+        // set optionals
         if ($text) {
             $payload["text"] = $text;
+        }
+        if (!is_null($preheader)) {
+            $payload["preheader"] = $preheader;
+        }
+        if (!is_null($amp_html)) {
+            $payload["amp_html"] = $amp_html;
         }
 
         if ($this->DEBUG) {
@@ -307,9 +323,11 @@ class API {
      * @param string $version_id template version id
      * @param string $html HTML code for the email template
      * @param string $text Optional text version of the email template
+     * @param string $preheader Optional preheader for the email template
+     * @param string $amp_html Optional AMP version of the email template
      * @return array API response object
      */
-    public function update_template_version($name, $subject, $template_id, $version_id, $html, $text=null) {
+    public function update_template_version($name, $subject, $template_id, $version_id, $html, $text=null, $preheader=null, $amp_html=null) {
         $endpoint = "templates/" . $template_id . "/versions/" . $version_id;
 
         $payload = array(
@@ -318,9 +336,15 @@ class API {
             "html" => $html
         );
 
-        // set optional text
+        // set optionals
         if ($text) {
             $payload["text"] = $text;
+        }
+        if (!is_null($preheader)) {
+            $payload["preheader"] = $preheader;
+        }
+        if (!is_null($amp_html)) {
+            $payload["amp_html"] = $amp_html;
         }
 
         if ($this->DEBUG) {
