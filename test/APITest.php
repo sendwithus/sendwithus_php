@@ -22,14 +22,14 @@ if (!class_exists('\PHPUnit_Framework_TestCase') && class_exists('\PHPUnit\Frame
   class_alias('\PHPUnit\Framework\TestCase', '\PHPUnit_Framework_TestCase');
 }
 
-class APITestCase extends PHPUnit_Framework_TestCase
+class APITest extends PHPUnit_Framework_TestCase
 {
-    private $API_KEY = 'PHP_API_CLIENT_TEST_KEY';
-    private $EMAIL_ID = 'test_fixture_1';
 
     private $options = null;
 
     /** @var \sendwithus\API  */
+    private $api_key = null;
+    private $email_id = null;
     private $api = null;
     private $recipient = null;
     private $incompleteRecepient = null;
@@ -39,13 +39,16 @@ class APITestCase extends PHPUnit_Framework_TestCase
     private $bcc = null;
 
 
-    function setUp() {
+    function setUp(): void{
+
+        $this->api_key = getenv('SWU_API_KEY') ?: 'PHP_API_CLIENT_TEST_KEY';
+        $this->email_id = getenv('TEMPLATE_ID') ?: 'test_fixture_1';
 
         $this->options = array(
             'DEBUG' => false
         );
 
-        $this->api = new \sendwithus\API($this->API_KEY, $this->options);
+        $this->api = new \sendwithus\API($this->api_key, $this->options);
 
         $this->good_html = '<html><head></head><body></body></html>';
 
@@ -88,15 +91,15 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
         $this->tags = array('tag_one', 'tag_two');
 
-        $this->template_id = 'pmaBsiatWCuptZmojWESme';
+        $this->template_id = getenv('TEMPLATE_ID') ?: 'pmaBsiatWCuptZmojWESme';
 
-        $this->version_id = 'ver_pYj27c8DTBsWB4MRsoB2MF';
+        $this->version_id = getenv('VERSION_ID') ?: 'ver_pYj27c8DTBsWB4MRsoB2MF';
 
-        $this->enabled_drip_campaign_id = 'dc_Rmd7y5oUJ3tn86sPJ8ESCk';
+        $this->enabled_drip_campaign_id = getenv('DRIP_CAMPAIGN_ID') ?: 'dc_Rmd7y5oUJ3tn86sPJ8ESCk';
 
-        $this->enabled_drip_campaign_step_id = 'dcs_yaAMiZNWCLAEGw7GLjBuGY';
+        $this->enabled_drip_campaign_step_id = getenv('DRIP_CAMPAIGN_STEP_ID') ?: 'dcs_yaAMiZNWCLAEGw7GLjBuGY';
 
-        $this->disabled_drip_campaign_id = 'dc_AjR6Ue9PHPFYmEu2gd8x5V';
+        $this->disabled_drip_campaign_id = getenv('DRIP_CAMPAIGN_DISABLED_ID') ?: 'dc_AjR6Ue9PHPFYmEu2gd8x5V';
 
         $this->false_drip_campaign_id = 'false_drip_campaign_id';
 
@@ -105,10 +108,10 @@ class APITestCase extends PHPUnit_Framework_TestCase
             array("data" => $this->data)
         );
 
-        $this->log_id = 'log_152fea9a9673c4acff249d5778b3ccef-3';
+        $this->log_id = getenv('LOG_ID') ?: 'log_152fea9a9673c4acff249d5778b3ccef-3';
     }
 
-    function tearDown() {
+    function tearDown(): void {
         $this->api->create_customer(
             $this->recipient['address'],
             array("data" => $this->data)
@@ -143,7 +146,9 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $r = $this->api->create_email(
             'test name',
             'test subject',
-            $this->good_html
+            $this->good_html,
+	    null,
+	    'test preheader'
         );
 
         $this->assertNotNull($r);
@@ -155,7 +160,9 @@ class APITestCase extends PHPUnit_Framework_TestCase
             'test name '.time(),
             'test subject',
             $this->template_id,
-            $html=$this->good_html
+            $html=$this->good_html,
+	    null,
+	    'test preheader'
         );
         $this->assertNotNull($r->created);
         print "Created a new template version";
@@ -167,15 +174,30 @@ class APITestCase extends PHPUnit_Framework_TestCase
             'test subject',
             $this->template_id,
             $this->version_id,
-            $this->good_html
+            $this->good_html,
+	    null,
+	    'test preheader'
         );
         $this->assertNotNull($r->created);
         print "Updated a template version";
     }
 
+    public function testGetTemplate(){
+        $r = $this->api->get_template(
+            $this->template_id,
+	    $this->version_id
+        );
+        $this->assertEquals($r->id, $this->version_id);
+        $this->assertNotNull($r->created);
+        $this->assertNotNull($r->subject);
+        $this->assertNotNull($r->html);
+        $this->assertNotNull($r->preheader);
+        print 'Get template version';
+    }
+
     public function testSimpleSend() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array("data" => $this->data)
         );
@@ -187,7 +209,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithEmptyData() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array("data" => array())
         );
@@ -199,7 +221,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithNullData() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array("data" => null)
         );
@@ -211,7 +233,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithSender() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -226,7 +248,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithCC() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -241,7 +263,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithBCC() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -256,7 +278,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithInline() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -271,7 +293,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithInlineEncoded() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -289,7 +311,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithFiles() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -316,7 +338,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         );
 
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -331,7 +353,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendWithTags() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array(
                 "data" => $this->data,
@@ -346,7 +368,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testSendIncomplete() {
         $r = $this->api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->incompleteRecipient,
             array(
                 "data" => $this->data,
@@ -378,7 +400,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
         $api = new \sendwithus\API('INVALID_API_KEY', $this->options);
 
         $r = $api->send(
-            $this->EMAIL_ID,
+            $this->email_id,
             $this->recipient,
             array("data" => $this->data)
         );
@@ -405,7 +427,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
 
     public function testRender() {
         $r = $this->api->render(
-            $this->EMAIL_ID,
+            $this->email_id,
             array("data" => $this->data)
         );
 
@@ -540,7 +562,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
     }
 
     public function testBatchConstructor() {
-        $batch = new \sendwithus\BatchAPI($this->API_KEY, $this->options);
+        $batch = new \sendwithus\BatchAPI($this->api_key, $this->options);
         $this->assertNotEmpty($batch);
     }
 
@@ -624,7 +646,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             }
         );
 
-        $api = new \sendwithus\API($this->API_KEY, $options);
+        $api = new \sendwithus\API($this->api_key, $options);
         $result = $method->invoke($api, 'test message');
 
         $this->assertTrue($result);
@@ -642,7 +664,7 @@ class APITestCase extends PHPUnit_Framework_TestCase
             }
         );
 
-        $api = new \sendwithus\API($this->API_KEY, $options);
+        $api = new \sendwithus\API($this->api_key, $options);
         $result = $method->invoke($api, 'test message');
 
         $this->assertFalse($result);
