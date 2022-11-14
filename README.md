@@ -15,14 +15,8 @@ Install it via Composer
 Add it to your composer.json
 ```json
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/sendwithus/sendwithus_php"
-        }
-    ],
     "require": {
-        "sendwithus/api": "dev-master"
+        "sendwithus/api": "^6.4"
     }
 }
 ```
