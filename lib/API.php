@@ -25,7 +25,7 @@ class API {
     protected $API_VERSION = '1';
     protected $API_HEADER_KEY = 'X-SWU-API-KEY';
     protected $API_HEADER_CLIENT = 'X-SWU-API-CLIENT';
-    protected $API_CLIENT_VERSION = "6.4.0";
+    protected $API_CLIENT_VERSION = "6.5.0";
     protected $API_CLIENT_STUB = "php-%s";
     protected $API_DEBUG_HANDLER = null;
 
@@ -246,9 +246,10 @@ class API {
      * @param string $text Optional text version of the email template
      * @param string $preheader Optional preheader for the email template
      * @param string $amp_html Optional AMP version of the email template
+     * @param array $template_data Optional Array of variables to merge into the template.
      * @return array API response object
      */
-    public function create_email($name, $subject, $html, $text=null, $preheader=null, $amp_html=null) {
+    public function create_email($name, $subject, $html, $text=null, $preheader=null, $amp_html=null, $template_data=null) {
         $endpoint = "templates";
 
         $payload = array(
@@ -267,6 +268,9 @@ class API {
         if (!is_null($amp_html)) {
             $payload["amp_html"] = $amp_html;
         }
+        if (!is_null($template_data)) {
+            $payload["template_data"] = $template_data;
+        }
 
         if ($this->DEBUG) {
             $this->log_message(sprintf("creating email with name %s and subject %s\n", $name, $subject));
@@ -284,9 +288,10 @@ class API {
      * @param string $text Optional text version of the email template
      * @param string $preheader Optional preheader for the email template
      * @param string $amp_html Optional AMP version of the email template
+     * @param array $template_data Optional Array of variables to merge into the template.
      * @return array API response object
      */
-    public function create_new_template_version($name, $subject, $template_id, $html, $text=null, $preheader=null, $amp_html=null) {
+    public function create_new_template_version($name, $subject, $template_id, $html, $text=null, $preheader=null, $amp_html=null, $template_data=null) {
         $endpoint = "templates/" . $template_id . "/versions";
 
         $payload = array(
@@ -304,6 +309,9 @@ class API {
         }
         if (!is_null($amp_html)) {
             $payload["amp_html"] = $amp_html;
+        }
+        if (!is_null($template_data)) {
+            $payload["template_data"] = $template_data;
         }
 
         if ($this->DEBUG) {
@@ -325,9 +333,10 @@ class API {
      * @param string $text Optional text version of the email template
      * @param string $preheader Optional preheader for the email template
      * @param string $amp_html Optional AMP version of the email template
+     * @param array $template_data Optional Array of variables to merge into the template.
      * @return array API response object
      */
-    public function update_template_version($name, $subject, $template_id, $version_id, $html, $text=null, $preheader=null, $amp_html=null) {
+    public function update_template_version($name, $subject, $template_id, $version_id, $html, $text=null, $preheader=null, $amp_html=null, $template_data=null) {
         $endpoint = "templates/" . $template_id . "/versions/" . $version_id;
 
         $payload = array(
@@ -345,6 +354,9 @@ class API {
         }
         if (!is_null($amp_html)) {
             $payload["amp_html"] = $amp_html;
+        }
+        if (!is_null($template_data)) {
+            $payload["template_data"] = $template_data;
         }
 
         if ($this->DEBUG) {
