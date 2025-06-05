@@ -150,7 +150,7 @@ class APITest extends PHPUnit_Framework_TestCase
             $this->good_html,
 	    null,
 	    'test preheader',
-        $template_data
+	    $template_data
         );
 
         $this->assertNotNull($r);
