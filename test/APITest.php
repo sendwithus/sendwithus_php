@@ -37,6 +37,20 @@ class APITest extends PHPUnit_Framework_TestCase
     private $data = null;
     private $cc = null;
     private $bcc = null;
+    private $good_html = null;
+    private $bad_html = null;
+    private $bad_email = null;
+    private $incompleteRecipient = null;
+    private $inline = null;
+    private $files = null;
+    private $tags = null;
+    private $template_id = null;
+    private $version_id = null;
+    private $enabled_drip_campaign_id = null;
+    private $enabled_drip_campaign_step_id = null;
+    private $disabled_drip_campaign_id = null;
+    private $false_drip_campaign_id = null;
+    private $log_id = null;
 
 
     function setUp(): void{
@@ -108,7 +122,7 @@ class APITest extends PHPUnit_Framework_TestCase
             array("data" => $this->data)
         );
 
-        $this->log_id = getenv('LOG_ID') ?: 'log_152fea9a9673c4acff249d5778b3ccef-3';
+        $this->log_id = getenv('LOG_ID') ?: 'log_cd831cc65b537ef5aa492f635535346e-3';
     }
 
     function tearDown(): void {
