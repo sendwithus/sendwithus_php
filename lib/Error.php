@@ -9,6 +9,10 @@ namespace sendwithus;
 
 class API_Error extends \Exception
 {
+  private $status = null;
+  private $body = null;
+  private $json = null;
+
 	public function __construct($message=null, $status=null, $body=null, $json=null)
 	{
 		parent::__construct($message);
