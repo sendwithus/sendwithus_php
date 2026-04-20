@@ -122,7 +122,7 @@ class APITest extends PHPUnit_Framework_TestCase
             array("data" => $this->data)
         );
 
-        $this->log_id = getenv('LOG_ID') ?: 'log_cd831cc65b537ef5aa492f635535346e-3';
+        $this->log_id = getenv('LOG_ID') ?: 'log_32cebc0bbb6f889ba70468dd25d7177e-3';
     }
 
     function tearDown(): void {
